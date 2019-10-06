@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    public class Class1
+    public class Account
     {
+        public string Phone { get; set; }
+        public object Balance { get; set; }
     }
 }
