@@ -7,12 +7,12 @@ namespace BusinessLogic.Test
     public class AccountTests
     {
         [TestMethod]
-        public void CreateAccount()
+        public void CreateAccountWithSpaceAndZero()
         {
-            Account ac = new Account() { Phone = "098 204 265" };
-            
-            Assert.Equals(ac.Balance, 0);
-            Assert.Equals(ac.Phone, "098 204 265");
+            Account ac = new Account("098 204 265");
+
+            Assert.AreEqual(ac.Balance, 0);
+            Assert.AreEqual(ac.Phone, "098 204 265");
         }
     }
 }

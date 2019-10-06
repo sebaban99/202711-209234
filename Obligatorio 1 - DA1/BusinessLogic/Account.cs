@@ -10,5 +10,12 @@ namespace BusinessLogic
     {
         public string Phone { get; set; }
         public object Balance { get; set; }
+
+
+        public Account(string aPhone)
+        {
+            this.Phone = aPhone;
+            this.Balance = 0;
+        }
     }
 }
