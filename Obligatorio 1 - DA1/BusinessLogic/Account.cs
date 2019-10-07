@@ -9,7 +9,7 @@ namespace BusinessLogic
     public class Account
     {
         public string Phone { get; set; }
-        public object Balance { get; set; }
+        public int Balance { get; set; }
 
         private const int DEFAULT_BALANCE = 0;
 
@@ -70,9 +70,9 @@ namespace BusinessLogic
             return aPhone[0] == '0' && aPhone[1] == '9' && aPhone.Length == 9;
         }
 
-        public object DecreaseBalance(int v)
+        public void DecreaseBalance(int aNumber)
         {
-            throw new NotImplementedException();
+            this.Balance -= aNumber;
         }
     }
 }
