@@ -76,5 +76,12 @@ namespace BusinessLogic.Test
         {
             Account ac = new Account("982 004 658");
         }
+        
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountInvalidPhoneLettersIncluded()
+        {
+            Account ac = new Account("98740abc");
+        }
     }
 }
