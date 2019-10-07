@@ -15,12 +15,20 @@ namespace BusinessLogic
 
         public Account(string aPhone)
         {
-            if ((aPhone[0] == '0' && aPhone[1] == '9') || aPhone[0] == '9')
+            if (StartOfPhoneNumberValidation(aPhone))
             {
                 this.Phone = aPhone;
                 this.Balance = DEFAULT_BALANCE;
             }
-            else { throw new ArgumentException("Formato incorrecto"); }
+            else
+            {
+                throw new ArgumentException("Formato incorrecto");
+            }
+        }
+
+        public bool StartOfPhoneNumberValidation(string aPhone)
+        {
+            return aPhone[0] == '0' && aPhone[1] == '9' || aPhone[0] == '9';
         }
     }
 }
