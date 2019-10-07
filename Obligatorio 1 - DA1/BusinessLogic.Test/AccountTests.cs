@@ -69,5 +69,12 @@ namespace BusinessLogic.Test
         {
             Account ac = new Account("98204");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountWrongCombinationOfLengthAndNumberStart()
+        {
+            Account ac = new Account("982 004 658");
+        }
     }
 }
