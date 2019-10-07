@@ -72,7 +72,15 @@ namespace BusinessLogic
 
         public void DecreaseBalance(int aNumber)
         {
-            this.Balance -= aNumber;
+            int decreasedBalance = this.Balance - aNumber;
+            if (decreasedBalance < 0)
+            {
+                throw new ArgumentException("Saldo insuficiente");
+            }
+            else
+            {
+                this.Balance = decreasedBalance;
+            }
         }
     }
 }
