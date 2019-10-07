@@ -76,7 +76,7 @@ namespace BusinessLogic.Test
         {
             Account ac = new Account("982 004 658");
         }
-        
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void CreateAccountInvalidPhoneLettersIncluded()
@@ -101,6 +101,25 @@ namespace BusinessLogic.Test
             Account ac = new Account("98 204 265");
             ac.Balance = 30;
             ac.DecreaseBalance(120);
+        }
+
+        [TestMethod]
+        public void DecreaseBalanceAndLeaveItOnZero()
+        {
+            Account ac = new Account("98 204 265");
+            ac.Balance = 30;
+            ac.DecreaseBalance(30);
+
+            Assert.AreEqual(ac.Balance, 0);
+        }
+
+        [TestMethod]
+        public void IncreaseBalance()
+        {
+            Account ac = new Account("98 204 265");
+            ac.IncreaseBalance(30);
+
+            Assert.AreEqual(ac.Balance, 30);
         }
     }
 }

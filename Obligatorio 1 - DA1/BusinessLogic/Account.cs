@@ -82,5 +82,10 @@ namespace BusinessLogic
                 this.Balance = decreasedBalance;
             }
         }
+
+        public void IncreaseBalance(int balanceAddition)
+        {
+            this.Balance += balanceAddition;
+        }
     }
 }
