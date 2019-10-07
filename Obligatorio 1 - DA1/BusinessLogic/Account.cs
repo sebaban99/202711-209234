@@ -69,5 +69,10 @@ namespace BusinessLogic
         {
             return aPhone[0] == '0' && aPhone[1] == '9' && aPhone.Length == 9;
         }
+
+        public object DecreaseBalance(int v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

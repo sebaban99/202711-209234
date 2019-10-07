@@ -83,5 +83,14 @@ namespace BusinessLogic.Test
         {
             Account ac = new Account("98740abc");
         }
+
+        [TestMethod]
+        public void DecreaseBalance()
+        {
+            Account ac = new Account("98 204 265");
+            ac.Balance = 120;
+
+            Assert.Equals(ac.DecreaseBalance(30), 90);
+        }
     }
 }
