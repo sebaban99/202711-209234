@@ -93,16 +93,7 @@ namespace BusinessLogic.Test
 
             Assert.AreEqual(ac.Balance, 90);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void DecreaseBalanceWithABiggerNumberThanCurrentBalance()
-        {
-            Account ac = new Account("98 204 265");
-            ac.Balance = 30;
-            ac.DecreaseBalance(120);
-        }
-
+        
         [TestMethod]
         public void DecreaseBalanceAndLeaveItOnZero()
         {
@@ -114,12 +105,37 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void DecreaseBalanceWithABiggerNumberThanCurrentBalance()
+        {
+            Account ac = new Account("98 204 265");
+            ac.Balance = 30;
+            ac.DecreaseBalance(120);
+        }
+
+        [TestMethod]
         public void IncreaseBalance()
         {
             Account ac = new Account("98 204 265");
             ac.IncreaseBalance(30);
 
             Assert.AreEqual(ac.Balance, 30);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void IncreaseBalanceNegativeNumber()
+        {
+            Account ac = new Account("98 204 265");
+            ac.IncreaseBalance(-15);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void IncreaseBalanceWithZero()
+        {
+            Account ac = new Account("98 204 265");
+            ac.IncreaseBalance(0);
         }
     }
 }

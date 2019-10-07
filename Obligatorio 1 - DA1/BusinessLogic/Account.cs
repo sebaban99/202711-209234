@@ -29,18 +29,7 @@ namespace BusinessLogic
                 throw new ArgumentException("Formato incorrecto");
             }
         }
-
-        public string FormatNumber(StringBuilder aPhone)
-        {
-            if (aPhone.ToString().Length == 8)
-            {
-                aPhone.Insert(0, 0);
-            }
-            aPhone.Insert(3, " ");
-            aPhone.Insert(7, " ");
-            return aPhone.ToString();
-        }
-
+        
         public bool PhoneNumberValidation(string aPhone)
         {
             return PhoneNumberValidationOnlyNumbers(aPhone) &&
@@ -70,6 +59,17 @@ namespace BusinessLogic
             return aPhone[0] == '0' && aPhone[1] == '9' && aPhone.Length == 9;
         }
 
+        public string FormatNumber(StringBuilder aPhone)
+        {
+            if (aPhone.ToString().Length == 8)
+            {
+                aPhone.Insert(0, 0);
+            }
+            aPhone.Insert(3, " ");
+            aPhone.Insert(7, " ");
+            return aPhone.ToString();
+        }
+
         public void DecreaseBalance(int aNumber)
         {
             int decreasedBalance = this.Balance - aNumber;
@@ -85,7 +85,14 @@ namespace BusinessLogic
 
         public void IncreaseBalance(int balanceAddition)
         {
-            this.Balance += balanceAddition;
+            if (balanceAddition <= 0)
+            {
+                throw new ArgumentException("Ingresar entero mayor a cero.");
+            }
+            else
+            {
+                this.Balance += balanceAddition;
+            }
         }
     }
 }
