@@ -17,8 +17,7 @@ namespace BusinessLogic
         {
             string phoneNumberFormat = aPhone.Replace(" ", "");
 
-            if (StartOfPhoneNumberValidation(phoneNumberFormat) && 
-                LengthOfNumberValidation(phoneNumberFormat))
+            if (StartOfPhoneNumberAndLengthValidation(phoneNumberFormat))
             {
                 this.Phone = aPhone;
                 this.Balance = DEFAULT_BALANCE;
@@ -29,14 +28,10 @@ namespace BusinessLogic
             }
         }
 
-        public bool LengthOfNumberValidation(string aPhone)
+        public bool StartOfPhoneNumberAndLengthValidation(string aPhone)
         {
-            return aPhone.Length == 9 || aPhone.Length == 8;
-        }
-
-        public bool StartOfPhoneNumberValidation(string aPhone)
-        {
-            return aPhone[0] == '0' && aPhone[1] == '9' || aPhone[0] == '9';
+            return aPhone[0] == '0' && aPhone[1] == '9' && aPhone.Length == 9 
+                || aPhone[0] == '9' && aPhone.Length == 8;
         }
     }
 }
