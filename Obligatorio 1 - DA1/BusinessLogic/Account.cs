@@ -15,7 +15,9 @@ namespace BusinessLogic
 
         public Account(string aPhone)
         {
-            if (StartOfPhoneNumberValidation(aPhone))
+            string phoneNumberFormat = aPhone.Replace(" ", "");
+            if (StartOfPhoneNumberValidation(phoneNumberFormat) && 
+                (phoneNumberFormat.Length == 9 || phoneNumberFormat.Length == 8))
             {
                 this.Phone = aPhone;
                 this.Balance = DEFAULT_BALANCE;
