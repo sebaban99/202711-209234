@@ -16,8 +16,9 @@ namespace BusinessLogic
         public Account(string aPhone)
         {
             string phoneNumberFormat = aPhone.Replace(" ", "");
+
             if (StartOfPhoneNumberValidation(phoneNumberFormat) && 
-                (phoneNumberFormat.Length == 9 || phoneNumberFormat.Length == 8))
+                LengthOfNumberValidation(phoneNumberFormat))
             {
                 this.Phone = aPhone;
                 this.Balance = DEFAULT_BALANCE;
@@ -26,6 +27,11 @@ namespace BusinessLogic
             {
                 throw new ArgumentException("Formato incorrecto");
             }
+        }
+
+        public bool LengthOfNumberValidation(string aPhone)
+        {
+            return aPhone.Length == 9 || aPhone.Length == 8;
         }
 
         public bool StartOfPhoneNumberValidation(string aPhone)
