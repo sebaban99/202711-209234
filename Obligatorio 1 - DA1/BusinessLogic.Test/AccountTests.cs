@@ -41,5 +41,19 @@ namespace BusinessLogic.Test
             Assert.AreEqual(ac.Balance, 0);
             Assert.AreEqual(ac.Phone, "98204265");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountStartZeroSecondNotNine()
+        {
+            Account ac = new Account("082 042 656");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountNoStartWithZeroOrNine()
+        {
+            Account ac = new Account("82 426 568");
+        }
     }
 }
