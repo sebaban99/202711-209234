@@ -11,11 +11,12 @@ namespace BusinessLogic
         public string Phone { get; set; }
         public object Balance { get; set; }
 
+        private const int DEFAULT_BALANCE = 0;
 
         public Account(string aPhone)
         {
             this.Phone = aPhone;
-            this.Balance = 0;
+            this.Balance = DEFAULT_BALANCE;
         }
     }
 }
