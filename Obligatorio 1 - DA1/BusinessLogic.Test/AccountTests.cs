@@ -55,5 +55,19 @@ namespace BusinessLogic.Test
         {
             Account ac = new Account("82 426 568");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountTooManyNumbers()
+        {
+            Account ac = new Account("9820426568435131");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountNotEnoughNumbers()
+        {
+            Account ac = new Account("98204");
+        }
     }
 }
