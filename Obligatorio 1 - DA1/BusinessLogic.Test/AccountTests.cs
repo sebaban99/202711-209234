@@ -1,0 +1,141 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace BusinessLogic.Test
+{
+    [TestClass]
+    public class AccountTests
+    {
+        [TestMethod]
+        public void CreateAccountWithSpaceAndZero()
+        {
+            Account ac = new Account("098 204 265");
+
+            Assert.AreEqual(ac.Balance, 0);
+            Assert.AreEqual(ac.Phone, "098 204 265");
+        }
+
+        [TestMethod]
+        public void CreateAccountWithSpaceAndWithoutZero()
+        {
+            Account ac = new Account("98 204 265");
+
+            Assert.AreEqual(ac.Balance, 0);
+            Assert.AreEqual(ac.Phone, "098 204 265");
+        }
+
+        [TestMethod]
+        public void CreateAccountWithZeroAndWithoutSpace()
+        {
+            Account ac = new Account("098204265");
+
+            Assert.AreEqual(ac.Balance, 0);
+            Assert.AreEqual(ac.Phone, "098 204 265");
+        }
+
+        [TestMethod]
+        public void CreateAccountWithoutSpaceAndZero()
+        {
+            Account ac = new Account("98204265");
+
+            Assert.AreEqual(ac.Balance, 0);
+            Assert.AreEqual(ac.Phone, "098 204 265");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountStartZeroSecondNotNine()
+        {
+            Account ac = new Account("082 042 656");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountNoStartWithZeroOrNine()
+        {
+            Account ac = new Account("82 426 568");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountTooManyNumbers()
+        {
+            Account ac = new Account("9820426568435131");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountNotEnoughNumbers()
+        {
+            Account ac = new Account("98204");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountWrongCombinationOfLengthAndNumberStart()
+        {
+            Account ac = new Account("982 004 658");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateAccountInvalidPhoneLettersIncluded()
+        {
+            Account ac = new Account("98740abc");
+        }
+
+        [TestMethod]
+        public void DecreaseBalance()
+        {
+            Account ac = new Account("98 204 265");
+            ac.Balance = 120;
+            ac.DecreaseBalance(30);
+
+            Assert.AreEqual(ac.Balance, 90);
+        }
+        
+        [TestMethod]
+        public void DecreaseBalanceAndLeaveItOnZero()
+        {
+            Account ac = new Account("98 204 265");
+            ac.Balance = 30;
+            ac.DecreaseBalance(30);
+
+            Assert.AreEqual(ac.Balance, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void DecreaseBalanceWithABiggerNumberThanCurrentBalance()
+        {
+            Account ac = new Account("98 204 265");
+            ac.Balance = 30;
+            ac.DecreaseBalance(120);
+        }
+
+        [TestMethod]
+        public void IncreaseBalance()
+        {
+            Account ac = new Account("98 204 265");
+            ac.IncreaseBalance(30);
+
+            Assert.AreEqual(ac.Balance, 30);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void IncreaseBalanceNegativeNumber()
+        {
+            Account ac = new Account("98 204 265");
+            ac.IncreaseBalance(-15);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void IncreaseBalanceWithZero()
+        {
+            Account ac = new Account("98 204 265");
+            ac.IncreaseBalance(0);
+        }
+    }
+}
