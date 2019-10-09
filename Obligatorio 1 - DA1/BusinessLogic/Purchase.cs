@@ -10,13 +10,16 @@ namespace BusinessLogic
         public DateTime StartingHour { get; set; }
         public DateTime FinishingHour { get; set; }
 
-        public Purchase(int costPerMinute, string message)
+        public Purchase(int costPerMinute, string message, Account accountReceived)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
             LicensePlate = extractLicensePlate(messageSplit);
             StartingHour = stringToDateTime(messageSplit);
             int amountOfMinutes = extractMinutes(messageSplit);
             FinishingHour = calculateFinishingHour(amountOfMinutes);
+            int balanceToDecrease = amountOfMinutes * costPerMinute;
+            Account = accountReceived;
+            Account.DecreaseBalance(balanceToDecrease);
         }
 
         private string extractLicensePlate(string[] messageSplit)
