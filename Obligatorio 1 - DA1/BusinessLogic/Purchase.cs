@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using BusinessLogic.Exceptions;
 
 namespace BusinessLogic
@@ -69,7 +70,14 @@ namespace BusinessLogic
         {
             if (messageSplit[0].Length == 3)
             {
-                return messageSplit[0] + " " + messageSplit[1];
+                if(Regex.IsMatch(messageSplit[0], @"^[a-zA-Z]+$"))
+                {
+                    return messageSplit[0] + " " + messageSplit[1];
+                }
+                else
+                {
+                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                }
             }
             else
             {
