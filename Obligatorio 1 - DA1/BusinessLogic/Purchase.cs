@@ -71,8 +71,7 @@ namespace BusinessLogic
             {
                 return messageSplit[0] + " " + messageSplit[1];
             }
-            else
-            {
+            else {
                 if(messageSplit[0].Length != 7)
                 {
                     throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
