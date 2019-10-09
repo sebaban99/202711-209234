@@ -13,13 +13,24 @@ namespace BusinessLogic
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
-            if (messageSplit.Length == 2)
+            if (messageSplit.Length == 3)
             {
-                Account = accountReceived;
-                LicensePlate = extractLicensePlate(messageSplit);
-                StartingHour = DateTime.Now;
-                FinishingHour = calculateFinishingHour(messageSplit);
-                DecreaseBalanceOnAccount(costPerMinute, messageSplit);
+                if(messageSplit[0].Length == 3)
+                {
+                    Account = accountReceived;
+                    LicensePlate = messageSplit[0] + " " + messageSplit[1];
+                    StartingHour = DateTime.Now;
+                    FinishingHour = StartingHour.AddMinutes(Int32.Parse(messageSplit[2]));
+                    Account.Balance -= Int32.Parse(messageSplit[2]) * costPerMinute;
+                }
+                else
+                {
+                    Account = accountReceived;
+                    LicensePlate = extractLicensePlate(messageSplit);
+                    StartingHour = stringToDateTime(messageSplit);
+                    FinishingHour = calculateFinishingHour(messageSplit);
+                    DecreaseBalanceOnAccount(costPerMinute, messageSplit);
+                }
             }
             else
             {
@@ -29,7 +40,6 @@ namespace BusinessLogic
                 FinishingHour = calculateFinishingHour(messageSplit);
                 DecreaseBalanceOnAccount(costPerMinute, messageSplit);
             }
-
         }
 
         private void DecreaseBalanceOnAccount(int costPerMinute, string[] messageSplit)
@@ -54,7 +64,11 @@ namespace BusinessLogic
 
         private DateTime stringToDateTime(string[] messageSplit)
         {
-            if (messageSplit.Length == 4)
+            if (messageSplit.Length == 2)
+            {
+                return DateTime.Now;
+            }
+            else if (messageSplit.Length == 4)
             {
                 return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
             }
