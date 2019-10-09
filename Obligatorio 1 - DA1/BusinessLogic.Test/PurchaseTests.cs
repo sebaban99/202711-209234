@@ -101,13 +101,24 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidMessageFormatException))]
-        public void CreatePurchaseInvalidParameters_WrongLicensePlate()
+        public void CreatePurchaseInvalidParameters_WrongLicensePlate_MissingLetters()
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
 
             int costPerMinute = 1;
             Purchase aPurchase = new Purchase(costPerMinute, "1234 120 13:00", testAccount);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_WrongLicensePlate_InvalidFormat()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "SB1 1234 120 13:00", testAccount);
         }
     }
 }
