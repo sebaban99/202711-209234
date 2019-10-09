@@ -7,22 +7,21 @@ namespace BusinessLogic.Test
     public class PurchaseTests
     {
         [TestMethod]
-        public void CreatePurchaseWithValid_LicensePlate_MinutesToPurchase_StartingHour()
+        public void CreatePurchaseValid_LicensePlate_MinutesToPurchase_StartingHour()
         {
-            Account testAccount = new Account("099 123 456")
-            {
-                Balance = 500
-            };
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+            
             int costPerMinute = 1;
-            Purchase aPurchase = new Purchase(costPerMinute, "SBS 1234 120 11:00")
+            Purchase aPurchase = new Purchase(costPerMinute, "SBS 1234 120 13:00")
             {
                 Account = testAccount
             };
 
             Assert.AreEqual(aPurchase.Account, testAccount);
             Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
-            Assert.AreEqual(aPurchase.StartingHour.Hour, 11);
-            Assert.AreEqual(aPurchase.FinishingHour, 13);
+            Assert.AreEqual(aPurchase.StartingHour.Hour, 13);
+            Assert.AreEqual(aPurchase.FinishingHour.Hour, 15);
 
         }
     }

@@ -93,7 +93,7 @@ namespace BusinessLogic.Test
 
             Assert.AreEqual(ac.Balance, 90);
         }
-        
+
         [TestMethod]
         public void DecreaseBalanceAndLeaveItOnZero()
         {
