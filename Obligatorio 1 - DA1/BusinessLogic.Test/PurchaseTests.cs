@@ -83,7 +83,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void CreatePurchaseInvalidParametersExtraSpace()
+        public void CreatePurchaseValidParametersInvalidFormat_ExtraSpace()
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
