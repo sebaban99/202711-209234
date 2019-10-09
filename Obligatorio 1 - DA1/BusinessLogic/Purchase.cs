@@ -16,12 +16,11 @@ namespace BusinessLogic
 
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
-            if (actualMessage.Length == 4 || actualMessage.Length == 3 || actualMessage.Length == 2)
+            if (validMessageLengths(actualMessage))
             {
-                Account = accountReceived;
-                LicensePlate = extractLicensePlate(actualMessage);
-                StartingHour = calculateStartingHour(actualMessage);
-                FinishingHour = calculateFinishingHour(actualMessage);
+                LicensePlate = ExtractLicensePlate(actualMessage);
+                StartingHour = CalculateStartingHour(actualMessage);
+                FinishingHour = CalculateFinishingHour(actualMessage);
                 Account.DecreaseBalance(CalculateBalanceToDecrease(costPerMinute, actualMessage));
             }
             else
@@ -29,7 +28,12 @@ namespace BusinessLogic
                 throw new InvalidMessageFormatException("Mensaje incorrecto. Ej: ABC 1234 60 10:00");
             }
 
-            
+
+        }
+
+        private static bool validMessageLengths(string[] actualMessage)
+        {
+            return actualMessage.Length == 4 || actualMessage.Length == 3 || actualMessage.Length == 2;
         }
 
         private string[] ObtainActualMessage(string[] messageSplit)
@@ -59,24 +63,30 @@ namespace BusinessLogic
         private int CalculateBalanceToDecrease(int costPerMinute, string[] messageSplit)
         {
             return extractMinutes(messageSplit) * costPerMinute;
-
         }
 
-        private string extractLicensePlate(string[] messageSplit)
+        private string ExtractLicensePlate(string[] messageSplit)
         {
-            if (messageSplit.Length == 4 || messageSplit[0].Length == 3)
+            if (messageSplit[0].Length == 3)
             {
                 return messageSplit[0] + " " + messageSplit[1];
             }
             else
             {
-                StringBuilder sb = new StringBuilder(messageSplit[0]);
-                sb.Insert(3, " ");
-                return sb.ToString();
+                if(messageSplit[0].Length != 7)
+                {
+                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                }
+                else
+                {
+                    StringBuilder licensePlateToExtract = new StringBuilder(messageSplit[0]);
+                    licensePlateToExtract.Insert(3, " ");
+                    return licensePlateToExtract.ToString();
+                }
             }
         }
 
-        private DateTime calculateStartingHour(string[] messageSplit)
+        private DateTime CalculateStartingHour(string[] messageSplit)
         {
             if (messageSplit.Length == 4)
             {
@@ -112,7 +122,7 @@ namespace BusinessLogic
             return DateTime.Today.ToString("dd/MM/yyyy");
         }
 
-        private DateTime calculateFinishingHour(string[] messageSplit)
+        private DateTime CalculateFinishingHour(string[] messageSplit)
         {
             if (StartingHour != null)
             {

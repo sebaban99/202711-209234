@@ -98,5 +98,16 @@ namespace BusinessLogic.Test
             Assert.AreEqual(aPurchase.Account.Balance, 380);
 
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_WrongLicensePlate()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "1234 120 13:00", testAccount);
+        }
     }
 }
