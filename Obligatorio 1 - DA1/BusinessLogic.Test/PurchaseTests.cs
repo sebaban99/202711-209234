@@ -59,7 +59,27 @@ namespace BusinessLogic.Test
             Assert.AreEqual(aPurchase.FinishingHour.Hour, finishTime.Hour);
             Assert.AreEqual(aPurchase.FinishingHour.Minute, finishTime.Minute);
             Assert.AreEqual(aPurchase.Account.Balance, 380);
+        }
 
+        [TestMethod]
+        public void CreatePurchaseAllValid_NoStartingTime()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "SBS 1234 120", testAccount);
+            DateTime now = DateTime.Now;
+            DateTime finishTime = now.AddMinutes(120);
+
+            Assert.AreEqual(aPurchase.Account, testAccount);
+            Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
+            Assert.AreEqual(aPurchase.StartingHour.Hour, now.Hour);
+            Assert.AreEqual(aPurchase.StartingHour.Minute, now.Minute);
+            Assert.AreEqual(aPurchase.FinishingHour.Hour, finishTime.Hour);
+            Assert.AreEqual(aPurchase.FinishingHour.Minute, finishTime.Minute);
+            Assert.AreEqual(aPurchase.Account.Balance, 380);
         }
     }
 }
