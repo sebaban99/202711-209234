@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BusinessLogic.Exceptions;
 
 namespace BusinessLogic.Test
 {
@@ -80,6 +81,18 @@ namespace BusinessLogic.Test
             Assert.AreEqual(aPurchase.FinishingHour.Hour, finishTime.Hour);
             Assert.AreEqual(aPurchase.FinishingHour.Minute, finishTime.Minute);
             Assert.AreEqual(aPurchase.Account.Balance, 380);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormat))]
+        public void CreatePurchaseInvalidParameters()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "SBS 1234 120  13:00", testAccount);
+            
         }
     }
 }

@@ -13,19 +13,19 @@ namespace BusinessLogic
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
-            
-                Account = accountReceived;
-                LicensePlate = extractLicensePlate(messageSplit);
-                StartingHour = calculateStartingHour(messageSplit);
-                FinishingHour = calculateFinishingHour(messageSplit);
-                Account.DecreaseBalance(CalculateBalanceToDecrease(costPerMinute, messageSplit));
-            
+
+            Account = accountReceived;
+            LicensePlate = extractLicensePlate(messageSplit);
+            StartingHour = calculateStartingHour(messageSplit);
+            FinishingHour = calculateFinishingHour(messageSplit);
+            Account.DecreaseBalance(CalculateBalanceToDecrease(costPerMinute, messageSplit));
+
         }
 
         private int CalculateBalanceToDecrease(int costPerMinute, string[] messageSplit)
         {
             return extractMinutes(messageSplit) * costPerMinute;
-           
+
         }
 
         private string extractLicensePlate(string[] messageSplit)
@@ -44,7 +44,7 @@ namespace BusinessLogic
 
         private DateTime calculateStartingHour(string[] messageSplit)
         {
-            if(messageSplit.Length == 4)
+            if (messageSplit.Length == 4)
             {
                 return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
             }
@@ -64,7 +64,7 @@ namespace BusinessLogic
             {
                 return Int32.Parse(messageSplit[2]);
             }
-            else if(messageSplit[0].Length == 3)
+            else if (messageSplit[0].Length == 3)
             {
                 return Int32.Parse(messageSplit[2]);
             }
