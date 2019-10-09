@@ -13,44 +13,24 @@ namespace BusinessLogic
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
-            if (messageSplit.Length == 3)
-            {
-                if(messageSplit[0].Length == 3)
-                {
-                    Account = accountReceived;
-                    LicensePlate = messageSplit[0] + " " + messageSplit[1];
-                    StartingHour = DateTime.Now;
-                    FinishingHour = StartingHour.AddMinutes(Int32.Parse(messageSplit[2]));
-                    Account.Balance -= Int32.Parse(messageSplit[2]) * costPerMinute;
-                }
-                else
-                {
-                    Account = accountReceived;
-                    LicensePlate = extractLicensePlate(messageSplit);
-                    StartingHour = stringToDateTime(messageSplit);
-                    FinishingHour = calculateFinishingHour(messageSplit);
-                    DecreaseBalanceOnAccount(costPerMinute, messageSplit);
-                }
-            }
-            else
-            {
+            
                 Account = accountReceived;
                 LicensePlate = extractLicensePlate(messageSplit);
-                StartingHour = stringToDateTime(messageSplit);
+                StartingHour = calculateStartingHour(messageSplit);
                 FinishingHour = calculateFinishingHour(messageSplit);
-                DecreaseBalanceOnAccount(costPerMinute, messageSplit);
-            }
+                Account.DecreaseBalance(CalculateBalanceToDecrease(costPerMinute, messageSplit));
+            
         }
 
-        private void DecreaseBalanceOnAccount(int costPerMinute, string[] messageSplit)
+        private int CalculateBalanceToDecrease(int costPerMinute, string[] messageSplit)
         {
-            int balanceToDecrease = extractMinutes(messageSplit) * costPerMinute;
-            Account.DecreaseBalance(balanceToDecrease);
+            return extractMinutes(messageSplit) * costPerMinute;
+           
         }
 
         private string extractLicensePlate(string[] messageSplit)
         {
-            if (messageSplit.Length == 4)
+            if (messageSplit.Length == 4 || messageSplit[0].Length == 3)
             {
                 return messageSplit[0] + " " + messageSplit[1];
             }
@@ -62,15 +42,15 @@ namespace BusinessLogic
             }
         }
 
-        private DateTime stringToDateTime(string[] messageSplit)
+        private DateTime calculateStartingHour(string[] messageSplit)
         {
-            if (messageSplit.Length == 2)
-            {
-                return DateTime.Now;
-            }
-            else if (messageSplit.Length == 4)
+            if(messageSplit.Length == 4)
             {
                 return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
+            }
+            else if (messageSplit.Length == 2 || messageSplit[0].Length == 3)
+            {
+                return DateTime.Now;
             }
             else
             {
@@ -81,6 +61,10 @@ namespace BusinessLogic
         private int extractMinutes(string[] messageSplit)
         {
             if (messageSplit.Length == 4)
+            {
+                return Int32.Parse(messageSplit[2]);
+            }
+            else if(messageSplit[0].Length == 3)
             {
                 return Int32.Parse(messageSplit[2]);
             }
