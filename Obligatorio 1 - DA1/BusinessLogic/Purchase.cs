@@ -71,8 +71,9 @@ namespace BusinessLogic
             {
                 return messageSplit[0] + " " + messageSplit[1];
             }
-            else {
-                if(messageSplit[0].Length != 7)
+            else
+            {
+                if (ValidateLicensePlateExtract(messageSplit))
                 {
                     throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
                 }
@@ -83,6 +84,11 @@ namespace BusinessLogic
                     return licensePlateToExtract.ToString();
                 }
             }
+        }
+
+        private static bool ValidateLicensePlateExtract(string[] messageSplit)
+        {
+            return messageSplit[0].Length != 7;
         }
 
         private DateTime CalculateStartingHour(string[] messageSplit)
