@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using BusinessLogic.Exceptions;
 
 namespace BusinessLogic
 {
@@ -12,15 +13,48 @@ namespace BusinessLogic
 
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
+
             string[] messageSplit = message.Split(new Char[] { ' ' });
+            string[] actualMessage = ObtainActualMessage(messageSplit);
+            if (actualMessage.Length == 4 || actualMessage.Length == 3 || actualMessage.Length == 2)
+            {
+                Account = accountReceived;
+                LicensePlate = extractLicensePlate(actualMessage);
+                StartingHour = calculateStartingHour(actualMessage);
+                FinishingHour = calculateFinishingHour(actualMessage);
+                Account.DecreaseBalance(CalculateBalanceToDecrease(costPerMinute, actualMessage));
+            }
+            else
+            {
+                throw new InvalidMessageFormatException("Mensaje incorrecto. Ej: ABC 1234 60 10:00");
+            }
 
-            Account = accountReceived;
-            LicensePlate = extractLicensePlate(messageSplit);
-            StartingHour = calculateStartingHour(messageSplit);
-            FinishingHour = calculateFinishingHour(messageSplit);
-            Account.DecreaseBalance(CalculateBalanceToDecrease(costPerMinute, messageSplit));
-
+            
         }
+
+        private string[] ObtainActualMessage(string[] messageSplit)
+        {
+            int notSpaceStrings = 0;
+            foreach (string s in messageSplit)
+            {
+                if (s != "")
+                {
+                    notSpaceStrings++;
+                }
+            }
+            string[] actualMessage = new string[notSpaceStrings];
+            int actualMessageIndex = 0;
+            foreach(string s in messageSplit)
+            {
+                if(s != "")
+                {
+                    actualMessage[actualMessageIndex] = string.Copy(s);
+                    actualMessageIndex++;
+                }
+            }
+            return actualMessage;
+        }
+
 
         private int CalculateBalanceToDecrease(int costPerMinute, string[] messageSplit)
         {
