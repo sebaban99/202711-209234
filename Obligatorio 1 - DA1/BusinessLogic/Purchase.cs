@@ -13,24 +13,22 @@ namespace BusinessLogic
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
-            //if (messageSplit.Length == 2)
-            //{
-            //    Account = accountReceived;
-            //    StringBuilder sb = new StringBuilder(messageSplit[0]);
-            //    sb.Insert(3, " ");
-            //    LicensePlate = sb.ToString();
-            //    StartingHour = DateTime.Now;
-            //    FinishingHour = calculateFinishingHour(messageSplit);
-            //    DecreaseBalanceOnAccount(costPerMinute, messageSplit);
-            //}
-            //else
-            //{
+            if (messageSplit.Length == 2)
+            {
+                Account = accountReceived;
+                LicensePlate = extractLicensePlate(messageSplit);
+                StartingHour = DateTime.Now;
+                FinishingHour = calculateFinishingHour(messageSplit);
+                DecreaseBalanceOnAccount(costPerMinute, messageSplit);
+            }
+            else
+            {
                 Account = accountReceived;
                 LicensePlate = extractLicensePlate(messageSplit);
                 StartingHour = stringToDateTime(messageSplit);
                 FinishingHour = calculateFinishingHour(messageSplit);
                 DecreaseBalanceOnAccount(costPerMinute, messageSplit);
-            //}
+            }
 
         }
 
