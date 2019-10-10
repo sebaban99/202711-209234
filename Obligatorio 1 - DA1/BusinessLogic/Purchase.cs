@@ -144,8 +144,9 @@ namespace BusinessLogic
             {
                 if (HourFormatValidation(messageSplit[3]))
                 {
+                    DateTime maximumHour = DateTime.Today.AddHours(18);
                     DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3]);
-                    if (requestedStartingHour >= minimumStartingHour)
+                    if (requestedStartingHour >= minimumStartingHour && requestedStartingHour < maximumHour)
                     {
                         return requestedStartingHour;
                     }
@@ -165,7 +166,6 @@ namespace BusinessLogic
             }
             else if (HourFormatValidation(messageSplit[2]))
             {
-
                 DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2]);
                 if (requestedStartingHour >= minimumStartingHour)
                 {
