@@ -231,6 +231,22 @@ namespace BusinessLogic.Test
             Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 120 09:00", testAccount);
         }
 
+        [TestMethod]
+        public void CreatePurchaseValidParameters_StartingHourBorderCase()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "SBS 1234 120 10:00", testAccount);
+
+            Assert.AreEqual(aPurchase.Account, testAccount);
+            Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
+            Assert.AreEqual(aPurchase.StartingHour.Hour, 10);
+            Assert.AreEqual(aPurchase.FinishingHour.Hour, 12);
+            Assert.AreEqual(aPurchase.Account.Balance, 380);
+        }
+
 
 
 
