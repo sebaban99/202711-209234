@@ -14,7 +14,6 @@ namespace BusinessLogic
 
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
-
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
             if (validMessageLengths(actualMessage))
@@ -123,7 +122,13 @@ namespace BusinessLogic
         {
             if (messageSplit.Length == 4)
             {
-                return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
+                if (messageSplit[3].Contains(":")){
+                    return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
+                }
+                else
+                {
+                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                }
             }
             else if (messageSplit.Length == 2 || messageSplit[0].Length == 3)
             {
