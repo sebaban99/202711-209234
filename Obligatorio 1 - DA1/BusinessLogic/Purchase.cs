@@ -200,7 +200,7 @@ namespace BusinessLogic
         private bool IsMultipleOf30(string number)
         {
 
-            return StringToInt(number) % 30 == 0;
+            return StringToInt(number) % 30 == 0 && StringToInt(number) != 0;
         }
 
         private string getTodaysDate_dd_MM_yyyy()
