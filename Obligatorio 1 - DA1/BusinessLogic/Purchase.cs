@@ -139,7 +139,14 @@ namespace BusinessLogic
         {
             if (messageSplit.Length == 4)
             {
-                return Int32.Parse(messageSplit[2]);
+                if (Int32.Parse(messageSplit[2])%30 == 0)
+                {
+                    return Int32.Parse(messageSplit[2]);
+                }
+                else
+                {
+                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                }
             }
             else if (messageSplit[0].Length == 3)
             {
