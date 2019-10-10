@@ -222,7 +222,7 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidMessageFormatException))]
-        public void CreatePurchaseInvalidParameters_InvalidStartingHourBeforeMinimum()
+        public void CreatePurchaseInvalidParameters_InvalidStartingHour_BeforeMinimum()
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
@@ -247,7 +247,16 @@ namespace BusinessLogic.Test
             Assert.AreEqual(aPurchase.Account.Balance, 380);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_InvalidStartingHour_AfterMaximun()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
 
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 120 19:00", testAccount);
+        }
 
 
 
