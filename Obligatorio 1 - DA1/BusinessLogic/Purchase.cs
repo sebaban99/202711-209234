@@ -12,6 +12,8 @@ namespace BusinessLogic
         public DateTime StartingHour { get; set; }
         public DateTime FinishingHour { get; set; }
 
+        private readonly DateTime minimumStartingHour = DateTime.Today.AddHours(10);
+
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
@@ -142,10 +144,10 @@ namespace BusinessLogic
             {
                 if (HourFormatValidation(messageSplit[3]))
                 {
-                    DateTime minimumHour = DateTime.Today.AddHours(10);
-                    if (DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]) >= minimumHour)
+                    DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3]);
+                    if (requestedStartingHour >= minimumStartingHour)
                     {
-                        return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
+                        return requestedStartingHour;
                     }
                     else
                     {
@@ -163,7 +165,15 @@ namespace BusinessLogic
             }
             else if (HourFormatValidation(messageSplit[2]))
             {
-                return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[2]);
+                DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2]);
+                if (requestedStartingHour >= minimumStartingHour)
+                {
+                    return requestedStartingHour;
+                }
+                else
+                {
+                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                }
             }
             else
             {
@@ -211,7 +221,7 @@ namespace BusinessLogic
             return StringToInt(number) % 30 == 0 && StringToInt(number) != 0;
         }
 
-        private string getTodaysDate_dd_MM_yyyy()
+        private string getTodaysDate_dd_MM_yyyy_Only()
         {
             return DateTime.Today.ToString("dd/MM/yyyy");
         }
