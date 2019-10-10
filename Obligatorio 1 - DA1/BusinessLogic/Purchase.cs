@@ -142,7 +142,15 @@ namespace BusinessLogic
             {
                 if (HourFormatValidation(messageSplit[3]))
                 {
-                    return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
+                    DateTime minimumHour = DateTime.Today.AddHours(10);
+                    if (DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]) >= minimumHour)
+                    {
+                        return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
+                    }
+                    else
+                    {
+                        throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                    }
                 }
                 else
                 {
@@ -153,7 +161,7 @@ namespace BusinessLogic
             {
                 return DateTime.Now;
             }
-            else if(HourFormatValidation(messageSplit[2]))
+            else if (HourFormatValidation(messageSplit[2]))
             {
                 return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[2]);
             }
