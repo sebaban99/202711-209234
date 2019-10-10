@@ -165,6 +165,7 @@ namespace BusinessLogic
             }
             else if (HourFormatValidation(messageSplit[2]))
             {
+
                 DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2]);
                 if (requestedStartingHour >= minimumStartingHour)
                 {
