@@ -64,7 +64,7 @@ namespace BusinessLogic
 
         private int CalculateBalanceToDecrease(int costPerMinute, string[] messageSplit)
         {
-            return extractMinutes(messageSplit) * costPerMinute;
+            return ExtractMinutes(messageSplit) * costPerMinute;
         }
 
         private string ExtractLicensePlate(string[] messageSplit)
@@ -135,28 +135,47 @@ namespace BusinessLogic
             }
         }
 
-        private int extractMinutes(string[] messageSplit)
+        
+
+        private int ExtractMinutes(string[] messageSplit)
         {
-            if (messageSplit.Length == 4)
+            int amountOfMinutes = 0;
+            if (messageSplit[0].Length == 3)
             {
-                if (Int32.Parse(messageSplit[2])%30 == 0)
+                if (IsMultipleOf30(messageSplit[2]))
                 {
-                    return Int32.Parse(messageSplit[2]);
+                    amountOfMinutes = stringToInt(messageSplit[2]);
+                    return amountOfMinutes;
                 }
                 else
                 {
                     throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
                 }
             }
-            else if (messageSplit[0].Length == 3)
-            {
-                return Int32.Parse(messageSplit[2]);
-            }
             else
             {
-                return Int32.Parse(messageSplit[1]);
+                if (IsMultipleOf30(messageSplit[1]))
+                {
+                    amountOfMinutes = stringToInt(messageSplit[1]);
+                    return amountOfMinutes;
+                }
+                else
+                {
+                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                }
             }
         }
+
+        private int stringToInt(string number)
+        {
+            return Int32.Parse(number);
+        }
+
+        private bool IsMultipleOf30(string number)
+        {
+            return Int32.Parse(number) % 30 == 0;
+        }
+
         private string getTodaysDate_dd_MM_yyyy()
         {
             return DateTime.Today.ToString("dd/MM/yyyy");
@@ -166,7 +185,7 @@ namespace BusinessLogic
         {
             if (StartingHour != null)
             {
-                return StartingHour.AddMinutes(extractMinutes(messageSplit));
+                return StartingHour.AddMinutes(ExtractMinutes(messageSplit));
             }
             else
             {
