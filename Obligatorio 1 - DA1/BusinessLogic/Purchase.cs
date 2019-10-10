@@ -12,13 +12,17 @@ namespace BusinessLogic
         public DateTime StartingHour { get; set; }
         public DateTime FinishingHour { get; set; }
 
-        private readonly DateTime minimumStartingHour = DateTime.Today.AddHours(10);
-        private readonly DateTime maximumHour = DateTime.Today.AddHours(18);
+        private bool isModified_NumbersOnMessage;
+
+        private readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
+        private readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
 
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
+            isModified_NumbersOnMessage = false;
+
             if (validMessageLengths(actualMessage))
             {
                 Account = accountReceived;
@@ -146,7 +150,7 @@ namespace BusinessLogic
                 if (HourFormatValidation(messageSplit[3]))
                 {
                     DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3]);
-                    if (requestedStartingHour >= minimumStartingHour && requestedStartingHour < maximumHour)
+                    if (requestedStartingHour >= MINIMUM_STARTING_HOUR && requestedStartingHour < MAXIMUM_HOUR)
                     {
                         return requestedStartingHour;
                     }
@@ -163,7 +167,7 @@ namespace BusinessLogic
             else if (messageSplit.Length == 2 || messageSplit[0].Length == 3)
             {
                 DateTime actualHour = DateTime.Now;
-                if(actualHour >= minimumStartingHour && actualHour < maximumHour)
+                if (actualHour >= MINIMUM_STARTING_HOUR && actualHour < MAXIMUM_HOUR)
                 {
                     return actualHour;
                 }
@@ -175,7 +179,7 @@ namespace BusinessLogic
             else if (HourFormatValidation(messageSplit[2]))
             {
                 DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2]);
-                if (requestedStartingHour >= minimumStartingHour && requestedStartingHour < maximumHour)
+                if (requestedStartingHour >= MINIMUM_STARTING_HOUR && requestedStartingHour < MAXIMUM_HOUR)
                 {
                     return requestedStartingHour;
                 }
@@ -193,30 +197,47 @@ namespace BusinessLogic
         private int ExtractMinutes(string[] messageSplit)
         {
             int amountOfMinutes = 0;
-            if (messageSplit[0].Length == 3)
+            if (!isModified_NumbersOnMessage)
             {
-                if (IsMultipleOf30(messageSplit[2]))
+                if (messageSplit[0].Length == 3)
+                {
+                    if (IsMultipleOf30(messageSplit[2]))
+                    {
+                        amountOfMinutes = StringToInt(messageSplit[2]);
+                        return amountOfMinutes;
+                    }
+                    else
+                    {
+                        throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                    }
+                }
+                else
+                {
+                    if (IsMultipleOf30(messageSplit[1]))
+                    {
+                        amountOfMinutes = StringToInt(messageSplit[1]);
+                        return amountOfMinutes;
+                    }
+                    else
+                    {
+                        throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                    }
+                }
+            }
+            else
+            {
+                if (messageSplit[0].Length == 3)
                 {
                     amountOfMinutes = StringToInt(messageSplit[2]);
                     return amountOfMinutes;
                 }
                 else
                 {
-                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
-                }
-            }
-            else
-            {
-                if (IsMultipleOf30(messageSplit[1]))
-                {
                     amountOfMinutes = StringToInt(messageSplit[1]);
                     return amountOfMinutes;
                 }
-                else
-                {
-                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
-                }
             }
+
         }
 
         private int StringToInt(string number)
@@ -235,11 +256,33 @@ namespace BusinessLogic
             return DateTime.Today.ToString("dd/MM/yyyy");
         }
 
+        public void ModifyMinutesInMessage(ref string[] message, int minutesToInsert)
+        {
+            if (message[0].Length == 3)
+            {
+                message[2] = minutesToInsert + "";
+            }
+            else
+            {
+                message[1] = minutesToInsert + "";
+            }
+            isModified_NumbersOnMessage = true;
+        }
+
         private DateTime CalculateFinishingHour(string[] messageSplit)
         {
             if (StartingHour != null)
             {
-                return StartingHour.AddMinutes(ExtractMinutes(messageSplit));
+                if (StartingHour.AddMinutes(ExtractMinutes(messageSplit)) > MAXIMUM_HOUR)
+                {
+                    TimeSpan minutesUntilMaximumHour = MAXIMUM_HOUR - StartingHour;
+                    ModifyMinutesInMessage(ref messageSplit, (int)minutesUntilMaximumHour.TotalMinutes);
+                    return MAXIMUM_HOUR;
+                }
+                else
+                {
+                    return StartingHour.AddMinutes(ExtractMinutes(messageSplit));
+                }
             }
             else
             {
