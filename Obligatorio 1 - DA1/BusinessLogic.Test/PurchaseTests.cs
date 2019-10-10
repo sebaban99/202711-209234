@@ -112,7 +112,7 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidMessageFormatException))]
-        public void CreatePurchaseInvalidParameters_WrongLicensePlate_InvalidFormat()
+        public void CreatePurchaseInvalidParameters_WrongLicensePlate_InvalidFormatXXX()
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
@@ -120,5 +120,17 @@ namespace BusinessLogic.Test
             int costPerMinute = 1;
             Purchase aPurchase = new Purchase(costPerMinute, "SB1 1234 120 13:00", testAccount);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_WrongLicensePlate_InvalidFormatYYYY()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "SBA 1T34 120 13:00", testAccount);
+        }
+
     }
 }
