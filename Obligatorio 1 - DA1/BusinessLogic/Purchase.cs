@@ -122,11 +122,12 @@ namespace BusinessLogic
         {
             if (hour.Contains(":") && hour.IndexOf(':') != hour.Length)
             {
-                if (hour.Substring(0, hour.IndexOf(':')).Length == 2 &&
-                    hour.Substring(hour.IndexOf(':') + 1).Length == 2)
+                string HH_half = hour.Substring(0, hour.IndexOf(':'));
+                string mm_half = hour.Substring(hour.IndexOf(':') + 1);
+
+                if (HH_half.Length == 2 && mm_half.Length == 2)
                 {
-                    if (ContainsNumbersOnly(hour.Substring(0, hour.IndexOf(':'))) &&
-                        ContainsNumbersOnly(hour.Substring(hour.IndexOf(':') + 1)))
+                    if (ContainsNumbersOnly(HH_half) && ContainsNumbersOnly(mm_half))
                     {
                         return true;
                     }
