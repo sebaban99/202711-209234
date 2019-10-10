@@ -19,6 +19,7 @@ namespace BusinessLogic
             string[] actualMessage = ObtainActualMessage(messageSplit);
             if (validMessageLengths(actualMessage))
             {
+                Account = accountReceived;
                 LicensePlate = ExtractLicensePlate(actualMessage);
                 StartingHour = CalculateStartingHour(actualMessage);
                 FinishingHour = CalculateFinishingHour(actualMessage);
@@ -49,9 +50,9 @@ namespace BusinessLogic
             }
             string[] actualMessage = new string[notSpaceStrings];
             int actualMessageIndex = 0;
-            foreach(string s in messageSplit)
+            foreach (string s in messageSplit)
             {
-                if(s != "")
+                if (s != "")
                 {
                     actualMessage[actualMessageIndex] = string.Copy(s);
                     actualMessageIndex++;
@@ -68,35 +69,42 @@ namespace BusinessLogic
 
         private string ExtractLicensePlate(string[] messageSplit)
         {
-            if (messageSplit[0].Length == 3)
+            if (ValidateLicensePlateExtract(messageSplit))
             {
-                if(Regex.IsMatch(messageSplit[0], @"^[a-zA-Z]+$"))
-                {
-                    return messageSplit[0] + " " + messageSplit[1];
-                }
-                else
-                {
-                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
-                }
+                return FormatExtract(messageSplit);
             }
             else
             {
-                if (ValidateLicensePlateExtract(messageSplit))
-                {
-                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
-                }
-                else
-                {
-                    StringBuilder licensePlateToExtract = new StringBuilder(messageSplit[0]);
-                    licensePlateToExtract.Insert(3, " ");
-                    return licensePlateToExtract.ToString();
-                }
+                throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
             }
+            
         }
 
-        private static bool ValidateLicensePlateExtract(string[] messageSplit)
+        private bool ValidateLicensePlateExtract(string[] messageSplit)
         {
-            return messageSplit[0].Length != 7;
+            if (messageSplit[0].Length == 7)
+            {
+                return true;
+            }
+            else if (messageSplit[0].Length == 3)
+            {
+                return Regex.IsMatch(messageSplit[0], @"^[a-zA-Z]+$");
+            }
+            else return false;
+        }
+
+        private string FormatExtract(string[] messageSplit)
+        {
+            if(messageSplit[0].Length == 7)
+            {
+                StringBuilder licensePlateToExtract = new StringBuilder(messageSplit[0]);
+                licensePlateToExtract.Insert(3, " ");
+                return licensePlateToExtract.ToString();
+            }
+            else
+            {
+                return messageSplit[0] + " " + messageSplit[1];
+            }
         }
 
         private DateTime CalculateStartingHour(string[] messageSplit)
