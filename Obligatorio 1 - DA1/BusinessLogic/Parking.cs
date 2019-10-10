@@ -41,12 +41,24 @@ namespace BusinessLogic
             Account newAccount = new Account(phoneNumber);
             foreach (Account ac in accounts)
             {
-                if(ac.Phone == newAccount.Phone)
+                if (ac.Phone == newAccount.Phone)
                 {
                     return true;
                 }
             }
             return false;
+        }
+
+        public bool HasEnoughBalance(Account anAccount, Purchase aPurchase)
+        {
+            if (anAccount.Balance >= aPurchase.AmountOfMinutes * CostPerMinute)
+            {
+                return true;
+            }
+            else
+            {
+                throw new ArgumentException("Saldo insuficiente");
+            }
         }
     }
 }

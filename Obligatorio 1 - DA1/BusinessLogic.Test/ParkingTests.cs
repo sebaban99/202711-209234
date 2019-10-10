@@ -67,5 +67,18 @@ namespace BusinessLogic.Test
 
             bool wrong = aParking.ExistAccount("098 740 9569");
         }
+
+        [TestMethod]
+        public void ValidBalanceForPurchase()
+        {
+            Parking aParking = new Parking();
+            Account anAccount = new Account("098 740 956");
+            anAccount.Balance = 500;
+            Purchase aPurchase = new Purchase("SBT 4505 120 12:00");
+
+            bool hasEnough = aParking.HasEnoughBalance(anAccount, aPurchase);
+            
+            Assert.IsTrue(hasEnough);
+        }
     }
 }
