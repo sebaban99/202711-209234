@@ -249,13 +249,32 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidMessageFormatException))]
-        public void CreatePurchaseInvalidParameters_InvalidStartingHour_AfterMaximun()
+        public void CreatePurchaseInvalidParameters_InvalidStartingHour_AfterMaximum()
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
 
             int costPerMinute = 1;
             Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 120 19:00", testAccount);
+        }
+
+        [TestMethod]
+        
+        public void CreatePurchaseValidParameters_StartingTimePlusMinutesExceedsMaximumHour()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 120 17:35", testAccount);
+
+            Assert.AreEqual(aPurchase.Account, testAccount);
+            Assert.AreEqual(aPurchase.LicensePlate, "AzA 1237");
+            Assert.AreEqual(aPurchase.StartingHour.Hour, 17);
+            Assert.AreEqual(aPurchase.StartingHour.Minute, 35);
+            Assert.AreEqual(aPurchase.FinishingHour.Hour, 18);
+            Assert.AreEqual(aPurchase.FinishingHour.Minute, 0);
+            Assert.AreEqual(aPurchase.Account.Balance, 415);
         }
 
 
