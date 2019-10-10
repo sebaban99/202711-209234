@@ -94,7 +94,8 @@ namespace BusinessLogic
         {
             if (messageSplit[0].Length == 7)
             {
-                return ContainsLettersOnly(messageSplit[0].Substring(0, 3));
+                return ContainsLettersOnly(messageSplit[0].Substring(0, 3)) &&
+                    ContainsNumbersOnly(messageSplit[0].Substring(3));
             }
             else if (messageSplit[0].Length == 3 && messageSplit[1].Length == 4)
             {
