@@ -36,9 +36,8 @@ namespace BusinessLogic
             purchases.Add(aPurchase);
         }
 
-        public bool ExistAccount(string phoneNumber)
+        public bool ExistAccount(Account newAccount)
         {
-            Account newAccount = new Account(phoneNumber);
             foreach (Account ac in accounts)
             {
                 if (ac.Phone == newAccount.Phone)
@@ -55,10 +54,7 @@ namespace BusinessLogic
             {
                 return true;
             }
-            else
-            {
-                throw new ArgumentException("Saldo insuficiente");
-            }
+            throw new ArgumentException("Saldo insuficiente");
         }
     }
 }

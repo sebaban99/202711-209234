@@ -48,24 +48,16 @@ namespace BusinessLogic.Test
             Account anAccount = new Account("098 740 956");
             aParking.AddAccount(anAccount);
 
-            Assert.IsTrue(aParking.ExistAccount("098 740 956"));
+            Assert.IsTrue(aParking.ExistAccount(anAccount));
         }
 
         [TestMethod]
         public void NonExistAccount()
         {
             Parking aParking = new Parking();
+            Account anAccount = new Account("091 111 111");
 
-            Assert.IsFalse(aParking.ExistAccount("098 740 956"));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ExistAccountWrongNumber()
-        {
-            Parking aParking = new Parking();
-
-            bool wrong = aParking.ExistAccount("098 740 9569");
+            Assert.IsFalse(aParking.ExistAccount(anAccount));
         }
 
         [TestMethod]
