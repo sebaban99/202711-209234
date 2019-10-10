@@ -76,7 +76,7 @@ namespace BusinessLogic
             {
                 throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
             }
-            
+
         }
 
         private bool ContainsLettersOnly(string message)
@@ -106,7 +106,7 @@ namespace BusinessLogic
 
         private string FormatExtract(string[] messageSplit)
         {
-            if(messageSplit[0].Length == 7)
+            if (messageSplit[0].Length == 7)
             {
                 StringBuilder licensePlateToExtract = new StringBuilder(messageSplit[0]);
                 licensePlateToExtract.Insert(3, " ");
@@ -118,15 +118,25 @@ namespace BusinessLogic
             }
         }
 
-        private bool HourFormatValidation(string hour) {
-            return !hour.Contains(":");
+        private bool HourFormatValidation(string hour)
+        {
+            if (hour.Contains(":") && hour.IndexOf(':') != hour.Length)
+            {
+                if (hour.Substring(0, hour.IndexOf(':')).Length == 2 &&
+                    hour.Substring(hour.IndexOf(':') + 1).Length == 2)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private DateTime CalculateStartingHour(string[] messageSplit)
         {
             if (messageSplit.Length == 4)
             {
-                if (HourFormatValidation(messageSplit[3])){
+                if (HourFormatValidation(messageSplit[3]))
+                {
                     return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
                 }
                 else
@@ -144,7 +154,7 @@ namespace BusinessLogic
             }
         }
 
-        
+
 
         private int ExtractMinutes(string[] messageSplit)
         {
