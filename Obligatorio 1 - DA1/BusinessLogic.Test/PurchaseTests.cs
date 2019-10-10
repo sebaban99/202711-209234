@@ -167,6 +167,17 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_MinutesAreNotMultipleOf30()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 110 13:00", testAccount);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
         public void CreatePurchaseInvalidParameters_InvalidFormat_StartingHour_HHmm_Variant1()
         {
             Account testAccount = new Account("099 123 456");
@@ -197,6 +208,31 @@ namespace BusinessLogic.Test
             int costPerMinute = 1;
             Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 120 09:AM", testAccount);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_MinutesAreZero()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 0 13:00", testAccount);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_InvalidStartingHourBeforeMinimum()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 120 09:00", testAccount);
+        }
+
+
+
 
 
 
