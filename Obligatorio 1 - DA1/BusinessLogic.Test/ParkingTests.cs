@@ -58,5 +58,14 @@ namespace BusinessLogic.Test
 
             Assert.IsFalse(aParking.ExistAccount("098 740 956"));
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ExistAccountWrongNumber()
+        {
+            Parking aParking = new Parking();
+
+            bool wrong = aParking.ExistAccount("098 740 9569");
+        }
     }
 }
