@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BusinessLogic
 {
@@ -23,6 +24,11 @@ namespace BusinessLogic
         public List<Purchase> GetAllPurchases()
         {
             return purchases;
+        }
+
+        public void AddAccount(Account anAccount)
+        {
+            accounts.Add(anAccount);
         }
     }
 }
