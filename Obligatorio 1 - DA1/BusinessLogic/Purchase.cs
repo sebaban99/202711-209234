@@ -80,16 +80,26 @@ namespace BusinessLogic
             
         }
 
+        private bool ContainsLettersOnly(string message)
+        {
+            return Regex.IsMatch(message, @"^[a-zA-Z]+$");
+        }
+
+        private bool ContainsNumbersOnly(string message)
+        {
+            return Regex.IsMatch(message, @"^[0-9]+$");
+        }
+
         private bool ValidateLicensePlateExtract(string[] messageSplit)
         {
             if (messageSplit[0].Length == 7)
             {
-                return Regex.IsMatch(messageSplit[0].Substring(0, 3), @"^[a-zA-Z]+$");
+                return ContainsLettersOnly(messageSplit[0].Substring(0, 3));
             }
             else if (messageSplit[0].Length == 3 && messageSplit[1].Length == 4)
             {
-                return Regex.IsMatch(messageSplit[0], @"^[a-zA-Z]+$") &&
-                    Regex.IsMatch(messageSplit[1], @"^[0-9]+$");
+                return ContainsLettersOnly(messageSplit[0]) &&
+                    ContainsNumbersOnly(messageSplit[1]);
             }
             else return false;
         }
