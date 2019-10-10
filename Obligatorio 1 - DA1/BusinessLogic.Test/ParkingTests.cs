@@ -40,5 +40,17 @@ namespace BusinessLogic.Test
             Assert.AreEqual(aParking.GetAllPurchases().Count, 1);
             Assert.IsTrue(aParking.GetAllPurchases().Contains(aPurchase));
         }
+
+        [TestMethod]
+        public void ExistAccount()
+        {
+            Parking aParking = new Parking();
+            Account anAccount = new Account("098 740 956");
+            aParking.AddAccount(anAccount);
+
+            Assert.IsTrue(aParking.ExistAccount("098 740 956"));
+        }
+
+
     }
 }

@@ -35,5 +35,18 @@ namespace BusinessLogic
         {
             purchases.Add(aPurchase);
         }
+
+        public bool ExistAccount(string phoneNumber)
+        {
+            Account newAccount = new Account(phoneNumber);
+            foreach (Account ac in accounts)
+            {
+                if(ac.Phone == newAccount.Phone)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
