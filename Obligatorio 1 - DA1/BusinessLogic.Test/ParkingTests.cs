@@ -51,6 +51,12 @@ namespace BusinessLogic.Test
             Assert.IsTrue(aParking.ExistAccount("098 740 956"));
         }
 
+        [TestMethod]
+        public void NonExistAccount()
+        {
+            Parking aParking = new Parking();
 
+            Assert.IsFalse(aParking.ExistAccount("098 740 956"));
+        }
     }
 }
