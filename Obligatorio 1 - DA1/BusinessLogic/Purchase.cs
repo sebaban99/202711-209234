@@ -153,13 +153,15 @@ namespace BusinessLogic
             {
                 return DateTime.Now;
             }
-            else
+            else if(HourFormatValidation(messageSplit[2]))
             {
                 return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[2]);
             }
+            else
+            {
+                throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+            }
         }
-
-
 
         private int ExtractMinutes(string[] messageSplit)
         {
@@ -168,7 +170,7 @@ namespace BusinessLogic
             {
                 if (IsMultipleOf30(messageSplit[2]))
                 {
-                    amountOfMinutes = stringToInt(messageSplit[2]);
+                    amountOfMinutes = StringToInt(messageSplit[2]);
                     return amountOfMinutes;
                 }
                 else
@@ -180,7 +182,7 @@ namespace BusinessLogic
             {
                 if (IsMultipleOf30(messageSplit[1]))
                 {
-                    amountOfMinutes = stringToInt(messageSplit[1]);
+                    amountOfMinutes = StringToInt(messageSplit[1]);
                     return amountOfMinutes;
                 }
                 else
@@ -190,14 +192,15 @@ namespace BusinessLogic
             }
         }
 
-        private int stringToInt(string number)
+        private int StringToInt(string number)
         {
             return Int32.Parse(number);
         }
 
         private bool IsMultipleOf30(string number)
         {
-            return Int32.Parse(number) % 30 == 0;
+
+            return StringToInt(number) % 30 == 0;
         }
 
         private string getTodaysDate_dd_MM_yyyy()
