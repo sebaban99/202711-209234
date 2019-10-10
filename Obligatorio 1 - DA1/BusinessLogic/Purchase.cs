@@ -13,6 +13,7 @@ namespace BusinessLogic
         public DateTime FinishingHour { get; set; }
 
         private readonly DateTime minimumStartingHour = DateTime.Today.AddHours(10);
+        private readonly DateTime maximumHour = DateTime.Today.AddHours(18);
 
         public Purchase(int costPerMinute, string message, Account accountReceived)
         {
@@ -144,7 +145,6 @@ namespace BusinessLogic
             {
                 if (HourFormatValidation(messageSplit[3]))
                 {
-                    DateTime maximumHour = DateTime.Today.AddHours(18);
                     DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3]);
                     if (requestedStartingHour >= minimumStartingHour && requestedStartingHour < maximumHour)
                     {
@@ -162,12 +162,20 @@ namespace BusinessLogic
             }
             else if (messageSplit.Length == 2 || messageSplit[0].Length == 3)
             {
-                return DateTime.Now;
+                DateTime actualHour = DateTime.Now;
+                if(actualHour >= minimumStartingHour && actualHour < maximumHour)
+                {
+                    return actualHour;
+                }
+                else
+                {
+                    throw new InvalidMessageFormatException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                }
             }
             else if (HourFormatValidation(messageSplit[2]))
             {
                 DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2]);
-                if (requestedStartingHour >= minimumStartingHour)
+                if (requestedStartingHour >= minimumStartingHour && requestedStartingHour < maximumHour)
                 {
                     return requestedStartingHour;
                 }
