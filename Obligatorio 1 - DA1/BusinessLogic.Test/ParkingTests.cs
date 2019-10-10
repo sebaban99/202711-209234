@@ -77,8 +77,20 @@ namespace BusinessLogic.Test
             Purchase aPurchase = new Purchase("SBT 4505 120 12:00");
 
             bool hasEnough = aParking.HasEnoughBalance(anAccount, aPurchase);
-            
+
             Assert.IsTrue(hasEnough);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidBalanceForPurchase()
+        {
+            Parking aParking = new Parking();
+            Account anAccount = new Account("098 740 956");
+            anAccount.Balance = 50;
+            Purchase aPurchase = new Purchase("SBT 4505 120 12:00");
+
+            bool hasEnough = aParking.HasEnoughBalance(anAccount, aPurchase);
         }
     }
 }
