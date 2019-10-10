@@ -167,7 +167,7 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidMessageFormatException))]
-        public void CreatePurchaseInvalidParameters_InvalidFormat_StartingHour_HHmm()
+        public void CreatePurchaseInvalidParameters_InvalidFormat_StartingHour_HHmm_Variant1()
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
@@ -175,6 +175,19 @@ namespace BusinessLogic.Test
             int costPerMinute = 1;
             Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 120 9", testAccount);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_InvalidFormat_StartingHour_HHmm_Variant2()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 120 9:0", testAccount);
+        }
+
+
 
 
     }
