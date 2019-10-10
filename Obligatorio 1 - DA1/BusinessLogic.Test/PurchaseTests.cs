@@ -143,5 +143,17 @@ namespace BusinessLogic.Test
             Purchase aPurchase = new Purchase(costPerMinute, "ABs 120 13:00", testAccount);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_WrongLicensePlate_()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "AB43456 120 13:00", testAccount);
+        }
+
+
     }
 }
