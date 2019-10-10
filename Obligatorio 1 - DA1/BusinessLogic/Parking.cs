@@ -30,5 +30,10 @@ namespace BusinessLogic
         {
             accounts.Add(anAccount);
         }
+
+        public void AddPurchase(Purchase aPurchase)
+        {
+            purchases.Add(aPurchase);
+        }
     }
 }
