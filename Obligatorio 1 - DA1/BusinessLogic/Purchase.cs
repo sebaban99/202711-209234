@@ -84,7 +84,7 @@ namespace BusinessLogic
         {
             if (messageSplit[0].Length == 7)
             {
-                return true;
+                return Regex.IsMatch(messageSplit[0].Substring(0, 3), @"^[a-zA-Z]+$");
             }
             else if (messageSplit[0].Length == 3 && messageSplit[1].Length == 4)
             {
