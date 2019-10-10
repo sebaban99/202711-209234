@@ -165,6 +165,17 @@ namespace BusinessLogic.Test
             Purchase aPurchase = new Purchase(costPerMinute, "rBA34u6 120 13:00", testAccount);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMessageFormatException))]
+        public void CreatePurchaseInvalidParameters_MinutesAreNotMultipleOf30()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            int costPerMinute = 1;
+            Purchase aPurchase = new Purchase(costPerMinute, "AzA 1237 110 13:00", testAccount);
+        }
+
 
     }
 }
