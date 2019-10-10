@@ -118,11 +118,15 @@ namespace BusinessLogic
             }
         }
 
+        private bool HourFormatValidation(string hour) {
+            return !hour.Contains(":");
+        }
+
         private DateTime CalculateStartingHour(string[] messageSplit)
         {
             if (messageSplit.Length == 4)
             {
-                if (messageSplit[3].Contains(":")){
+                if (HourFormatValidation(messageSplit[3])){
                     return DateTime.Parse(getTodaysDate_dd_MM_yyyy() + " " + messageSplit[3]);
                 }
                 else
