@@ -12,13 +12,13 @@ namespace BusinessLogic.Test
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
-            
+
             Purchase aPurchase = new Purchase("SBS 1234 120 13:00");
 
             Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
             Assert.AreEqual(aPurchase.StartingHour.Hour, 13);
             Assert.AreEqual(aPurchase.FinishingHour.Hour, 15);
-            
+
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@ namespace BusinessLogic.Test
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
 
-            
+
             Purchase aPurchase = new Purchase("SBS1234 120 13:00");
 
             Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
@@ -61,7 +61,7 @@ namespace BusinessLogic.Test
             testAccount.IncreaseBalance(500);
 
 
-            
+
             Purchase aPurchase = new Purchase("SBS 1234 120");
             DateTime now = DateTime.Now;
             DateTime finishTime = now.AddMinutes(120);
@@ -79,14 +79,14 @@ namespace BusinessLogic.Test
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
 
-           
+
             Purchase aPurchase = new Purchase("SBS 1234 120  13:00");
 
-            
+
             Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
             Assert.AreEqual(aPurchase.StartingHour.Hour, 13);
             Assert.AreEqual(aPurchase.FinishingHour.Hour, 15);
-            
+
 
         }
 
@@ -166,7 +166,7 @@ namespace BusinessLogic.Test
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
-            
+
             Purchase aPurchase = new Purchase("AzA 1237 120 9");
         }
 
@@ -199,7 +199,7 @@ namespace BusinessLogic.Test
 
             Purchase aPurchase = new Purchase("AzA 1237 0 13:00");
         }
-        
+
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
         public void CreatePurchaseInvalidParameters_InvalidStartingHour_BeforeMinimum()
@@ -211,7 +211,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void CreatePurchaseValidParameters_StartingHourBorderCase()
+        public void CreatePurchaseValidParameters_StartingHourBorderCase_MinBorder()
         {
             Account testAccount = new Account("099 123 456");
             testAccount.IncreaseBalance(500);
@@ -220,6 +220,16 @@ namespace BusinessLogic.Test
             Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
             Assert.AreEqual(aPurchase.StartingHour.Hour, 10);
             Assert.AreEqual(aPurchase.FinishingHour.Hour, 12);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void CreatePurchaseInvalidParameters_StartingHourBorderCase_MaxBorder()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            Purchase aPurchase = new Purchase("AzA 1237 120 18:00");
         }
 
         [TestMethod]
@@ -240,15 +250,24 @@ namespace BusinessLogic.Test
 
             Purchase aPurchase = new Purchase("AzA 1237 120 17:35");
 
-            
+
             Assert.AreEqual(aPurchase.LicensePlate, "AzA 1237");
             Assert.AreEqual(aPurchase.StartingHour.Hour, 17);
             Assert.AreEqual(aPurchase.StartingHour.Minute, 35);
             Assert.AreEqual(aPurchase.FinishingHour.Hour, 18);
             Assert.AreEqual(aPurchase.FinishingHour.Minute, 0);
-            
+
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void CreatePurchaseInvalidParameters_InvalidStarting()
+        {
+            Account testAccount = new Account("099 123 456");
+            testAccount.IncreaseBalance(500);
+
+            Purchase aPurchase = new Purchase("AzA 1237 120 10:90");
+        }
 
 
 

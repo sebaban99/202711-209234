@@ -115,6 +115,17 @@ namespace BusinessLogic
             return Regex.IsMatch(message, @"^[0-9]+$");
         }
 
+        private bool ValidHourFormat(string hours)
+        {
+
+            return Int32.Parse(hours) >= 10 && Int32.Parse(hours) < 18;
+        }
+
+        private bool ValidMinuteFormat(string minutes)
+        {
+            return Int32.Parse(minutes) >= 0 && Int32.Parse(minutes) < 60;
+        }
+
         private bool HourFormatValidation(string hour)
         {
             if (hour.IndexOf(':') == hour.Length / 2)
@@ -123,7 +134,8 @@ namespace BusinessLogic
                 string mm_half = hour.Substring(hour.IndexOf(':') + 1);
 
                 return HH_half.Length == 2 && mm_half.Length == 2 &&
-                    ContainsNumbersOnly(HH_half) && ContainsNumbersOnly(mm_half);
+                    ContainsNumbersOnly(HH_half) && ContainsNumbersOnly(mm_half) &&
+                    ValidHourFormat(HH_half) && ValidMinuteFormat(mm_half);
             }
             return false;
         }
@@ -134,11 +146,7 @@ namespace BusinessLogic
             {
                 if (HourFormatValidation(messageSplit[3]))
                 {
-                    DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3]);
-                    if (requestedStartingHour >= MINIMUM_STARTING_HOUR && requestedStartingHour < MAXIMUM_HOUR)
-                    {
-                        return requestedStartingHour;
-                    }
+                    return DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3]);
                 }
             }
             else if (messageSplit.Length == 2 || messageSplit[0].Length == 3)
@@ -151,11 +159,8 @@ namespace BusinessLogic
             }
             else if (HourFormatValidation(messageSplit[2]))
             {
-                DateTime requestedStartingHour = DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2]);
-                if (requestedStartingHour >= MINIMUM_STARTING_HOUR && requestedStartingHour < MAXIMUM_HOUR)
-                {
-                    return requestedStartingHour;
-                }
+                return DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2]);
+
             }
             throw new BusinessException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
         }
