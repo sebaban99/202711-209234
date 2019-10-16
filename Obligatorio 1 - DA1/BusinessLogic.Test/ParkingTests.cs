@@ -59,8 +59,6 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ExistsAccountTest_AccountExistsFalse()
         {
-            Account anAccount = new Account() { Phone = "098 204 265" };
-
             Account theAccount = aParking.ExistsAccount("098 204 265");
         }
 
@@ -185,6 +183,17 @@ namespace BusinessLogic.Test
         public void ValidateLicensePlate_WrongLicensePlate_YYYYContainsNumbers()
         {
             aParking.IsLicensePlateValid("rBA34u6");
+        }
+
+        [TestMethod]
+        public void MakePurchaseTest_()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Assert.IsTrue(aParking.("SBT 4505", chosenMoment));
         }
 
         [TestMethod]
