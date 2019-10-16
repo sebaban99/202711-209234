@@ -24,7 +24,9 @@ namespace BusinessLogic
 
         private string actualMessageFormat;
 
-        public Purchase(string message)
+        public Purchase() { }
+
+        public void SetPurchaseProperties(string message)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
@@ -42,7 +44,6 @@ namespace BusinessLogic
                 throw new BusinessException("Mensaje incorrecto. Ej: ABC 1234 60 10:00");
             }
         }
-
         private void IdentifyMessageFormat(string[] message)
         {
             if (message.Length == 4)
@@ -154,12 +155,12 @@ namespace BusinessLogic
 
         private bool IsMinuteValid(string minutes)
         {
-            return Int32.Parse(minutes) >= 0 && Int32.Parse(minutes) < 60;
+            return Int32.Parse(minutes) < 60;
         }
 
         private bool IsHourAfterActualHour(string hour)
         {
-            return DateTime.Now <= DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + hour,
+            return GetDateTimeNow() <= DateTime.Parse(GetTodaysDate_dd_MM_yyyy_Only() + " " + hour,
                 new CultureInfo("fr-FR"));
         }
 
@@ -182,7 +183,7 @@ namespace BusinessLogic
 
         private DateTime CalculateStartingHour(string[] messageSplit)
         {
-            if (DateTime.Now < MINIMUM_STARTING_HOUR || DateTime.Now >= MAXIMUM_HOUR)
+            if (GetDateTimeNow() < MINIMUM_STARTING_HOUR || GetDateTimeNow() >= MAXIMUM_HOUR)
             {
                 throw new BusinessException("Parking cerrado, horario de 10:00 a 18:00");
             }
@@ -192,7 +193,7 @@ namespace BusinessLogic
                 {
                     if (IsMessageStartingHourValid(messageSplit[3]))
                     {
-                        string dateToParse = getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3];
+                        string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3];
                         return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
                     }
                     throw new BusinessException("Hora inválida, verifique que la hora " +
@@ -201,16 +202,11 @@ namespace BusinessLogic
                 else if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXXYYYY_T) ||
                     actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T))
                 {
-                    return DateTime.Now;
+                    return GetDateTimeNow();
                 }
                 else if (IsMessageStartingHourValid(messageSplit[2]))
                 {
-                    string toParse = getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2];
-                    if (DateTime.Now > DateTime.Parse(toParse, new CultureInfo("fr-FR")))
-                    {
-                        throw new BusinessException("Hora actual superior a la hora ingresada, elija una hora entre " +
-                            "la hora actual y las 18");
-                    }
+                    string toParse = GetTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2];
                     return DateTime.Parse(toParse, new CultureInfo("fr-FR"));
                 }
                 throw new BusinessException("Hora incorrecta, verifique que la hora ingresada este entre la hora actual y las 18" +
@@ -252,7 +248,7 @@ namespace BusinessLogic
             return StringToInt(number) % 30 == 0 && StringToInt(number) != 0;
         }
 
-        private string getTodaysDate_dd_MM_yyyy_Only()
+        private string GetTodaysDate_dd_MM_yyyy_Only()
         {
             return DateTime.Now.ToString("d", new CultureInfo("fr-FR"));
         }
@@ -271,6 +267,11 @@ namespace BusinessLogic
                 AmountOfMinutes = minutesExtractedFromMessage;
                 return StartingHour.AddMinutes(ExtractMinutes(messageSplit));
             }
+        }
+
+        public virtual DateTime GetDateTimeNow()
+        {
+            return DateTime.Now;
         }
     }
 }

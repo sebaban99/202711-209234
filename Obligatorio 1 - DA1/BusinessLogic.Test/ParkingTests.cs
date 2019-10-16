@@ -1,9 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BusinessLogic.Exceptions;
+using Moq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BusinessLogic.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class ParkingTests
     {
@@ -36,7 +39,7 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void IsAccountAlreadyRegistered_ItsRegistered()
+        public void IsAccountAlreadyRegisteredItsRegistered()
         {
 
             Account anAccount = new Account() { Phone = "095 620 356" };
@@ -46,24 +49,22 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void IsAccountAlreadyRegistered_False()
+        public void IsAccountAlreadyRegisteredFalseAccountsEmpty()
         {
             Assert.IsFalse(aParking.IsAccountAlreadyRegistered("095 620 356"));
         }
 
         [TestMethod]
-        public void AddPurchase()
+        public void IsAccountAlreadyRegisteredFalseAccountsNotEmpty()
         {
-            Purchase aPurchase = new Purchase("SBT 4505 120 14:00");
+            Account anAccount = new Account() { Phone = "095 620 356" };
+            aParking.AddAccount(anAccount);
 
-            aParking.AddPurchase(aPurchase);
-
-            Assert.AreEqual(aParking.GetAllPurchases().Count, 1);
-            Assert.IsTrue(aParking.GetAllPurchases().Contains(aPurchase));
+            Assert.IsFalse(aParking.IsAccountAlreadyRegistered("098 740 956"));
         }
 
         [TestMethod]
-        public void RetrieveAccountTest_AccountExistsTrue()
+        public void RetrieveAccountTestAccountExistsTrue()
         {
             Account anAccount = new Account() { Phone = "098 204 265" };
             aParking.AddAccount(anAccount);
@@ -74,30 +75,19 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void RetrieveAccountTest_AccountExistsFalse()
+        public void RetrieveAccountTestAccountExistsFalseAccountsEmpty()
         {
             Account theAccount = aParking.RetrieveAccount("098 204 265");
         }
 
         [TestMethod]
-        public void EnoughBalanceForPurchase()
-        {
-            Account anAccount = new Account() { Phone = "098 204 265", Balance = 500 };
-            Purchase aPurchase = new Purchase("SBT 4505 120 12:00");
-
-            bool hasEnough = aParking.HasEnoughBalance(anAccount, aPurchase);
-
-            Assert.IsTrue(hasEnough);
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void NotEnoughBalanceForPurchase()
+        public void RetrieveAccountTestAccountExistsFalseAccountsNotEmpty()
         {
-            Account anAccount = new Account() { Phone = "098 204 265", Balance = 50 };
-            Purchase aPurchase = new Purchase("SBT 4505 120 14:00");
+            Account anAccount = new Account() { Phone = "098 204 265" };
+            aParking.AddAccount(anAccount);
 
-            aParking.HasEnoughBalance(anAccount, aPurchase);
+            Account theAccount = aParking.RetrieveAccount("098 740 956");
         }
 
         [TestMethod]
@@ -154,103 +144,132 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
+        public void ValidatePhoneNumberContainsLetters()
+        {
+            aParking.IsNumberPhoneValid("098 740 mal");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
         public void ValidatePhoneStartWithNineInvalidLength()
         {
             aParking.IsNumberPhoneValid("982 004 658");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlate_ValidLicensePlateXXX_YYYY()
+        public void ValidateLicensePlateValidLicensePlateXXX_YYYY()
         {
             Assert.IsTrue(aParking.IsLicensePlateValid("SBA 1234"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlate_ValidLicensePlateXXXYYYY()
+        public void ValidateLicensePlateValidLicensePlateXXXYYYY()
         {
             Assert.IsTrue(aParking.IsLicensePlateValid("SbA1234"));
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlate_WrongLicensePlate_MissingLetters()
+        public void ValidateLicensePlateWrongLicensePlateMissingLetters()
         {
             aParking.IsLicensePlateValid("1234");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlate_WrongLicensePlate_InvalidFormatXXX()
+        public void ValidateLicensePlateWrongLicensePlateInvalidFormatXXX()
         {
             aParking.IsLicensePlateValid("SB1 1234");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlate_WrongLicensePlate_InvalidFormatYYYY()
+        public void ValidateLicensePlateWrongLicensePlateInvalidFormatYYYY()
         {
             aParking.IsLicensePlateValid("SBA 1T34");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlate_WrongLicensePlate_MissingNumbers()
+        public void ValidateLicensePlateWrongLicensePlateMissingNumbers()
         {
             aParking.IsLicensePlateValid("ABs");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlate_WrongLicensePlate_XXXContainsLetters()
+        public void ValidateLicensePlateWrongLicensePlateXXXContainsLetters()
         {
             aParking.IsLicensePlateValid("AB43456");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlate_WrongLicensePlate_YYYYContainsNumbers()
+        public void ValidateLicensePlateWrongLicensePlateYYYYContainsNumbers()
         {
             aParking.IsLicensePlateValid("rBA34u6");
         }
 
         [TestMethod]
-        public void MakePurchaseTest_ExistsAccountTrue_HasEnoughBalanceTrue()
+        public void MakePurchaseTestExistsAccountTrueHasEnoughBalanceTrue()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
 
-            Assert.IsTrue(aParking.GetAllPurchases().Contains(aPurchase));
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
+            Assert.IsTrue(aParking.GetAllPurchases().Contains(mockedPurchase.Object));
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void MakePurchaseTest_ExistsAccountFalse()
+        public void MakePurchaseTestExistsAccountFalse()
         {
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void MakePurchaseTest_ExistsAccountTrue_HasEnoughBalanceFalse()
+        public void MakePurchaseTestExistsAccountTrueHasEnoughBalanceFalse()
         {
-            Account anAccount = new Account() { Phone = "098 740 956"};
+            Account anAccount = new Account() { Phone = "098 740 956" };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
         }
 
         [TestMethod]
-        public void IsPurchaseActiveTest_IsActiveTrue()
+        public void IsPurchaseActiveTestIsActiveTrue()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 120 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 120 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
             chosenMoment = chosenMoment.AddHours(13);
             chosenMoment = chosenMoment.AddMinutes(5);
@@ -259,12 +278,19 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void IsPurchaseActiveTest_IsActiveFalse_ChosenMomentHigherThanFinishingHour()
+        public void IsPurchaseActiveTestIsActiveFalseChosenMomentHigherThanFinishingHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
             chosenMoment = chosenMoment.AddHours(13);
             chosenMoment = chosenMoment.AddMinutes(35);
@@ -273,12 +299,19 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void IsPurchaseActiveTest_IsActiveFalse_ChosenMomentEarlierThanStartingHour()
+        public void IsPurchaseActiveTestIsActiveFalseChosenMomentEarlierThanStartingHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
             chosenMoment = chosenMoment.AddHours(12);
             chosenMoment = chosenMoment.AddMinutes(35);
@@ -287,12 +320,19 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void IsPurchaseActiveTest_IsActiveTrue_BorderCaseCheckOnFinishingHour()
+        public void IsPurchaseActiveTestIsActiveTrueBorderCaseCheckOnFinishingHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
             chosenMoment = chosenMoment.AddHours(13);
             chosenMoment = chosenMoment.AddMinutes(30);
@@ -302,12 +342,19 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void IsPurchaseActiveTest_ChosenDateNotInRange_BorderCase_MaximumHour()
+        public void IsPurchaseActiveTestChosenDateNotInRangeBorderCaseMaximumHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
             chosenMoment = chosenMoment.AddHours(18);
 
@@ -316,12 +363,19 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void IsPurchaseActiveTest_ChosenDateNotInRange_HourHigherThanMaximumHour()
+        public void IsPurchaseActiveTestChosenDateNotInRangeHourHigherThanMaximumHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
             chosenMoment = chosenMoment.AddHours(19);
             chosenMoment = chosenMoment.AddMinutes(30);
@@ -331,12 +385,19 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void IsPurchaseActiveTest_ChosenDateNotInRange_HourEarlierThanMinimumHour()
+        public void IsPurchaseActiveTestChosenDateNotInRangeHourEarlierThanMinimumHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
             chosenMoment = chosenMoment.AddHours(9);
             chosenMoment = chosenMoment.AddMinutes(30);
@@ -345,58 +406,73 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void IsPurchaseActiveTest_ChosenDateNotInRange_PreviousDayAtSameHour()
+        public void IsPurchaseActiveTestChosenDateNotInRangePreviousDayAtSameHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
-            chosenMoment = chosenMoment.AddHours(-11);            
+            chosenMoment = chosenMoment.AddHours(-11);
 
             Assert.IsFalse(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void IsPurchaseActiveTest_ChosenDateNotInRange_FutureDay()
+        public void IsPurchaseActiveTestChosenDateNotInRangeFutureDay()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
+
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 13:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
             DateTime chosenMoment = DateTime.Today;
             chosenMoment = chosenMoment.AddHours(48);
 
             aParking.IsPurchaseActive("SBT 4505", chosenMoment);
         }
 
-        [TestMethod]        
-        public void IsPurchaseActiveTest_ChosenDateInRange_MinimumHour()
+        [TestMethod]
+        public void IsPurchaseActiveTestChosenDateInRangeMinimumHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            Purchase aPurchase = new Purchase("SBT 4505 30 10:00");
-            aParking.MakePurchase("098 740 956", aPurchase);
-            DateTime chosenMoment = DateTime.Today;
-            chosenMoment = chosenMoment.AddHours(10);            
 
-            Assert.IsTrue(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBT 4505 30 10:00");
+
+            aParking.MakePurchase("098 740 956", mockedPurchase.Object);
+
+            Assert.IsTrue(aParking.IsPurchaseActive("SBT 4505", DateTime.Today.AddHours(10)));
         }
 
         [TestMethod]
-        public void FormatPhoneNumberTest_ValidPhoneLength8()
+        public void FormatPhoneNumberTestValidPhoneLength8()
         {
-            Assert.AreEqual(aParking.FormatPhoneNumber("98123 456"),"098 123 456");
+            Assert.AreEqual(aParking.FormatPhoneNumber("98123 456"), "098 123 456");
         }
 
         [TestMethod]
-        public void FormatPhoneNumberTest_ValidPhoneLength9()
+        public void FormatPhoneNumberTestValidPhoneLength9()
         {
             Assert.AreEqual(aParking.FormatPhoneNumber("098123456"), "098 123 456");
         }
-
-
-
     }
 }

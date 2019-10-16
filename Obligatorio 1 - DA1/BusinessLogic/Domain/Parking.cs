@@ -34,7 +34,7 @@ namespace BusinessLogic
             accounts.Add(anAccount);
         }
 
-        public void AddPurchase(Purchase aPurchase)
+        private void AddPurchase(Purchase aPurchase)
         {
             purchases.Add(aPurchase);
         }
@@ -62,10 +62,10 @@ namespace BusinessLogic
                 }
             }
             return false;
-            
+
         }
 
-        public bool HasEnoughBalance(Account anAccount, Purchase aPurchase)
+        private bool HasEnoughBalance(Account anAccount, Purchase aPurchase)
         {
             if (anAccount.Balance >= aPurchase.AmountOfMinutes * CostPerMinute)
             {
@@ -81,7 +81,9 @@ namespace BusinessLogic
             if (ContainsNumbersOnly(actualPhoneNumber) &&
                 (PhoneNumberValidationStartingWithNine(actualPhoneNumber)
                 || PhoneNumberValidationStartingWithZero(actualPhoneNumber)))
+            {
                 return true;
+            }
             else
             {
                 throw new BusinessException("Formato de número de telefono incorrecto");

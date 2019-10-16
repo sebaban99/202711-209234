@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BusinessLogic.Exceptions
 {
+    [ExcludeFromCodeCoverage]
     public class BusinessException : Exception
     {
         public BusinessException() { }

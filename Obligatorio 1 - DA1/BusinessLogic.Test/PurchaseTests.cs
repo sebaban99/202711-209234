@@ -1,204 +1,355 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BusinessLogic.Exceptions;
+using Moq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BusinessLogic.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class PurchaseTests
     {
         [TestMethod]
-        public void CreatePurchaseType1_AllValid_AllSpaces()
+        public void CreatePurchaseType1AllValidAllSpaces()
         {
-            Purchase aPurchase = new Purchase("SBs 1234 120 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBs 1234 120 13:00");
 
-            Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
-            Assert.AreEqual(aPurchase.StartingHour.Hour, 13);
-            Assert.AreEqual(aPurchase.FinishingHour.Hour, 15);
+            Assert.AreEqual(mockedPurchase.Object.LicensePlate, "SBS 1234");
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Hour, 13);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Hour, 15);
         }
 
         [TestMethod]
-        public void CreatePurchaseType2_AllValid_NoSpaceLicensePlate()
+        public void CreatePurchaseType2AllValidNoSpaceLicensePlate()
         {
-            Purchase aPurchase = new Purchase("SBs1234 120 13:00");
 
-            Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
-            Assert.AreEqual(aPurchase.StartingHour.Hour, 13);
-            Assert.AreEqual(aPurchase.FinishingHour.Hour, 15);
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBs1234 120 13:00");
+
+            Assert.AreEqual(mockedPurchase.Object.LicensePlate, "SBS 1234");
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Hour, 13);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Hour, 15);
         }
 
         [TestMethod]
-        public void CreatePurchaseType3_AllValid_NoStartingTime()
+        public void CreatePurchaseType3AllValidNoStartingTime()
         {
-            Purchase aPurchase = new Purchase("SBS 1234 120");
-            DateTime now = DateTime.Now;
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBS 1234 120");
+
+            DateTime now = DateTime.Today;
+            now = now.AddHours(13);
             DateTime finishTime = now.AddMinutes(120);
 
-            Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
-            Assert.AreEqual(aPurchase.StartingHour.Hour, now.Hour);
-            Assert.AreEqual(aPurchase.StartingHour.Minute, now.Minute);
-            Assert.AreEqual(aPurchase.FinishingHour.Hour, finishTime.Hour);
-            Assert.AreEqual(aPurchase.FinishingHour.Minute, finishTime.Minute);
+            Assert.AreEqual(mockedPurchase.Object.LicensePlate, "SBS 1234");
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Hour, now.Hour);
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Minute, now.Minute);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Hour, finishTime.Hour);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Minute, finishTime.Minute);
         }
 
         [TestMethod]
-        public void CreatePurchaseType4_AllValid_NoStartingTime_NoSpaceLicensePlate()
+        public void CreatePurchaseType4AllValidNoStartingTimeNoSpaceLicensePlate()
         {
-            Purchase aPurchase = new Purchase("SBS1234 120");
-            DateTime now = DateTime.Now;
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBS1234 120");
+
+            DateTime now = DateTime.Today;
+            now = now.AddHours(13);
             DateTime finishTime = now.AddMinutes(120);
 
-            Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
-            Assert.AreEqual(aPurchase.StartingHour.Hour, now.Hour);
-            Assert.AreEqual(aPurchase.StartingHour.Minute, now.Minute);
-            Assert.AreEqual(aPurchase.FinishingHour.Hour, finishTime.Hour);
-            Assert.AreEqual(aPurchase.FinishingHour.Minute, finishTime.Minute);
+            Assert.AreEqual(mockedPurchase.Object.LicensePlate, "SBS 1234");
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Hour, now.Hour);
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Minute, now.Minute);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Hour, finishTime.Hour);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Minute, finishTime.Minute);
         }
 
         [TestMethod]
-        public void CreatePurchaseType1_ValidParametersInvalidFormat_ExtraSpace()
+        public void CreatePurchaseType1ValidParametersInvalidFormatExtraSpace()
         {
-            Purchase aPurchase = new Purchase("SBS 1234 120  13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBS 1234 120  13:00");
 
-
-            Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
-            Assert.AreEqual(aPurchase.StartingHour.Hour, 13);
-            Assert.AreEqual(aPurchase.FinishingHour.Hour, 15);
+            Assert.AreEqual(mockedPurchase.Object.LicensePlate, "SBS 1234");
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Hour, 13);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Hour, 15);
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
         public void CreatePurchaseInvalidParameters_WrongLicensePlate_MissingLetters()
         {
-            Purchase aPurchase = new Purchase("1234 120 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("1234 120 13:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_WrongLicensePlate_InvalidFormatXXX()
+        public void CreatePurchaseType1InvalidParametersWrongLicensePlateInvalidFormatXXX()
         {
-            Purchase aPurchase = new Purchase("SB1 1234 120 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SB1 1234 120 13:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_WrongLicensePlate_InvalidFormatYYYY()
+        public void CreatePurchaseType1InvalidParametersWrongLicensePlateInvalidFormatYYYY()
         {
-            Purchase aPurchase = new Purchase("SBA 1T34 120 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBA 1T34 120 13:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseInvalidParameters_WrongLicensePlate_MissingNumbers()
+        public void CreatePurchaseInvalidParametersWrongLicensePlateMissingNumbers()
         {
-            Purchase aPurchase = new Purchase("ABs 120 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("ABs 120 13:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType2_InvalidParameters_WrongLicensePlate_XXXContainsLetters()
+        public void CreatePurchaseType2InvalidParametersWrongLicensePlateXXXContainsLetters()
         {
-            Purchase aPurchase = new Purchase("AB43456 120 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AB43456 120 13:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType2_InvalidParameters_WrongLicensePlate_YYYYContainsNumbers()
+        public void CreatePurchaseType2InvalidParametersWrongLicensePlateYYYYContainsNumbers()
         {
-            Purchase aPurchase = new Purchase("rBA34u6 120 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("rBA34u6 120 13:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_MinutesAreNotMultipleOf30()
+        public void CreatePurchaseType1InvalidParametersMinutesAreNotMultipleOf30()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 110 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 110 13:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_InvalidFormat_StartingHour_HHmm_Variant1()
+        public void CreatePurchaseType1InvalidParametersInvalidFormatStartingHourHHmmVariant1()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 120 9");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 9");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_InvalidFormat_StartingHour_HHmm_Variant2()
+        public void CreatePurchaseType1InvalidParametersInvalidFormatStartingHourHHmmVariant2()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 120 9:0");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 9:0");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_InvalidFormat_StartingHour_HHmm_ContainsLetters()
+        public void CreatePurchaseType1InvalidParametersInvalidFormatStartingHourHHmmContainsLetters()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 120 09:AM");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 09:AM");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_MinutesAreZero()
+        public void CreatePurchaseType1InvalidParametersMinutesAreZero()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 0 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 0 13:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_InvalidStartingHour_BeforeMinimum()
+        public void CreatePurchaseType1InvalidParametersInvalidStartingHourBeforeMinimum()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 120 09:00");
-        }
-
-        [TestMethod]
-        public void CreatePurchaseType1_ValidParameters_StartingHourBorderCase_MinBorder()
-        {
-            Purchase aPurchase = new Purchase("SBS 1234 120 10:00");
-
-            Assert.AreEqual(aPurchase.LicensePlate, "SBS 1234");
-            Assert.AreEqual(aPurchase.StartingHour.Hour, 10);
-            Assert.AreEqual(aPurchase.FinishingHour.Hour, 12);
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 09:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_StartingHourBorderCase_MaxBorder()
+        public void CreatePurchaseType3CurrentHourBeforeMinimumHour()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 120 18:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(9);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120");
+        }
+
+        [TestMethod]
+        public void CreatePurchaseType1ValidParametersStartingHourBorderCaseMinBorder()
+        {
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("SBS 1234 120 10:00");
+
+            Assert.AreEqual(mockedPurchase.Object.LicensePlate, "SBS 1234");
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Hour, 10);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Hour, 12);
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_InvalidStartingHour_AfterMaximum()
+        public void CreatePurchaseType1InvalidParametersStartingHourBorderCaseMaxBorder()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 120 19:00");
-        }
-
-        [TestMethod]
-        public void CreatePurchaseType1_ValidParameters_StartingTimePlusMinutesExceedsMaximumHour()
-        {
-            Purchase aPurchase = new Purchase("AzA 1237 120 17:35");
-
-            Assert.AreEqual(aPurchase.LicensePlate, "AZA 1237");
-            Assert.AreEqual(aPurchase.StartingHour.Hour, 17);
-            Assert.AreEqual(aPurchase.StartingHour.Minute, 35);
-            Assert.AreEqual(aPurchase.FinishingHour.Hour, 18);
-            Assert.AreEqual(aPurchase.FinishingHour.Minute, 0);
-
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 18:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidParameters_InvalidStartingHourFormat()
+        public void CreatePurchaseType1InvalidParametersInvalidStartingHourAfterMaximum()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 120 10:90");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 19:00");
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void CreatePurchaseType1_InvalidStartingHour_BeforeActualHour()
+        public void CreatePurchaseType3InvalidParametersInvalidStartingHourAfterMaximum()
         {
-            Purchase aPurchase = new Purchase("AzA 1237 120 13:00");
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA1237 120 19:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void CreatePurchaseType1CurrentHourAfterMaximumHour()
+        {
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(19);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 15:00");
+        }
+
+        [TestMethod]
+        public void CreatePurchaseType1ValidParametersStartingTimePlusMinutesExceedsMaximumHour()
+        {
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 17:35");
+
+            Assert.AreEqual(mockedPurchase.Object.LicensePlate, "AZA 1237");
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Hour, 17);
+            Assert.AreEqual(mockedPurchase.Object.StartingHour.Minute, 35);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Hour, 18);
+            Assert.AreEqual(mockedPurchase.Object.FinishingHour.Minute, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void CreatePurchaseType1InvalidParametersInvalidStartingHourFormat()
+        {
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 10:90");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void CreatePurchaseType1InvalidStartingHourBeforeActualHour()
+        {
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(15);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void CreatePurchaseInvalidMessageLength()
+        {
+            Mock<Purchase> mockedPurchase = new Mock<Purchase>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 10:00 AM ");
+        }
+
+        [TestMethod]
+        public void GetDateTimeNowTest()
+        {
+            Purchase aPurchase = new Purchase();
+
+            Assert.AreEqual(DateTime.Now, aPurchase.GetDateTimeNow());
+
         }
     }
 }
