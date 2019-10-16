@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using BusinessLogic.Exceptions;
@@ -130,7 +131,8 @@ namespace BusinessLogic
             }
             else
             {
-                throw new BusinessException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+                throw new BusinessException("Mensaje incorrecto, formato de " +
+                    "licencia inválida. Ej: ABC 1234 60 10:00");
             }
 
         }
@@ -145,57 +147,75 @@ namespace BusinessLogic
             return Regex.IsMatch(message, @"^[0-9]+$");
         }
 
-        private bool IsHourFormatValid(string hours)
+        private bool IsHourValid(string hours)
         {
-
             return Int32.Parse(hours) >= 10 && Int32.Parse(hours) < 18;
         }
 
-        private bool IsMinuteFormatValid(string minutes)
+        private bool IsMinuteValid(string minutes)
         {
             return Int32.Parse(minutes) >= 0 && Int32.Parse(minutes) < 60;
         }
 
-        private bool IsStartingHourFormatValid(string hour)
+        private bool IsHourAfterActualHour(string hour)
         {
-            if (hour.IndexOf(':') == hour.Length / 2)
+            return DateTime.Now <= DateTime.Parse(getTodaysDate_dd_MM_yyyy_Only() + " " + hour,
+                new CultureInfo("fr-FR"));
+        }
+
+        private bool IsMessageStartingHourValid(string hour)
+        {
+            if (hour.IndexOf(':') != hour.Length / 2)
+            {
+                return false;
+            }
+            else
             {
                 string HH_half = hour.Substring(0, hour.IndexOf(':'));
                 string mm_half = hour.Substring(hour.IndexOf(':') + 1);
 
                 return HH_half.Length == 2 && mm_half.Length == 2 &&
                     ContainsNumbersOnly(HH_half) && ContainsNumbersOnly(mm_half) &&
-                    IsHourFormatValid(HH_half) && IsMinuteFormatValid(mm_half);
+                    IsHourValid(HH_half) && IsMinuteValid(mm_half) && IsHourAfterActualHour(hour);
             }
-            return false;
         }
 
         private DateTime CalculateStartingHour(string[] messageSplit)
         {
-            if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T_HHMM))
+            if (DateTime.Now < MINIMUM_STARTING_HOUR || DateTime.Now >= MAXIMUM_HOUR)
             {
-                if (IsStartingHourFormatValid(messageSplit[3]))
+                throw new BusinessException("Parking cerrado, horario de 10:00 a 18:00");
+            }
+            else
+            {
+                if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T_HHMM))
                 {
-                    string toParse = getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3];
-                    return DateTime.Parse(toParse);
+                    if (IsMessageStartingHourValid(messageSplit[3]))
+                    {
+                        string dateToParse = getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[3];
+                        return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
+                    }
+                    throw new BusinessException("Hora inválida, verifique que la hora " +
+                        "inical sea una hora entre la hora actual y las 18:00 con el formato correcto HH:mm");
                 }
-            }
-            else if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXXYYYY_T) || 
-                actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T))
-            {
-                DateTime actualHour = DateTime.Now;
-                if (actualHour >= MINIMUM_STARTING_HOUR && actualHour < MAXIMUM_HOUR)
+                else if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXXYYYY_T) ||
+                    actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T))
                 {
-                    return actualHour;
+                    return DateTime.Now;
                 }
+                else if (IsMessageStartingHourValid(messageSplit[2]))
+                {
+                    string toParse = getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2];
+                    if (DateTime.Now > DateTime.Parse(toParse, new CultureInfo("fr-FR")))
+                    {
+                        throw new BusinessException("Hora actual superior a la hora ingresada, elija una hora entre " +
+                            "la hora actual y las 18");
+                    }
+                    return DateTime.Parse(toParse, new CultureInfo("fr-FR"));
+                }
+                throw new BusinessException("Hora incorrecta, verifique que la hora ingresada este entre la hora actual y las 18" +
+                        "y tenga el formato correcto HH:mm");
             }
-            else if (IsStartingHourFormatValid(messageSplit[2]))
-            {
-                string toParse = getTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2];
-                return DateTime.Parse(toParse);
-
-            }
-            throw new BusinessException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
         }
 
         private int ExtractMinutes(string[] messageSplit)
@@ -218,7 +238,8 @@ namespace BusinessLogic
                     return minutes;
                 }
             }
-            throw new BusinessException("Mensaje incorrecto.Ej: ABC 1234 60 10:00");
+            throw new BusinessException("Mensaje incorrecto, cantidad de minutos no es" +
+                "múltiplo de 30 o es 0");
         }
 
         private int StringToInt(string number)
@@ -233,12 +254,13 @@ namespace BusinessLogic
 
         private string getTodaysDate_dd_MM_yyyy_Only()
         {
-            return DateTime.Today.ToString().Substring(0,8);
+            return DateTime.Now.ToString("d", new CultureInfo("fr-FR"));
         }
 
         private DateTime CalculateFinishingHour(string[] messageSplit)
         {
-            if (StartingHour.AddMinutes(ExtractMinutes(messageSplit)) > MAXIMUM_HOUR)
+            int minutesExtractedFromMessage = ExtractMinutes(messageSplit);
+            if (StartingHour.AddMinutes(minutesExtractedFromMessage) > MAXIMUM_HOUR)
             {
                 TimeSpan minutesUntilMaximumHour = MAXIMUM_HOUR - StartingHour;
                 AmountOfMinutes = (int)minutesUntilMaximumHour.TotalMinutes;
@@ -246,7 +268,7 @@ namespace BusinessLogic
             }
             else
             {
-                AmountOfMinutes = ExtractMinutes(messageSplit);
+                AmountOfMinutes = minutesExtractedFromMessage;
                 return StartingHour.AddMinutes(ExtractMinutes(messageSplit));
             }
         }
