@@ -165,7 +165,7 @@ namespace BusinessLogic
             return false;
         }
 
-        private string FormatLicensePlate(string licencePlate)
+        public string FormatLicensePlate(string licencePlate)
         {
             licencePlate = RemoveSpacesString(licencePlate);
             StringBuilder formattedLicensePlate = new StringBuilder(licencePlate);

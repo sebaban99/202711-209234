@@ -142,6 +142,19 @@ namespace BusinessLogic.Test
             aParking.IsNumberPhoneValid("982 004 658");
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateLicensePlate_ValidLicensePlateXXX_YYYY()
+        {
+            Assert.IsTrue(aParking.IsLicensePlateValid("SBA 1234"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateLicensePlate_ValidLicensePlateXXXYYYY()
+        {
+            Assert.IsTrue(aParking.IsLicensePlateValid("SbA1234"));
+        }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
@@ -229,7 +242,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void IsPurchaseActiveTest_IsActiveFalse()
+        public void IsPurchaseActiveTest_IsActiveFalse_ChosenMomentHigherThanFinishingHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
@@ -243,7 +256,21 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void IsPurchaseActiveTest_IsActiveTrue_BorderCase()
+        public void IsPurchaseActiveTest_IsActiveFalse_ChosenMomentEarlierThanStartingHour()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(12);
+            chosenMoment = chosenMoment.AddMinutes(35);
+
+            Assert.IsFalse(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
+        }
+
+        [TestMethod]
+        public void IsPurchaseActiveTest_IsActiveTrue_BorderCaseCheckOnFinishingHour()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
@@ -255,5 +282,104 @@ namespace BusinessLogic.Test
 
             Assert.IsTrue(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void IsPurchaseActiveTest_ChosenDateNotInRange_BorderCase_MaximumHour()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(18);
+
+            aParking.IsPurchaseActive("SBT 4505", chosenMoment);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void IsPurchaseActiveTest_ChosenDateNotInRange_HourHigherThanMaximumHour()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(19);
+            chosenMoment = chosenMoment.AddMinutes(30);
+
+            aParking.IsPurchaseActive("SBT 4505", chosenMoment);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void IsPurchaseActiveTest_ChosenDateNotInRange_HourEarlierThanMinimumHour()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(9);
+            chosenMoment = chosenMoment.AddMinutes(30);
+
+            aParking.IsPurchaseActive("SBT 4505", chosenMoment);
+        }
+
+        [TestMethod]
+        public void IsPurchaseActiveTest_ChosenDateNotInRange_PreviousDayAtSameHour()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(-11);            
+
+            Assert.IsFalse(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void IsPurchaseActiveTest_ChosenDateNotInRange_FutureDay()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(48);
+
+            aParking.IsPurchaseActive("SBT 4505", chosenMoment);
+        }
+
+        [TestMethod]        
+        public void IsPurchaseActiveTest_ChosenDateInRange_MinimumHour()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 10:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(10);            
+
+            Assert.IsTrue(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
+        }
+
+        [TestMethod]
+        public void FormatPhoneNumberTest_ValidPhoneLength8()
+        {
+            Assert.AreEqual(aParking.FormatPhoneNumber("98123 456"),"098 123 456");
+        }
+
+        [TestMethod]
+        public void FormatPhoneNumberTest_ValidPhoneLength9()
+        {
+            Assert.AreEqual(aParking.FormatPhoneNumber("098123456"), "098 123 456");
+        }
+
+
+
     }
 }
