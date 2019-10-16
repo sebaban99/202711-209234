@@ -39,16 +39,16 @@ namespace BusinessLogic
             purchases.Add(aPurchase);
         }
 
-        public bool ExistAccount(Account accountReceived)
+        public Account ExistsAccount(string aPhone)
         {
             foreach (Account ac in accounts)
             {
-                if (ac.Phone == accountReceived.Phone)
+                if (ac.Phone == aPhone)
                 {
-                    return true;
+                    return ac;
                 }
             }
-            return false;
+            throw new BusinessException("Móvil no registrado");
         }
 
         public bool HasEnoughBalance(Account anAccount, Purchase aPurchase)
@@ -59,7 +59,6 @@ namespace BusinessLogic
             }
             throw new BusinessException("Saldo insuficiente");
         }
-
 
         public bool IsNumberPhoneValid(string aPhone)
         {
@@ -130,23 +129,6 @@ namespace BusinessLogic
             }
         }
 
-        public bool IsPurchaseActive(string licencePlateToConfirm, DateTime theMoment)
-        {
-            licencePlateToConfirm = FormatLicencePlate(licencePlateToConfirm);
-            if (IsDateChosenInRange(theMoment))
-            {
-                foreach (Purchase p in purchases)
-                {
-                    if (p.LicensePlate.Equals(licencePlateToConfirm) &&
-                        IsPurchaseInRange(p, theMoment))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
         private bool IsDateChosenInRange(DateTime theMoment)
         {
             if (theMoment.Date <= DateTime.Today.Date &&
@@ -166,7 +148,24 @@ namespace BusinessLogic
                 theMoment <= aPurchase.FinishingHour;
         }
 
-        private string FormatLicencePlate(string licencePlate)
+        public bool IsPurchaseActive(string licencePlateToConfirm, DateTime theMoment)
+        {
+            licencePlateToConfirm = FormatLicensePlate(licencePlateToConfirm);
+            if (IsDateChosenInRange(theMoment))
+            {
+                foreach (Purchase p in purchases)
+                {
+                    if (p.LicensePlate.Equals(licencePlateToConfirm) &&
+                        IsPurchaseInRange(p, theMoment))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private string FormatLicensePlate(string licencePlate)
         {
             licencePlate = RemoveSpacesString(licencePlate);
             StringBuilder formattedLicensePlate = new StringBuilder(licencePlate);
@@ -176,22 +175,13 @@ namespace BusinessLogic
             return formattedLicensePlate.ToString();
         }
 
-        public void MakePurchase(Account anAccount, Purchase aPurchase)
+        public void MakePurchase(String aPhone, Purchase aPurchase)
         {
-            if (ExistAccount(anAccount))
+            Account newAccount = ExistsAccount(aPhone);
+
+            if (HasEnoughBalance(newAccount, aPurchase))
             {
-                if (HasEnoughBalance(anAccount, aPurchase))
-                {
-                    this.AddPurchase(aPurchase);
-                }
-                else
-                {
-                    throw new BusinessException("Saldo insuficiente");
-                }
-            }
-            else
-            {
-                throw new BusinessException("Móvil no registrado");
+                this.AddPurchase(aPurchase);
             }
         }
     }

@@ -46,20 +46,22 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExistAccount()
+        public void ExistAccountTest_AccountExistsTrue()
         {
             Account anAccount = new Account() { Phone = "098 204 265" };
             aParking.AddAccount(anAccount);
 
-            Assert.IsTrue(aParking.ExistAccount(anAccount));
+            Account theAccount = aParking.ExistsAccount("098 204 265");
+            Assert.AreEqual(theAccount, anAccount);
         }
 
         [TestMethod]
-        public void NonExistAccount()
+        [ExpectedException(typeof(BusinessException))]
+        public void ExistsAccountTest_AccountExistsFalse()
         {
             Account anAccount = new Account() { Phone = "098 204 265" };
 
-            Assert.IsFalse(aParking.ExistAccount(anAccount));
+            Account theAccount = aParking.ExistsAccount("098 204 265");
         }
 
         [TestMethod]
@@ -78,7 +80,7 @@ namespace BusinessLogic.Test
         public void NotEnoughBalanceForPurchase()
         {
             Account anAccount = new Account() { Phone = "098 204 265", Balance = 50 };
-            Purchase aPurchase = new Purchase("SBT 4505 120 12:00");
+            Purchase aPurchase = new Purchase("SBT 4505 120 14:00");
 
             aParking.HasEnoughBalance(anAccount, aPurchase);
         }
@@ -186,19 +188,45 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void IsPurchaseActive()
+        public void IsPurchaseActiveTest_IsActiveTrue()
         {
-            Account anAccount = new Account() { Phone = "098 740 956" };
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
-            anAccount.IncreaseBalance(500);
-            Purchase aPurchase = new Purchase("SBT 4505 240 11:00");
-            aParking.MakePurchase(anAccount, aPurchase);
-            DateTime theMoment = DateTime.Today;
-            theMoment = theMoment.AddHours(12);
-            theMoment = theMoment.AddMinutes(43);
+            Purchase aPurchase = new Purchase("SBT 4505 120 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(13);
+            chosenMoment = chosenMoment.AddMinutes(5);
 
-            Assert.IsTrue(aParking.IsPurchaseActive("SBT 4505", theMoment));
+            Assert.IsTrue(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
         }
 
+        [TestMethod]
+        public void IsPurchaseActiveTest_IsActiveFalse()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(13);
+            chosenMoment = chosenMoment.AddMinutes(35);
+
+            Assert.IsFalse(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
+        }
+
+        [TestMethod]
+        public void IsPurchaseActiveTest_IsActiveTrue_BorderCase()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+            DateTime chosenMoment = DateTime.Today;
+            chosenMoment = chosenMoment.AddHours(13);
+            chosenMoment = chosenMoment.AddMinutes(30);
+
+            Assert.IsTrue(aParking.IsPurchaseActive("SBT 4505", chosenMoment));
+        }
     }
 }
