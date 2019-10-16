@@ -58,7 +58,7 @@ namespace BusinessLogic
             {
                 if (ac.Phone == aPhone)
                 {
-                    throw new BusinessException("Móvil: " + aPhone + "ya registrado");
+                    throw new BusinessException("Móvil: " + aPhone + " ya registrado");
                 }
             }
             return false;

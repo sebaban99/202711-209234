@@ -133,7 +133,7 @@ namespace BusinessLogic
             else
             {
                 throw new BusinessException("Mensaje incorrecto, formato de " +
-                    "licencia inválida. Ej: ABC 1234 60 10:00");
+                    " licencia inválida. Ej: ABC 1234 60 10:00");
             }
 
         }
@@ -197,7 +197,8 @@ namespace BusinessLogic
                         return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
                     }
                     throw new BusinessException("Hora inválida, verifique que la hora " +
-                        "inical sea una hora entre la hora actual y las 18:00 con el formato correcto HH:mm");
+                        "inical sea una hora entre la hora actual y las 18:00" +
+                        " con el formato correcto HH:mm");
                 }
                 else if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXXYYYY_T) ||
                     actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T))
@@ -209,8 +210,9 @@ namespace BusinessLogic
                     string toParse = GetTodaysDate_dd_MM_yyyy_Only() + " " + messageSplit[2];
                     return DateTime.Parse(toParse, new CultureInfo("fr-FR"));
                 }
-                throw new BusinessException("Hora incorrecta, verifique que la hora ingresada este entre la hora actual y las 18" +
-                        "y tenga el formato correcto HH:mm");
+                throw new BusinessException("Hora incorrecta, verifique que la hora" +
+                    " ingresada este entre la hora actual y las 18" +
+                    " y tenga el formato correcto HH:mm");
             }
         }
 
@@ -234,8 +236,8 @@ namespace BusinessLogic
                     return minutes;
                 }
             }
-            throw new BusinessException("Mensaje incorrecto, cantidad de minutos no es" +
-                "múltiplo de 30 o es 0");
+            throw new BusinessException("Mensaje incorrecto, cantidad de" +
+                " minutos es 0 o no es múltiplo de 30");
         }
 
         private int StringToInt(string number)
