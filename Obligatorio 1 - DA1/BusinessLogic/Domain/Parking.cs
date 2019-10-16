@@ -39,8 +39,9 @@ namespace BusinessLogic
             purchases.Add(aPurchase);
         }
 
-        public Account ExistsAccount(string aPhone)
+        public Account RetrieveAccount(string aPhone)
         {
+
             foreach (Account ac in accounts)
             {
                 if (ac.Phone == aPhone)
@@ -49,6 +50,19 @@ namespace BusinessLogic
                 }
             }
             throw new BusinessException("Móvil no registrado");
+        }
+
+        public bool IsAccountAlreadyRegistered(string aPhone)
+        {
+            foreach (Account ac in accounts)
+            {
+                if (ac.Phone == aPhone)
+                {
+                    throw new BusinessException("Móvil: " + aPhone + "ya registrado");
+                }
+            }
+            return false;
+            
         }
 
         public bool HasEnoughBalance(Account anAccount, Purchase aPurchase)
@@ -177,7 +191,7 @@ namespace BusinessLogic
 
         public void MakePurchase(String aPhone, Purchase aPurchase)
         {
-            Account newAccount = ExistsAccount(aPhone);
+            Account newAccount = RetrieveAccount(aPhone);
 
             if (HasEnoughBalance(newAccount, aPurchase))
             {

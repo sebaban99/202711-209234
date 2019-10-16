@@ -35,6 +35,23 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void IsAccountAlreadyRegistered_ItsRegistered()
+        {
+
+            Account anAccount = new Account() { Phone = "095 620 356" };
+            aParking.AddAccount(anAccount);
+
+            aParking.IsAccountAlreadyRegistered("095 620 356");
+        }
+
+        [TestMethod]
+        public void IsAccountAlreadyRegistered_False()
+        {
+            Assert.IsFalse(aParking.IsAccountAlreadyRegistered("095 620 356"));
+        }
+
+        [TestMethod]
         public void AddPurchase()
         {
             Purchase aPurchase = new Purchase("SBT 4505 120 14:00");
@@ -46,20 +63,20 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExistAccountTest_AccountExistsTrue()
+        public void RetrieveAccountTest_AccountExistsTrue()
         {
             Account anAccount = new Account() { Phone = "098 204 265" };
             aParking.AddAccount(anAccount);
 
-            Account theAccount = aParking.ExistsAccount("098 204 265");
+            Account theAccount = aParking.RetrieveAccount("098 204 265");
             Assert.AreEqual(theAccount, anAccount);
         }
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void ExistsAccountTest_AccountExistsFalse()
+        public void RetrieveAccountTest_AccountExistsFalse()
         {
-            Account theAccount = aParking.ExistsAccount("098 204 265");
+            Account theAccount = aParking.RetrieveAccount("098 204 265");
         }
 
         [TestMethod]
