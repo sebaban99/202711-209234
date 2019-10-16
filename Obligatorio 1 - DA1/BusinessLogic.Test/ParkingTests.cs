@@ -186,14 +186,32 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void MakePurchaseTest_()
+        public void MakePurchaseTest_ExistsAccountTrue_HasEnoughBalanceTrue()
         {
             Account anAccount = new Account() { Phone = "098 740 956", Balance = 500 };
             aParking.AddAccount(anAccount);
             Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
             aParking.MakePurchase("098 740 956", aPurchase);
 
-            Assert.IsTrue(aParking.("SBT 4505", chosenMoment));
+            Assert.IsTrue(aParking.GetAllPurchases().Contains(aPurchase));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void MakePurchaseTest_ExistsAccountFalse()
+        {
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void MakePurchaseTest_ExistsAccountTrue_HasEnoughBalanceFalse()
+        {
+            Account anAccount = new Account() { Phone = "098 740 956"};
+            aParking.AddAccount(anAccount);
+            Purchase aPurchase = new Purchase("SBT 4505 30 13:00");
+            aParking.MakePurchase("098 740 956", aPurchase);
         }
 
         [TestMethod]
