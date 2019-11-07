@@ -41,9 +41,43 @@ namespace BusinessLogic
             }
         }
 
-        public bool IsMessageValid(string v)
+        private string[] ObtainActualMessage(string[] messageSplit)
         {
-            throw new NotImplementedException();
+            int notEmptyStrings = 0;
+            foreach (string s in messageSplit)
+            {
+                if (s != "")
+                {
+                    notEmptyStrings++;
+                }
+            }
+            string[] actualMessage = new string[notEmptyStrings];
+            int actualMessageIndex = 0;
+            foreach (string s in messageSplit)
+            {
+                if (s != "")
+                {
+                    actualMessage[actualMessageIndex] = string.Copy(s);
+                    actualMessageIndex++;
+                }
+            }
+            return actualMessage;
+        }
+
+        public bool IsMessageValid(string message)
+        {
+            string[] messageSplit = message.Split(new Char[] { ' ' });
+            string[] actualMessage = ObtainActualMessage(messageSplit);
+            if(actualMessage.Length != 3)
+            {
+                throw new BusinessException("Largo de mensaje incorrecto, " +
+                    "verificar mensaje");
+            }
+            else
+            {
+                return true;
+            }
+
         }
 
         public virtual DateTime GetDateTimeNow()
