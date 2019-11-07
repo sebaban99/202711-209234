@@ -30,7 +30,7 @@ namespace BusinessLogic
         public bool IsPhoneNumberValid(string phoneNumber)
         {
             if (IsHyphenPositionValid(phoneNumber) &&
-                 IsPhoneNumberLengthValid(RemoveHyphensFromString(phoneNumber)))
+                IsPhoneNumberLengthValid(RemoveHyphensFromString(phoneNumber)))
             {
                 return true;
             }
