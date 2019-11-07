@@ -68,7 +68,13 @@ namespace BusinessLogic
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
-            if(actualMessage.Length != 3)
+            return IsMessageLengthValid(actualMessage);
+
+        }
+
+        private bool IsMessageLengthValid(string[] actualMessage)
+        {
+            if (actualMessage.Length != 3)
             {
                 throw new BusinessException("Largo de mensaje incorrecto, " +
                     "verificar mensaje");
@@ -77,7 +83,6 @@ namespace BusinessLogic
             {
                 return true;
             }
-
         }
 
         public virtual DateTime GetDateTimeNow()
