@@ -52,5 +52,12 @@ namespace BusinessLogic.Test
             arg.IsPhoneNumberValid("-12345678");
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidatePhoneNumberInvalidNumberWithHyphenAtEnd()
+        {
+            arg.IsPhoneNumberValid("1234567-");
+        }
+
     }
 }
