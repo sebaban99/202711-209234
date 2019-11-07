@@ -26,5 +26,11 @@ namespace BusinessLogic.Test
             Assert.IsTrue(arg.IsPhoneNumberValid("1234567"));
         }
 
+        [TestMethod]
+        public void ValidatePhoneNumberValidNumberLength8()
+        {
+            Assert.IsTrue(arg.IsPhoneNumberValid("12345678"));
+        }
+
     }
 }
