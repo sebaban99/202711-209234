@@ -59,5 +59,26 @@ namespace BusinessLogic.Test
             arg.IsPhoneNumberValid("1234567-");
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidatePhoneNumberInvalidNumberWithBothInvalidHyphens()
+        {
+            arg.IsPhoneNumberValid("-1234567-");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidatePhoneNumberInvalidNumberManyHypehnsOneInvalid()
+        {
+            arg.IsPhoneNumberValid("-1234-5678");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidatePhoneNumberInvalidNumberLengthLessThanMinimum()
+        {
+            arg.IsPhoneNumberValid("1234-8");
+        }
+
     }
 }
