@@ -75,7 +75,8 @@ namespace BusinessLogic
         private bool IsMessageLengthValid(string[] actualMessage)
         {
             if ((actualMessage.Length == 3 && actualMessage[0].Length == 7)
-                || actualMessage.Length == 4)
+                || actualMessage.Length == 4 && (actualMessage[0].Length == 3 
+                && actualMessage[1].Length == 4))
             {
                 return true;
             }
