@@ -74,16 +74,17 @@ namespace BusinessLogic
 
         private bool IsMessageLengthValid(string[] actualMessage)
         {
-            if (actualMessage.Length != 3)
+            if (actualMessage.Length == 3 || actualMessage.Length == 4)
+            {
+                return true;
+            }
+            else
             {
                 throw new BusinessException("Largo de mensaje incorrecto, " +
                     "verificar mensaje");
             }
-            else
-            {
-                return true;
-            }
         }
+
 
         public virtual DateTime GetDateTimeNow()
         {
