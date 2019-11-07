@@ -1,4 +1,5 @@
 ﻿using System;
+using BusinessLogic.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BusinessLogic.Test
@@ -42,6 +43,13 @@ namespace BusinessLogic.Test
         public void ValidatePhoneNumberValidNumberWithManyHyphens()
         {
             Assert.IsTrue(arg.IsPhoneNumberValid("1-23-45678"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidatePhoneNumberInvalidNumberWithHyphenAtStart()
+        {
+            arg.IsPhoneNumberValid("-12345678");
         }
 
     }
