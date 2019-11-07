@@ -14,6 +14,11 @@ namespace BusinessLogic.Test
             arg = new Argentina();
         }
 
-        
+        [TestMethod]
+        public void ValidatePhoneNumberValidNumberLength6()
+        {
+            arg.IsPhoneNumberValid("123456");
+        }
+
     }
 }
