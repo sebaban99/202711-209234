@@ -96,7 +96,26 @@ namespace BusinessLogic
             else return true;
         }
 
-        
+        private bool AreMinutesValid(string[] actualMessage)
+        {
+            bool areMinutesValid = false;
+            if (actualMessage[0].Length == 7)
+            {
+                areMinutesValid =
+                    Int32.Parse(actualMessage[2]) > 0;
+            }
+            else
+            {
+                areMinutesValid = 
+                    Int32.Parse(actualMessage[3]) > 0;
+            }
+            if (!areMinutesValid)
+            {
+                throw new BusinessException("Minutos inexistentes o inválidos," +
+                    "verifique que sean un entero mayor que 0");
+            }
+            else return true;
+        }
 
         private bool IsMessageFormatValid(string[] actualMessage)
         {
@@ -113,7 +132,8 @@ namespace BusinessLogic
             string[] actualMessage = ObtainActualMessage(messageSplit);
             if (IsMessageFormatValid(actualMessage))
             {
-                return IsLicensePlateValid(actualMessage);
+                return IsLicensePlateValid(actualMessage) &&
+                    AreMinutesValid(actualMessage);
             }
             else
             {

@@ -187,7 +187,7 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
-        public void RValidateMessageInvalidMessageMinutesMissing()
+        public void ValidateMessageInvalidMessageMinutesMissing()
         {
             Mock<Argentina> mockedArg = new Mock<Argentina>();
             DateTime aDate = DateTime.Today;
@@ -196,6 +196,26 @@ namespace BusinessLogic.Test
             Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu 1238 10:30"));
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageInvalidMessageStartingHourMissing()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu1238 50"));
+        }
 
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageInvalidMessageAmountOfMinutesIsZero()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu1238 10:56 0"));
+        }
     }
 }
