@@ -6,21 +6,12 @@ namespace BusinessLogic
 {
     public class Argentina
     {
-        public Argentina()
-        {
-        }
+        public Argentina() { }
 
         private bool IsPhoneNumberLengthValid(string phoneNumber)
         {
-            if (phoneNumber.Length == 6 || phoneNumber.Length == 7 ||
-                phoneNumber.Length == 8)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return phoneNumber.Length == 6 || phoneNumber.Length == 7 ||
+                phoneNumber.Length == 8;
         }
 
         private bool IsHyphenPositionValid(string phoneNumber)
@@ -40,7 +31,6 @@ namespace BusinessLogic
         {
             if (IsHyphenPositionValid(phoneNumber))
             {
-                
                 return IsPhoneNumberLengthValid(RemoveHyphensFromString(phoneNumber));
             }
             else
