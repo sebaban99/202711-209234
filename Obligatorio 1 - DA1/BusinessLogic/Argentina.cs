@@ -40,5 +40,15 @@ namespace BusinessLogic
                          "guión en primera posición");
             }
         }
+
+        public bool IsMessageValid(string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual DateTime GetDateTimeNow()
+        {
+            return DateTime.Now;
+        }
     }
 }

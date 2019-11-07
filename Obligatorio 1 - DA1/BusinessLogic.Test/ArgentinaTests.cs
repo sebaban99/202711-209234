@@ -1,6 +1,7 @@
 ﻿using System;
 using BusinessLogic.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace BusinessLogic.Test
 {
@@ -80,5 +81,21 @@ namespace BusinessLogic.Test
             arg.IsPhoneNumberValid("1234-8");
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidatePhoneNumberInvalidNumberLengthGreaterThanMaximum()
+        {
+            arg.IsPhoneNumberValid("1-234456789");
+        }
+
+        [TestMethod]
+        public void ValidateMessageValidMessage()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedArg.Object.IsMessageValid("ABC1234 10:30 50"));
+        }
     }
 }
