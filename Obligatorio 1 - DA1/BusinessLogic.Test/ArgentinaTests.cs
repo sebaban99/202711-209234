@@ -118,6 +118,17 @@ namespace BusinessLogic.Test
             Assert.IsTrue(mockedArg.Object.IsMessageValid("ABC 1234 10:30 50"));
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageInvalidMessageLicensePlateMissingLetters()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedArg.Object.IsMessageValid("1234 10:30 50"));
+        }
+
 
 
     }
