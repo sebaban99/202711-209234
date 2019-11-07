@@ -77,42 +77,49 @@ namespace BusinessLogic
 
         private bool IsLicensePlateValid(string[] actualMessage)
         {
-            bool IsLicensePlateValid = false;
+            bool isLicensePlateValid = false;
             if (actualMessage[0].Length == 7)
             {
-                 IsLicensePlateValid = 
+                 isLicensePlateValid = 
                     ContainsLettersOnly(actualMessage[0].Substring(0, 3)) &&
                     ContainsNumbersOnly(actualMessage[0].Substring(3));
             }
             else if (actualMessage[0].Length == 3 && actualMessage[1].Length == 4)
             {
-                IsLicensePlateValid = ContainsLettersOnly(actualMessage[0]) &&
+                isLicensePlateValid = ContainsLettersOnly(actualMessage[0]) &&
                     ContainsNumbersOnly(actualMessage[1]);
             }
-            if (!IsLicensePlateValid)
+            if (!isLicensePlateValid)
             {
                 throw new BusinessException("Formato de licencia incorrecto");
             }
             else return true;
         }
 
-        private bool IsMessageLengthValid(string[] actualMessage)
+        
+
+        private bool IsMessageFormatValid(string[] actualMessage)
         {
-            return actualMessage.Length == 3 || actualMessage.Length == 4;
+            if (actualMessage.Length == 3)
+            {
+                return actualMessage[0].Length == 7;
+            }
+            else return actualMessage.Length == 4;
         }
 
         public bool IsMessageValid(string message)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
-            if (IsMessageLengthValid(actualMessage))
+            if (IsMessageFormatValid(actualMessage))
             {
                 return IsLicensePlateValid(actualMessage);
             }
             else
             {
-                throw new BusinessException("Largo de mensaje incorrecto, " +
-                    "verificar mensaje");
+                throw new BusinessException("Formato de mensaje incorrecto, " +
+                    "verificar que todas las partes esten presentes." +
+                    " Ej: ABC 1234 10:30 50, ABC1234 10:30 50");
             }
         }
 
