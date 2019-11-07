@@ -25,7 +25,8 @@ namespace BusinessLogic
 
         private bool IsHyphenPositionValid(string phoneNumber)
         {
-            return phoneNumber.IndexOf("-") != 0;
+            return phoneNumber.IndexOf("-") != 0 &&
+                phoneNumber.IndexOf("-") != phoneNumber.Length - 1;
         }
 
         private string RemoveHyphensFromString(string phoneNumber)
