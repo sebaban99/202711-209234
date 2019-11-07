@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace BusinessLogic
 {
@@ -23,7 +24,9 @@ namespace BusinessLogic
 
         public bool IsPhoneNumberValid(string phoneNumber)
         {
-            return IsPhoneNumberLengthValid(phoneNumber);
+            StringBuilder onlyNumbers = new StringBuilder(phoneNumber);
+            onlyNumbers.Replace("-", "");
+            return IsPhoneNumberLengthValid(onlyNumbers.ToString());
         }
 
 

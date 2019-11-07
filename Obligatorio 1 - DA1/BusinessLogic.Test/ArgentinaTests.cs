@@ -35,7 +35,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidatePhoneNumberValidNumberWithOneHyphen()
         {
-            Assert.IsTrue(arg.IsPhoneNumberValid("1-23456"));
+            Assert.IsTrue(arg.IsPhoneNumberValid("1-2345678"));
         }
 
     }
