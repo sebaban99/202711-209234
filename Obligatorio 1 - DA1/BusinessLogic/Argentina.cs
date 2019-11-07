@@ -8,9 +8,9 @@ namespace BusinessLogic
         {
         }
 
-        public bool IsPhoneNumberValid(string phoneNumber)
+        private bool IsPhoneNumberLengthValid(string phoneNumber)
         {
-            if(phoneNumber.Length == 6 || phoneNumber.Length == 7)
+            if (phoneNumber.Length == 6 || phoneNumber.Length == 7)
             {
                 return true;
             }
@@ -18,6 +18,11 @@ namespace BusinessLogic
             {
                 return false;
             }
+        }
+
+        public bool IsPhoneNumberValid(string phoneNumber)
+        {
+            return IsPhoneNumberLengthValid(phoneNumber);
         }
 
 
