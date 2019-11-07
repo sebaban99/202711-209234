@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using BusinessLogic.Exceptions;
 
 namespace BusinessLogic
 {
@@ -24,9 +25,17 @@ namespace BusinessLogic
 
         public bool IsPhoneNumberValid(string phoneNumber)
         {
-            StringBuilder onlyNumbers = new StringBuilder(phoneNumber);
-            onlyNumbers.Replace("-", "");
-            return IsPhoneNumberLengthValid(onlyNumbers.ToString());
+            if (phoneNumber.IndexOf("-") == 0)
+            {
+                throw new BusinessException("Número de teléfono inválido, " +
+                    "guión en primera posición");
+            }
+            else
+            {
+                StringBuilder onlyNumbers = new StringBuilder(phoneNumber);
+                onlyNumbers.Replace("-", "");
+                return IsPhoneNumberLengthValid(onlyNumbers.ToString());
+            }
         }
 
 
