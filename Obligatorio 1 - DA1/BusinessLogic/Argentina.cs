@@ -23,21 +23,30 @@ namespace BusinessLogic
             }
         }
 
+        private bool IsHyphenPositionValid(string phoneNumber)
+        {
+            return phoneNumber.IndexOf("-") != 0;
+        }
+
+        private string RemoveHyphensFromString(string phoneNumber)
+        {
+            StringBuilder onlyNumbers = new StringBuilder(phoneNumber);
+            onlyNumbers.Replace("-", "");
+            return onlyNumbers.ToString();
+        }
+
         public bool IsPhoneNumberValid(string phoneNumber)
         {
-            if (phoneNumber.IndexOf("-") == 0)
+            if (IsHyphenPositionValid(phoneNumber))
             {
-                throw new BusinessException("Número de teléfono inválido, " +
-                    "guión en primera posición");
+                
+                return IsPhoneNumberLengthValid(RemoveHyphensFromString(phoneNumber));
             }
             else
             {
-                StringBuilder onlyNumbers = new StringBuilder(phoneNumber);
-                onlyNumbers.Replace("-", "");
-                return IsPhoneNumberLengthValid(onlyNumbers.ToString());
+                throw new BusinessException("Número de teléfono inválido, " +
+                         "guión en primera posición");
             }
         }
-
-
     }
 }
