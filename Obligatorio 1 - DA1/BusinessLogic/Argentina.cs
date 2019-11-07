@@ -8,9 +8,16 @@ namespace BusinessLogic
         {
         }
 
-        public void IsPhoneNumberValid(string v)
+        public bool IsPhoneNumberValid(string phoneNumber)
         {
-            throw new NotImplementedException();
+            if(phoneNumber.Length == 6)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
