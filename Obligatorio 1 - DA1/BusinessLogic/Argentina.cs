@@ -101,12 +101,12 @@ namespace BusinessLogic
             bool areMinutesValid = false;
             if (actualMessage[0].Length == 7)
             {
-                areMinutesValid =
+                areMinutesValid = ContainsNumbersOnly(actualMessage[2]) &&
                     Int32.Parse(actualMessage[2]) > 0;
             }
             else
             {
-                areMinutesValid = 
+                areMinutesValid = ContainsNumbersOnly(actualMessage[3]) &&
                     Int32.Parse(actualMessage[3]) > 0;
             }
             if (!areMinutesValid)
