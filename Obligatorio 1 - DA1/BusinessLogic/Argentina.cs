@@ -7,6 +7,8 @@ namespace BusinessLogic
 {
     public class Argentina
     {
+        private readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
+
         public Argentina() { }
 
         private bool IsPhoneNumberLengthValid(string phoneNumber)
@@ -117,6 +119,15 @@ namespace BusinessLogic
             else return true;
         }
 
+        private bool IsStartingHourValid(string[] actualMessage)
+        {
+            if(GetDateTimeNow() < MINIMUM_STARTING_HOUR)
+            {
+                throw new BusinessException("Parking cerrado, horario de 10:00 a 18:00");
+            }
+            else return true;
+        }
+
         private bool IsMessageFormatValid(string[] actualMessage)
         {
             if (actualMessage.Length == 3)
@@ -133,7 +144,8 @@ namespace BusinessLogic
             if (IsMessageFormatValid(actualMessage))
             {
                 return IsLicensePlateValid(actualMessage) &&
-                    AreMinutesValid(actualMessage);
+                    AreMinutesValid(actualMessage) &&
+                    IsStartingHourValid(actualMessage);
             }
             else
             {

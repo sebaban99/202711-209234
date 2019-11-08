@@ -228,5 +228,17 @@ namespace BusinessLogic.Test
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
             Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu1238 10:56 veinte"));
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageInvalidMessageAttemptingToBuyBefore10AM()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(9);
+            aDate = aDate.AddMinutes(59);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu1238 10:30 20"));
+        }
     }
 }
