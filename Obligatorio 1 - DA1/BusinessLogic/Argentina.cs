@@ -246,6 +246,7 @@ namespace BusinessLogic
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
+
             if (actualMessage[0].Length == 7)
             {
                 string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() + 

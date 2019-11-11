@@ -291,5 +291,29 @@ namespace BusinessLogic
                 return StringToInt(actualMessage[1]);
             }
         }
+
+        public DateTime ExtractStartingHour(string message)
+        {
+            string[] messageSplit = message.Split(new Char[] { ' ' });
+            string[] actualMessage = ObtainActualMessage(messageSplit);
+
+            IdentifyMessageFormat(actualMessage);
+
+            if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T_HHMM))
+            {
+                string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() + " " + actualMessage[3];
+                return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
+            }
+            else if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXXYYYY_T) ||
+                actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T))
+            {
+                return GetDateTimeNow();
+            }
+            else
+            {
+                string toParse = GetTodaysDate_dd_MM_yyyy_Only() + " " + actualMessage[2];
+                return DateTime.Parse(toParse, new CultureInfo("fr-FR"));
+            }
+        }
     }
 }
