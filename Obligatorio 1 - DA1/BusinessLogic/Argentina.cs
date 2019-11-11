@@ -221,6 +221,25 @@ namespace BusinessLogic
             }
         }
 
+        private int StringToInt(string number)
+        {
+            return Int32.Parse(number);
+        }
+
+        public int ExtractMinutes(string message)
+        {
+            string[] messageSplit = message.Split(new Char[] { ' ' });
+            string[] actualMessage = ObtainActualMessage(messageSplit);
+            if (actualMessage[0].Length == 7)
+            {
+                return StringToInt(actualMessage[2]);
+            }
+            else
+            {
+                return StringToInt(actualMessage[3]);
+            }
+        }
+
         public virtual DateTime GetDateTimeNow()
         {
             return DateTime.Now;

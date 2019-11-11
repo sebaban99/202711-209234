@@ -294,5 +294,17 @@ namespace BusinessLogic.Test
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
             mockedArg.Object.IsMessageValid("ACu1238 13 PM 20");
         }
+
+        [TestMethod]
+        public void ValidateMessageExtractMinutesLPWithSpace()
+        {
+            Assert.AreEqual(arg.ExtractMinutes("ACU 1238 13:00 20"), 20);
+        }
+
+        [TestMethod]
+        public void ValidateMessageExtractMinutesLPWithoutSpace()
+        {
+            Assert.AreEqual(arg.ExtractMinutes("ACU1238 13:00 20"), 20);
+        }
     }
 }
