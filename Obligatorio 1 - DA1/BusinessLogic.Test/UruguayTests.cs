@@ -383,5 +383,45 @@ namespace BusinessLogic.Test
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
             mockedUruguay.Object.IsMessageValid("AzA 1237 120 10:00 AM ");
         }
+
+        [TestMethod]
+        public void ExtractMinutesMessageType1()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.AreEqual(mockedUruguay.Object.ExtractMinutes("AzA 1237 120 10:00"), 120);
+        }
+
+        [TestMethod]
+        public void ExtractMinutesMessageType2()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.AreEqual(mockedUruguay.Object.ExtractMinutes("AzA1237 120 10:00"), 120);
+        }
+
+        [TestMethod]
+        public void ExtractMinutesMessageType3()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.AreEqual(mockedUruguay.Object.ExtractMinutes("AzA 1237 120"), 120);
+        }
+
+        [TestMethod]
+        public void ExtractMinutesMessageType4()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.AreEqual(mockedUruguay.Object.ExtractMinutes("AzA1237 120"), 120);
+        }
     }
 }

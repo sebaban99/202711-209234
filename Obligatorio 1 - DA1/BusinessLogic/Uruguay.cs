@@ -273,5 +273,23 @@ namespace BusinessLogic
                 throw new BusinessException("Mensaje incorrecto. Ej: ABC 1234 60 10:00");
             }
         }
+
+        public int ExtractMinutes(string message)
+        {
+            string[] messageSplit = message.Split(new Char[] { ' ' });
+            string[] actualMessage = ObtainActualMessage(messageSplit);
+
+            IdentifyMessageFormat(actualMessage);
+
+            if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T_HHMM) ||
+               actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T))
+            {
+                return StringToInt(actualMessage[2]);
+            }
+            else
+            {
+                return StringToInt(actualMessage[1]);
+            }
+        }
     }
 }
