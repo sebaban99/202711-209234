@@ -93,5 +93,295 @@ namespace BusinessLogic.Test
         {
             Assert.AreEqual(uy.FormatPhoneNumber("098123456"), "098 123 456");
         }
+
+        [TestMethod]
+        public void ValidateMessageType1AllValidAllSpaces()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedUruguay.Object.IsMessageValid("SBs 1234 120 13:00"));
+        }
+
+        [TestMethod]
+        public void ValidateMessageValidType2AllValidNoSpaceLicensePlate()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+           Assert.IsTrue(mockedUruguay.Object.IsMessageValid("SBs1234 120 13:00"));
+        }
+
+        [TestMethod]
+        public void ValidateMessageValidType3AllValidNoStartingTime()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedUruguay.Object.IsMessageValid("SBS 1234 120"));
+        }
+
+        [TestMethod]
+        public void ValidateMessageType4AllValidNoStartingTimeNoSpaceLicensePlate()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(13);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedUruguay.Object.IsMessageValid("SBS1234 120"));
+        }
+
+        [TestMethod]
+        public void ValidateMessageType1AllValidInvalidFormatExtraSpace()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedUruguay.Object.IsMessageValid("SBS 1234 120  13:00"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageWrongLicensePlateMissingLetters()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("1234 120 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1WrongLicensePlateInvalidFormatXXX()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("SB1 1234 120 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1WrongLicensePlateInvalidFormatYYYY()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("SBA 1T34 120 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageWrongLicensePlateMissingNumbers()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("ABs 120 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType2WrongLicensePlateXXXContainsLetters()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AB43456 120 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType2WrongLicensePlateYYYYContainsNumbers()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("rBA34u6 120 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1MinutesAreNotMultipleOf30()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 110 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1InvalidFormatStartingHourHHmmVariant1()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 9");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1InvalidFormatStartingHourHHmmVariant2()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 9:0");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1StartingHourHHmmContainsLetters()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 09:AM");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1MinutesAreZero()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 0 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1InvalidStartingHourBeforeMinimum()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 09:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType3CurrentHourBeforeMinimumHour()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(9);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120");
+        }
+
+        [TestMethod]
+        public void ValidateMessageType1AllValidStartingHourBorderCaseMinBorder()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedUruguay.Object.IsMessageValid("SBS 1234 120 10:00"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1StartingHourBorderCaseMaxBorder()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 18:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1InvalidStartingHourAfterMaximum()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 19:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType3InvalidStartingHourAfterMaximum()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA1237 120 19:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1CurrentHourAfterMaximumHour()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(19);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 15:00");
+        }
+
+        [TestMethod]
+        public void ValidateMessageType1StartingTimePlusMinutesExceedsMaximumHour()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedUruguay.Object.IsMessageValid("AzA 1237 120 17:35"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1InvalidStartingHourFormat()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 10:90");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageType1InvalidStartingHourBeforeActualHour()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(15);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 13:00");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageyInvalidStartingHourFormat12H()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(10);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedUruguay.Object.IsMessageValid("AzA 1237 120 10:00 AM ");
+        }
     }
 }

@@ -208,6 +208,7 @@ namespace BusinessLogic
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
+
             if (IsMessageFormatValid(actualMessage))
             {
                 return IsLicensePlateValid(actualMessage) &&
