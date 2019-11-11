@@ -81,5 +81,17 @@ namespace BusinessLogic.Test
         {
             uy.IsPhoneNumberValid("982 004 658");
         }
+
+        [TestMethod]
+        public void FormatPhoneNumberLength8()
+        {
+            Assert.AreEqual(uy.FormatPhoneNumber("98123 456"), "098 123 456");
+        }
+
+        [TestMethod]
+        public void FormatPhoneNumberLength9()
+        {
+            Assert.AreEqual(uy.FormatPhoneNumber("098123456"), "098 123 456");
+        }
     }
 }

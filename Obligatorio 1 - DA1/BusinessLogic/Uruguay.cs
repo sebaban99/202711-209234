@@ -9,21 +9,6 @@ namespace BusinessLogic
     {
         public Uruguay() { }
 
-        public bool IsPhoneNumberValid(string phoneNumber)
-        {
-            string actualPhoneNumber = RemoveSpacesString(phoneNumber);
-            if (ContainsNumbersOnly(actualPhoneNumber) &&
-                (PhoneNumberValidationStartingWithNine(actualPhoneNumber)
-                || PhoneNumberValidationStartingWithZero(actualPhoneNumber)))
-            {
-                return true;
-            }
-            else
-            {
-                throw new BusinessException("Formato de número de telefono incorrecto");
-            }
-        }
-
         private string RemoveSpacesString(string text)
         {
             StringBuilder stringWithoutSpaces = new StringBuilder(text);
@@ -49,6 +34,35 @@ namespace BusinessLogic
         private bool PhoneNumberValidationStartingWithZero(string aPhone)
         {
             return aPhone[0] == '0' && aPhone[1] == '9' && aPhone.Length == 9;
+        }
+
+        public bool IsPhoneNumberValid(string phoneNumber)
+        {
+            string actualPhoneNumber = RemoveSpacesString(phoneNumber);
+            if (ContainsNumbersOnly(actualPhoneNumber) &&
+                (PhoneNumberValidationStartingWithNine(actualPhoneNumber)
+                || PhoneNumberValidationStartingWithZero(actualPhoneNumber)))
+            {
+                return true;
+            }
+            else
+            {
+                throw new BusinessException("Formato de número de telefono incorrecto");
+            }
+        }
+
+        public string FormatPhoneNumber(string aPhone)
+        {
+            aPhone = RemoveSpacesString(aPhone);
+            StringBuilder formattedNumber = new StringBuilder(aPhone);
+
+            if (formattedNumber.ToString().Length == 8)
+            {
+                formattedNumber.Insert(0, 0);
+            }
+            formattedNumber.Insert(3, " ");
+            formattedNumber.Insert(7, " ");
+            return formattedNumber.ToString();
         }
     }
 }
