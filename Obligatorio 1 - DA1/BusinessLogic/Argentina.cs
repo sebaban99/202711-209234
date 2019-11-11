@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using BusinessLogic.Exceptions;
@@ -119,13 +120,78 @@ namespace BusinessLogic
             else return true;
         }
 
+        private bool IsHourValid(string hours)
+        {
+            return Int32.Parse(hours) >= 10 && Int32.Parse(hours) < 18;
+        }
+
+        private bool IsMinuteValid(string minutes)
+        {
+            return Int32.Parse(minutes) < 60;
+        }
+
+        private string GetTodaysDate_dd_MM_yyyy_Only()
+        {
+            return  GetDateTimeNow().ToString("d", new CultureInfo("fr-FR"));
+        }
+
+        private bool IsHourAfterActualHour(string hour)
+        {
+            return GetDateTimeNow() <= DateTime.Parse(GetTodaysDate_dd_MM_yyyy_Only()
+                + " " + hour, new CultureInfo("fr-FR"));
+        }
+
+        private bool IsMessageStartingHourValid(string hour)
+        {
+            if (hour.IndexOf(':') != hour.Length / 2)
+            {
+                return false;
+            }
+            else
+            {
+                string HH_half = hour.Substring(0, hour.IndexOf(':'));
+                string mm_half = hour.Substring(hour.IndexOf(':') + 1);
+
+                return HH_half.Length == 2 && mm_half.Length == 2 &&
+                    ContainsNumbersOnly(HH_half) && ContainsNumbersOnly(mm_half) &&
+                    IsHourValid(HH_half) && IsMinuteValid(mm_half) &&
+                    IsHourAfterActualHour(hour);
+            }
+        }
+
         private bool IsStartingHourValid(string[] actualMessage)
         {
-            if(GetDateTimeNow() < MINIMUM_STARTING_HOUR)
+            if (GetDateTimeNow() < MINIMUM_STARTING_HOUR)
             {
-                throw new BusinessException("Parking cerrado, horario de 10:00 a 18:00");
+                throw new BusinessException("Parking cerrado," +
+                    " horario de 10:00 a 18:00");
             }
-            else return true;
+            else
+            {
+                bool IsHourValid = false;
+                if (actualMessage[0].Length == 7)
+                {
+                    if (IsMessageStartingHourValid(actualMessage[1]))
+                    {
+                        IsHourValid = true;
+                    }
+                }
+                else
+                {
+                    if (IsMessageStartingHourValid(actualMessage[2]))
+                    {
+                        IsHourValid = true;
+                    }
+                }
+                if (!IsHourValid)
+                {
+                    throw new BusinessException("Hora inválida, " +
+                            "verifique que la hora inical sea una hora entre la" +
+                            " hora actual y las 18:00 con el formato correcto HH:mm");
+
+                }
+                else return true;
+            }
         }
 
         private bool IsMessageFormatValid(string[] actualMessage)

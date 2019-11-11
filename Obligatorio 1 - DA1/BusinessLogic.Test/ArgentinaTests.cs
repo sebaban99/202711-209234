@@ -99,6 +99,16 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
+        public void ValidateMessageValidMessageStartingHourAtActualHour()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(11);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            Assert.IsTrue(mockedArg.Object.IsMessageValid("ABC1234 11:00 50"));
+        }
+
+        [TestMethod]
         public void ValidateMessageValidMessageContainsExtraSpace()
         {
             Mock<Argentina> mockedArg = new Mock<Argentina>();
@@ -126,7 +136,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("1234 10:30 50"));
+            mockedArg.Object.IsMessageValid("1234 10:30 50");
         }
 
         [TestMethod]
@@ -137,7 +147,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("ABC 10:30 50"));
+            mockedArg.Object.IsMessageValid("ABC 10:30 50");
         }
 
         [TestMethod]
@@ -148,7 +158,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("A1C1234 10:30 50"));
+            mockedArg.Object.IsMessageValid("A1C1234 10:30 50");
         }
 
         [TestMethod]
@@ -159,7 +169,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("A1C 1234 10:30 50"));
+            mockedArg.Object.IsMessageValid("A1C 1234 10:30 50");
         }
 
         [TestMethod]
@@ -170,7 +180,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("AxC1R34 10:30 50"));
+            mockedArg.Object.IsMessageValid("AxC1R34 10:30 50");
         }
 
         [TestMethod]
@@ -181,7 +191,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu 123u 10:30 50"));
+            mockedArg.Object.IsMessageValid("ACu 123u 10:30 50");
         }
 
 
@@ -193,7 +203,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu 1238 10:30"));
+            mockedArg.Object.IsMessageValid("ACu 1238 10:30");
         }
 
         [TestMethod]
@@ -204,7 +214,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu1238 50"));
+            mockedArg.Object.IsMessageValid("ACu1238 50");
         }
 
         [TestMethod]
@@ -215,7 +225,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu1238 10:56 0"));
+            mockedArg.Object.IsMessageValid("ACu1238 10:56 0");
         }
 
         [TestMethod]
@@ -226,7 +236,7 @@ namespace BusinessLogic.Test
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu1238 10:56 veinte"));
+            mockedArg.Object.IsMessageValid("ACu1238 10:56 veinte");
         }
 
         [TestMethod]
@@ -238,7 +248,51 @@ namespace BusinessLogic.Test
             aDate = aDate.AddHours(9);
             aDate = aDate.AddMinutes(59);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
-            Assert.IsTrue(mockedArg.Object.IsMessageValid("ACu1238 10:30 20"));
+            mockedArg.Object.IsMessageValid("ACu1238 10:30 20");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageInvalidMessageAttemptingToBuyBeforeActualHour()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(11);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedArg.Object.IsMessageValid("ACu1238 10:30 20");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageInvalidMessageAttemptingToBuyAt18()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(11);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedArg.Object.IsMessageValid("ACu1238 18:00 20");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageInvalidMessageAttemptingToBuyAfter18()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(11);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedArg.Object.IsMessageValid("ACu1238 19:00 20");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
+        public void ValidateMessageInvalidMessageHourIn12HFormat()
+        {
+            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(11);
+            mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            mockedArg.Object.IsMessageValid("ACu1238 13 PM 20");
         }
     }
 }
