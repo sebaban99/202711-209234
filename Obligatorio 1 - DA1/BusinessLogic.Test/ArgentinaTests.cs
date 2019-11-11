@@ -306,5 +306,21 @@ namespace BusinessLogic.Test
         {
             Assert.AreEqual(arg.ExtractMinutes("ACU1238 13:00 20"), 20);
         }
+
+        [TestMethod]
+        public void ValidateMessageExtractStartingHourLPWithSpace()
+        {
+            DateTime startingHour = DateTime.Today;
+            startingHour = startingHour.AddHours(13);
+            Assert.AreEqual(arg.ExtractStartingHour("ACU 1238 13:00 20"), startingHour);
+        }
+
+        [TestMethod]
+        public void ValidateMessageExtractStartingHourLPWithoutSpace()
+        {
+            DateTime startingHour = DateTime.Today;
+            startingHour = startingHour.AddHours(13);
+            Assert.AreEqual(arg.ExtractStartingHour("ACU1238 13:00 20"), startingHour);
+        }
     }
 }

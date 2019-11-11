@@ -240,6 +240,24 @@ namespace BusinessLogic
             }
         }
 
+        public DateTime ExtractStartingHour(string message)
+        {
+            string[] messageSplit = message.Split(new Char[] { ' ' });
+            string[] actualMessage = ObtainActualMessage(messageSplit);
+            if (actualMessage[0].Length == 7)
+            {
+                string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() + 
+                    " " + actualMessage[1];
+                return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
+            }
+            else
+            {
+                string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() + 
+                    " " + actualMessage[2];
+                return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
+            }
+        }
+
         public virtual DateTime GetDateTimeNow()
         {
             return DateTime.Now;
