@@ -25,6 +25,20 @@ namespace BusinessLogic
                 phoneNumber.IndexOf("-") != phoneNumber.Length - 1;
         }
 
+        private bool Contains2HyphensInARow(string phoneNumber)
+        {
+            bool areInRow = false;
+            for(int i = 0; i < phoneNumber.Length && !areInRow; i++)
+            {
+                if(i != phoneNumber.Length - 1)
+                {
+                    areInRow = phoneNumber[i].Equals('-') &&
+                        phoneNumber[i + 1].Equals('-');
+                }
+            }
+            return areInRow;
+        }
+
         private string RemoveHyphensFromString(string phoneNumber)
         {
             StringBuilder onlyNumbers = new StringBuilder(phoneNumber);
@@ -35,6 +49,7 @@ namespace BusinessLogic
         public bool IsPhoneNumberValid(string phoneNumber)
         {
             if (IsHyphenPositionValid(phoneNumber) &&
+                !Contains2HyphensInARow(phoneNumber) &&
                 IsPhoneNumberLengthValid(RemoveHyphensFromString(phoneNumber)))
             {
                 return true;
@@ -42,7 +57,8 @@ namespace BusinessLogic
             else
             {
                 throw new BusinessException("Número de teléfono inválido, " +
-                         "guión en primera posición");
+                    "verifique que no contenga giones en primera o última " +
+                    "posición, o seguidos");
             }
         }
 
@@ -142,7 +158,7 @@ namespace BusinessLogic
                 + " " + hour, new CultureInfo("fr-FR"));
         }
 
-        private bool IsMessageStartingHourValid(string hour)
+        private bool IsHourFormatValid(string hour)
         {
             if (hour.IndexOf(':') != hour.Length / 2)
             {
@@ -172,14 +188,14 @@ namespace BusinessLogic
                 bool IsHourValid = false;
                 if (actualMessage[0].Length == 7)
                 {
-                    if (IsMessageStartingHourValid(actualMessage[1]))
+                    if (IsHourFormatValid(actualMessage[1]))
                     {
                         IsHourValid = true;
                     }
                 }
                 else
                 {
-                    if (IsMessageStartingHourValid(actualMessage[2]))
+                    if (IsHourFormatValid(actualMessage[2]))
                     {
                         IsHourValid = true;
                     }
@@ -206,14 +222,13 @@ namespace BusinessLogic
 
         public bool IsMessageValid(string message)
         {
-            string[] messageSplit = message.Split(new Char[] { ' ' });
-            string[] actualMessage = ObtainActualMessage(messageSplit);
+            string[] messageInArray = MessageToArray(message);
 
-            if (IsMessageFormatValid(actualMessage))
+            if (IsMessageFormatValid(messageInArray))
             {
-                return IsLicensePlateValid(actualMessage) &&
-                    AreMinutesValid(actualMessage) &&
-                    IsStartingHourValid(actualMessage);
+                return IsLicensePlateValid(messageInArray) &&
+                    AreMinutesValid(messageInArray) &&
+                    IsStartingHourValid(messageInArray);
             }
             else
             {
@@ -230,34 +245,14 @@ namespace BusinessLogic
 
         public int ExtractMinutes(string message)
         {
-            string[] messageSplit = message.Split(new Char[] { ' ' });
-            string[] actualMessage = ObtainActualMessage(messageSplit);
-            if (actualMessage[0].Length == 7)
+            string[] messageInArray = MessageToArray(message);
+            if (messageInArray[0].Length == 7)
             {
-                return StringToInt(actualMessage[2]);
+                return StringToInt(messageInArray[2]);
             }
             else
             {
-                return StringToInt(actualMessage[3]);
-            }
-        }
-
-        public DateTime ExtractStartingHour(string message)
-        {
-            string[] messageSplit = message.Split(new Char[] { ' ' });
-            string[] actualMessage = ObtainActualMessage(messageSplit);
-
-            if (actualMessage[0].Length == 7)
-            {
-                string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() + 
-                    " " + actualMessage[1];
-                return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
-            }
-            else
-            {
-                string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() + 
-                    " " + actualMessage[2];
-                return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
+                return StringToInt(messageInArray[3]);
             }
         }
 
@@ -270,6 +265,24 @@ namespace BusinessLogic
                 return MAXIMUM_HOUR;
             }
             else return finishingHour;
+        }
+
+        public DateTime ExtractStartingHour(string message)
+        {
+            string[] messageInArray = MessageToArray(message);
+
+            if (messageInArray[0].Length == 7)
+            {
+                string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() +
+                    " " + messageInArray[1];
+                return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
+            }
+            else
+            {
+                string dateToParse = GetTodaysDate_dd_MM_yyyy_Only() +
+                    " " + messageInArray[2];
+                return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
+            }
         }
 
         private string FormatLicensePlate(string[] messageSplit)
@@ -290,9 +303,14 @@ namespace BusinessLogic
 
         public string ExtractLicensePlate(string message)
         {
+            string[] messageInArray = MessageToArray(message);
+            return FormatLicensePlate(messageInArray);
+        }
+
+        public string[] MessageToArray(string message)
+        {
             string[] messageSplit = message.Split(new Char[] { ' ' });
-            string[] actualMessage = ObtainActualMessage(messageSplit);
-            return FormatLicensePlate(actualMessage);
+            return ObtainActualMessage(messageSplit);
         }
 
         public virtual DateTime GetDateTimeNow()
