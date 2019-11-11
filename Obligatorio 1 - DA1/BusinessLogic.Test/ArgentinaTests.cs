@@ -341,6 +341,33 @@ namespace BusinessLogic.Test
             Assert.AreEqual(arg.ExtractFinishingHour("ACU1238 13:00 20"), finishingHour);
         }
 
+        [TestMethod]
+        public void ExtractFinishingHourMaximumHourFromValidMessageLPWithSpace()
+        {
+            DateTime finishingHour = DateTime.Today;
+            finishingHour = finishingHour.AddHours(18);
+            Assert.AreEqual(arg.ExtractFinishingHour("ACU 1238 16:40 80"), finishingHour);
+        }
+
+        [TestMethod]
+        public void ExtractFinishingHourMaximumHourFromValidMessageLPWithoutSpace()
+        {
+            DateTime finishingHour = DateTime.Today;
+            finishingHour = finishingHour.AddHours(18);
+            Assert.AreEqual(arg.ExtractFinishingHour("ACU1238 16:40 80"), finishingHour);
+        }
+
+        [TestMethod]
+        public void ExtractLicensePlateFromValidMessageLPWithSpace()
+        {
+            Assert.AreEqual(arg.ExtractLicensePlate("AcU 1238 16:40 80"), "ACU 1238");
+        }
+
+        [TestMethod]
+        public void ExtractLicensePlateFromValidMessageLPWithoutSpace()
+        {
+            Assert.AreEqual(arg.ExtractLicensePlate("aCU1238 16:40 80"), "ACU 1238");
+        }
 
     }
 }
