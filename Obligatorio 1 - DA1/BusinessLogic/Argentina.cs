@@ -9,6 +9,7 @@ namespace BusinessLogic
     public class Argentina
     {
         private readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
+        private readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
 
         public Argentina() { }
 
@@ -256,6 +257,17 @@ namespace BusinessLogic
                     " " + actualMessage[2];
                 return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
             }
+        }
+
+        public DateTime ExtractFinishingHour(string message)
+        {
+            DateTime finishingHour = ExtractStartingHour(message);
+            finishingHour = finishingHour.AddMinutes(ExtractMinutes(message));
+            if (finishingHour > MAXIMUM_HOUR)
+            {
+                return MAXIMUM_HOUR;
+            }
+            else return finishingHour;
         }
 
         public virtual DateTime GetDateTimeNow()

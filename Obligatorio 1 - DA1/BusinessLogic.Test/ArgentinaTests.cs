@@ -296,19 +296,19 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ValidateMessageExtractMinutesLPWithSpace()
+        public void ExtractMinutesFromValidMessageLPWithSpace()
         {
             Assert.AreEqual(arg.ExtractMinutes("ACU 1238 13:00 20"), 20);
         }
 
         [TestMethod]
-        public void ValidateMessageExtractMinutesLPWithoutSpace()
+        public void ExtractMinutesFromValidMessageLPWithoutSpace()
         {
             Assert.AreEqual(arg.ExtractMinutes("ACU1238 13:00 20"), 20);
         }
 
         [TestMethod]
-        public void ValidateMessageExtractStartingHourLPWithSpace()
+        public void ExtractStartingHourFromValidMessageLPWithSpace()
         {
             DateTime startingHour = DateTime.Today;
             startingHour = startingHour.AddHours(13);
@@ -316,11 +316,31 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ValidateMessageExtractStartingHourLPWithoutSpace()
+        public void ExtractStartingHourFromValidMessageLPWithoutSpace()
         {
             DateTime startingHour = DateTime.Today;
             startingHour = startingHour.AddHours(13);
             Assert.AreEqual(arg.ExtractStartingHour("ACU1238 13:00 20"), startingHour);
         }
+
+        [TestMethod]
+        public void ExtractFinishingHourFromValidMessageLPWithSpace()
+        {
+            DateTime finishingHour = DateTime.Today;
+            finishingHour = finishingHour.AddHours(13);
+            finishingHour = finishingHour.AddMinutes(20);
+            Assert.AreEqual(arg.ExtractFinishingHour("ACU 1238 13:00 20"), finishingHour);
+        }
+
+        [TestMethod]
+        public void ExtractFinishingHourFromValidMessageLPWithoutSpace()
+        {
+            DateTime finishingHour = DateTime.Today;
+            finishingHour = finishingHour.AddHours(13);
+            finishingHour = finishingHour.AddMinutes(20);
+            Assert.AreEqual(arg.ExtractFinishingHour("ACU1238 13:00 20"), finishingHour);
+        }
+
+
     }
 }
