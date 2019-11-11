@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Argentina.cs" />
     <Compile Include="Domain\Account.cs" />
     <Compile Include="Exceptions\BusinessException.cs" />
     <Compile Include="Domain\Parking.cs" />
