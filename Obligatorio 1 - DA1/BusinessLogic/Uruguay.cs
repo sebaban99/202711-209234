@@ -326,5 +326,28 @@ namespace BusinessLogic
             }
             else return finishingHour;
         }
+
+        private string FormatLicensePlate(string[] messageSplit)
+        {
+            if (messageSplit[0].Length == 7)
+            {
+                StringBuilder licensePlateToExtract = new StringBuilder(messageSplit[0]);
+                licensePlateToExtract.Replace(licensePlateToExtract.ToString().Substring(0, 3),
+                    licensePlateToExtract.ToString().Substring(0, 3).ToUpper().Trim());
+                licensePlateToExtract.Insert(3, " ");
+                return licensePlateToExtract.ToString();
+            }
+            else
+            {
+                return messageSplit[0].ToUpper().Trim() + " " + messageSplit[1];
+            }
+        }
+
+        public string ExtractLicensePlate(string message)
+        {
+            string[] messageSplit = message.Split(new Char[] { ' ' });
+            string[] actualMessage = ObtainActualMessage(messageSplit);
+            return FormatLicensePlate(actualMessage);
+        }
     }
 }

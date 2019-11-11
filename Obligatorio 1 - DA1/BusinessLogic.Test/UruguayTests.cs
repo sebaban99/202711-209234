@@ -385,31 +385,31 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExtractMinutesMessageType1()
+        public void ExtractMinutesFromValidMessageType1()
         {
             Assert.AreEqual(uy.ExtractMinutes("AzA 1237 120 10:00"), 120);
         }
 
         [TestMethod]
-        public void ExtractMinutesMessageType2()
+        public void ExtractMinutesFromValidMessageType2()
         {
             Assert.AreEqual(uy.ExtractMinutes("AzA1237 120 10:00"), 120);
         }
 
         [TestMethod]
-        public void ExtractMinutesMessageType3()
+        public void ExtractMinutesFromValidMessageType3()
         {
             Assert.AreEqual(uy.ExtractMinutes("AzA 1237 120"), 120);
         }
 
         [TestMethod]
-        public void ExtractMinutesMessageType4()
+        public void ExtractMinutesFromValidMessageType4()
         {
             Assert.AreEqual(uy.ExtractMinutes("AzA1237 120"), 120);
         }
 
         [TestMethod]
-        public void ExtractStartingHourMessageType1()
+        public void ExtractStartingHourFromValidMessageType1()
         {
             DateTime startingHour = DateTime.Today;
             startingHour = startingHour.AddHours(11);
@@ -417,7 +417,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExtractStartingHourMessageType2()
+        public void ExtractStartingHourFromValidMessageType2()
         {
             DateTime startingHour = DateTime.Today;
             startingHour = startingHour.AddHours(11);
@@ -425,7 +425,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExtractStartingHourType3()
+        public void ExtractStartingHourFromValidMessageType3()
         {
             Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
             DateTime aDate = DateTime.Today;
@@ -435,7 +435,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExtractStartingHourMessageType4()
+        public void ExtractStartingHourFromValidMessageType4()
         {
             Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
             DateTime aDate = DateTime.Today;
@@ -445,7 +445,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExtractFinishingHourMessageType1()
+        public void ExtractFinishingHourFromValidMessageType1()
         {
             DateTime finishingHour = DateTime.Today;
             finishingHour = finishingHour.AddHours(13);
@@ -453,7 +453,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExtractFinishingHourMessageType2()
+        public void ExtractFinishingHourFromValidMessageType2()
         {
             DateTime finishingHour = DateTime.Today;
             finishingHour = finishingHour.AddHours(13);
@@ -461,7 +461,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExtractFinishingHourMessageType3()
+        public void ExtractFinishingHourFromValidMessageType3()
         {
             Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
             DateTime aDate = DateTime.Today;
@@ -473,7 +473,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ExtractFinishingHourMessageType4()
+        public void ExtractFinishingHourFromValidMessageType4()
         {
             Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
             DateTime aDate = DateTime.Today;
@@ -484,6 +484,28 @@ namespace BusinessLogic.Test
             Assert.AreEqual(mockedUruguay.Object.ExtractFinishingHour("AzA1237 120"), finishingHour);
         }
 
+        [TestMethod]
+        public void ExtractLicensePlateFromValidMessageType1()
+        {
+            Assert.AreEqual(uy.ExtractLicensePlate("AcU 1238 90 10:30"), "ACU 1238");
+        }
 
+        [TestMethod]
+        public void ExtractLicensePlateFromValidMessageType2()
+        {
+            Assert.AreEqual(uy.ExtractLicensePlate("aCU1238 10:30 180"), "ACU 1238");
+        }
+
+        [TestMethod]
+        public void ExtractLicensePlateFromValidMessageType3()
+        {
+            Assert.AreEqual(uy.ExtractLicensePlate("aCU 1238 90"), "ACU 1238");
+        }
+
+        [TestMethod]
+        public void ExtractLicensePlateFromValidMessageType4()
+        {
+            Assert.AreEqual(uy.ExtractLicensePlate("aCU1238 90"), "ACU 1238");
+        }
     }
 }

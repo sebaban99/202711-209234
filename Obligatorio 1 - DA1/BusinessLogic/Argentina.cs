@@ -293,7 +293,6 @@ namespace BusinessLogic
             string[] messageSplit = message.Split(new Char[] { ' ' });
             string[] actualMessage = ObtainActualMessage(messageSplit);
             return FormatLicensePlate(actualMessage);
-
         }
 
         public virtual DateTime GetDateTimeNow()
