@@ -315,5 +315,16 @@ namespace BusinessLogic
                 return DateTime.Parse(toParse, new CultureInfo("fr-FR"));
             }
         }
+
+        public DateTime ExtractFinishingHour(string message)
+        {
+            DateTime finishingHour = ExtractStartingHour(message);
+            finishingHour = finishingHour.AddMinutes(ExtractMinutes(message));
+            if (finishingHour > MAXIMUM_HOUR)
+            {
+                return MAXIMUM_HOUR;
+            }
+            else return finishingHour;
+        }
     }
 }

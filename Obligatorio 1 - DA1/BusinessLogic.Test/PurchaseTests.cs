@@ -342,14 +342,5 @@ namespace BusinessLogic.Test
             mockedPurchase.Setup(m => m.GetDateTimeNow()).Returns(aDate);
             mockedPurchase.Object.SetPurchaseProperties("AzA 1237 120 10:00 AM ");
         }
-
-        [TestMethod]
-        public void GetDateTimeNowTest()
-        {
-            Purchase aPurchase = new Purchase();
-
-            Assert.AreEqual(DateTime.Now, aPurchase.GetDateTimeNow());
-
-        }
     }
 }

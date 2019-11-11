@@ -443,5 +443,47 @@ namespace BusinessLogic.Test
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
             Assert.AreEqual(mockedUruguay.Object.ExtractStartingHour("AzA1237 120"), aDate);
         }
+
+        [TestMethod]
+        public void ExtractFinishingHourMessageType1()
+        {
+            DateTime finishingHour = DateTime.Today;
+            finishingHour = finishingHour.AddHours(13);
+            Assert.AreEqual(uy.ExtractFinishingHour("AzA 1237 120 11:00"), finishingHour);
+        }
+
+        [TestMethod]
+        public void ExtractFinishingHourMessageType2()
+        {
+            DateTime finishingHour = DateTime.Today;
+            finishingHour = finishingHour.AddHours(13);
+            Assert.AreEqual(uy.ExtractFinishingHour("AzA1237 120 11:00"), finishingHour);
+        }
+
+        [TestMethod]
+        public void ExtractFinishingHourMessageType3()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(11);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            DateTime finishingHour = DateTime.Today;
+            finishingHour = finishingHour.AddHours(13);
+            Assert.AreEqual(mockedUruguay.Object.ExtractFinishingHour("AzA 1237 120"), finishingHour);
+        }
+
+        [TestMethod]
+        public void ExtractFinishingHourMessageType4()
+        {
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            DateTime aDate = DateTime.Today;
+            aDate = aDate.AddHours(17);
+            mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
+            DateTime finishingHour = DateTime.Today;
+            finishingHour = finishingHour.AddHours(18);
+            Assert.AreEqual(mockedUruguay.Object.ExtractFinishingHour("AzA1237 120"), finishingHour);
+        }
+
+
     }
 }
