@@ -76,6 +76,13 @@ namespace BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]
+        public void ValidatePhoneNumberInvalidNumber2HyphensInARow()
+        {
+            arg.IsPhoneNumberValid("12-344--567");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BusinessException))]
         public void ValidatePhoneNumberInvalidNumberLengthLessThanMinimum()
         {
             arg.IsPhoneNumberValid("1234-8");

@@ -67,6 +67,7 @@
     <Compile Include="ParkingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseTests.cs" />
+    <Compile Include="UruguayTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
