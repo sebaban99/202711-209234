@@ -6,11 +6,8 @@ using BusinessLogic.Exceptions;
 
 namespace BusinessLogic
 {
-    public class Argentina
+    public class Argentina : Pais
     {
-        private readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
-        private readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
-
         public Argentina() { }
 
         private bool IsPhoneNumberLengthValid(string phoneNumber)
@@ -46,7 +43,7 @@ namespace BusinessLogic
             return onlyNumbers.ToString();
         }
 
-        public bool IsPhoneNumberValid(string phoneNumber)
+        public override bool IsPhoneNumberValid(string phoneNumber)
         {
             if (IsHyphenPositionValid(phoneNumber) &&
                 !Contains2HyphensInARow(phoneNumber) &&
@@ -62,61 +59,7 @@ namespace BusinessLogic
             }
         }
 
-        private string[] ObtainActualMessage(string[] messageSplit)
-        {
-            int notEmptyStrings = 0;
-            foreach (string s in messageSplit)
-            {
-                if (s != "")
-                {
-                    notEmptyStrings++;
-                }
-            }
-            string[] actualMessage = new string[notEmptyStrings];
-            int actualMessageIndex = 0;
-            foreach (string s in messageSplit)
-            {
-                if (s != "")
-                {
-                    actualMessage[actualMessageIndex] = string.Copy(s);
-                    actualMessageIndex++;
-                }
-            }
-            return actualMessage;
-        }
-
-        private bool ContainsLettersOnly(string message)
-        {
-            return Regex.IsMatch(message, @"^[a-zA-Z]+$");
-        }
-
-        private bool ContainsNumbersOnly(string message)
-        {
-            return Regex.IsMatch(message, @"^[0-9]+$");
-        }
-
-        private bool IsLicensePlateValid(string[] actualMessage)
-        {
-            bool isLicensePlateValid = false;
-            if (actualMessage[0].Length == 7)
-            {
-                 isLicensePlateValid = 
-                    ContainsLettersOnly(actualMessage[0].Substring(0, 3)) &&
-                    ContainsNumbersOnly(actualMessage[0].Substring(3));
-            }
-            else if (actualMessage[0].Length == 3 && actualMessage[1].Length == 4)
-            {
-                isLicensePlateValid = ContainsLettersOnly(actualMessage[0]) &&
-                    ContainsNumbersOnly(actualMessage[1]);
-            }
-            if (!isLicensePlateValid)
-            {
-                throw new BusinessException("Formato de licencia incorrecto");
-            }
-            else return true;
-        }
-
-        private bool AreMinutesValid(string[] actualMessage)
+        public override bool AreMinutesValid(string[] actualMessage)
         {
             bool areMinutesValid = false;
             if (actualMessage[0].Length == 7)
@@ -137,46 +80,7 @@ namespace BusinessLogic
             else return true;
         }
 
-        private bool IsHourValid(string hours)
-        {
-            return Int32.Parse(hours) >= 10 && Int32.Parse(hours) < 18;
-        }
-
-        private bool IsMinuteValid(string minutes)
-        {
-            return Int32.Parse(minutes) < 60;
-        }
-
-        private string GetTodaysDate_dd_MM_yyyy_Only()
-        {
-            return  GetDateTimeNow().ToString("d", new CultureInfo("fr-FR"));
-        }
-
-        private bool IsHourAfterActualHour(string hour)
-        {
-            return GetDateTimeNow() <= DateTime.Parse(GetTodaysDate_dd_MM_yyyy_Only()
-                + " " + hour, new CultureInfo("fr-FR"));
-        }
-
-        private bool IsHourFormatValid(string hour)
-        {
-            if (hour.IndexOf(':') != hour.Length / 2)
-            {
-                return false;
-            }
-            else
-            {
-                string HH_half = hour.Substring(0, hour.IndexOf(':'));
-                string mm_half = hour.Substring(hour.IndexOf(':') + 1);
-
-                return HH_half.Length == 2 && mm_half.Length == 2 &&
-                    ContainsNumbersOnly(HH_half) && ContainsNumbersOnly(mm_half) &&
-                    IsHourValid(HH_half) && IsMinuteValid(mm_half) &&
-                    IsHourAfterActualHour(hour);
-            }
-        }
-
-        private bool IsStartingHourValid(string[] actualMessage)
+        public override bool IsStartingHourValid(string[] actualMessage)
         {
             if (GetDateTimeNow() < MINIMUM_STARTING_HOUR)
             {
@@ -220,9 +124,9 @@ namespace BusinessLogic
             else return actualMessage.Length == 4;
         }
 
-        public bool IsMessageValid(string message)
+        public override bool IsMessageValid(string message)
         {
-            string[] messageInArray = MessageToArray(message);
+            string[] messageInArray = base.MessageToArray(message);
 
             if (IsMessageFormatValid(messageInArray))
             {
@@ -238,12 +142,7 @@ namespace BusinessLogic
             }
         }
 
-        private int StringToInt(string number)
-        {
-            return Int32.Parse(number);
-        }
-
-        public int ExtractMinutes(string message)
+        public override int ExtractMinutes(string message)
         {
             string[] messageInArray = MessageToArray(message);
             if (messageInArray[0].Length == 7)
@@ -256,18 +155,7 @@ namespace BusinessLogic
             }
         }
 
-        public DateTime ExtractFinishingHour(string message)
-        {
-            DateTime finishingHour = ExtractStartingHour(message);
-            finishingHour = finishingHour.AddMinutes(ExtractMinutes(message));
-            if (finishingHour > MAXIMUM_HOUR)
-            {
-                return MAXIMUM_HOUR;
-            }
-            else return finishingHour;
-        }
-
-        public DateTime ExtractStartingHour(string message)
+        public override DateTime ExtractStartingHour(string message)
         {
             string[] messageInArray = MessageToArray(message);
 
@@ -283,39 +171,6 @@ namespace BusinessLogic
                     " " + messageInArray[2];
                 return DateTime.Parse(dateToParse, new CultureInfo("fr-FR"));
             }
-        }
-
-        private string FormatLicensePlate(string[] messageSplit)
-        {
-            if (messageSplit[0].Length == 7)
-            {
-                StringBuilder licensePlateToExtract = new StringBuilder(messageSplit[0]);
-                licensePlateToExtract.Replace(licensePlateToExtract.ToString().Substring(0, 3),
-                    licensePlateToExtract.ToString().Substring(0, 3).ToUpper().Trim());
-                licensePlateToExtract.Insert(3, " ");
-                return licensePlateToExtract.ToString();
-            }
-            else
-            {
-                return messageSplit[0].ToUpper().Trim() + " " + messageSplit[1];
-            }
-        }
-
-        public string ExtractLicensePlate(string message)
-        {
-            string[] messageInArray = MessageToArray(message);
-            return FormatLicensePlate(messageInArray);
-        }
-
-        public string[] MessageToArray(string message)
-        {
-            string[] messageSplit = message.Split(new Char[] { ' ' });
-            return ObtainActualMessage(messageSplit);
-        }
-
-        public virtual DateTime GetDateTimeNow()
-        {
-            return DateTime.Now;
         }
     }
 }
