@@ -19,11 +19,25 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        public void CreateParking()
+        public void CreateParkingActualCountryArgentina()
         {
+            Country arg = new Argentina();
+            aParking.ActualCountry = arg;
             Assert.AreEqual(aParking.GetAllAccounts().Count, 0);
             Assert.AreEqual(aParking.GetAllPurchases().Count, 0);
             Assert.AreEqual(aParking.CostPerMinute, 1);
+            Assert.AreEqual(aParking.ActualCountry, arg);
+        }
+
+        [TestMethod]
+        public void CreateParkingActualCountryUruguay()
+        {
+            Country uy = new Uruguay();
+            aParking.ActualCountry = uy;
+            Assert.AreEqual(aParking.GetAllAccounts().Count, 0);
+            Assert.AreEqual(aParking.GetAllPurchases().Count, 0);
+            Assert.AreEqual(aParking.CostPerMinute, 1);
+            Assert.AreEqual(aParking.ActualCountry, uy);
         }
 
         [TestMethod]
@@ -88,126 +102,6 @@ namespace BusinessLogic.Test
             aParking.AddAccount(anAccount);
 
             Account theAccount = aParking.RetrieveAccount("098 740 956");
-        }
-
-        [TestMethod]
-        public void ValidatePhoneNumberWithSpaceAndZero()
-        {
-            Assert.IsTrue(aParking.IsNumberPhoneValid("098 204 265"));
-        }
-
-        [TestMethod]
-        public void ValidatePhoneNumberWithZeroAndWithoutSpace()
-        {
-            Assert.IsTrue(aParking.IsNumberPhoneValid("098204265"));
-        }
-
-        [TestMethod]
-        public void ValidatePhoneNumberWithSpaceAndWithoutZero()
-        {
-            Assert.IsTrue(aParking.IsNumberPhoneValid("98 204 265"));
-        }
-
-        [TestMethod]
-        public void ValidatePhoneNumberWithoutSpaceAndWithoutZero()
-        {
-            Assert.IsTrue(aParking.IsNumberPhoneValid("98204265"));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidatePhoneNumberStaringWithZeroNotFollowedByNine()
-        {
-            aParking.IsNumberPhoneValid("082 042 656");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidatePhoneNumberNotStaringWithZeroNorNine()
-        {
-            aParking.IsNumberPhoneValid("82 042 656");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidatePhoneNumberTooManyNumbers()
-        {
-            aParking.IsNumberPhoneValid("9820426568435131");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidatePhoneNumberNotEnoughNumbers()
-        {
-            aParking.IsNumberPhoneValid("98204");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidatePhoneNumberContainsLetters()
-        {
-            aParking.IsNumberPhoneValid("098 740 mal");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidatePhoneStartWithNineInvalidLength()
-        {
-            aParking.IsNumberPhoneValid("982 004 658");
-        }
-
-        [TestMethod]
-        public void ValidateLicensePlateValidLicensePlateXXX_YYYY()
-        {
-            Assert.IsTrue(aParking.IsLicensePlateValid("SBA 1234"));
-        }
-
-        [TestMethod]
-        public void ValidateLicensePlateValidLicensePlateXXXYYYY()
-        {
-            Assert.IsTrue(aParking.IsLicensePlateValid("SbA1234"));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlateWrongLicensePlateMissingLetters()
-        {
-            aParking.IsLicensePlateValid("1234");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlateWrongLicensePlateInvalidFormatXXX()
-        {
-            aParking.IsLicensePlateValid("SB1 1234");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlateWrongLicensePlateInvalidFormatYYYY()
-        {
-            aParking.IsLicensePlateValid("SBA 1T34");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlateWrongLicensePlateMissingNumbers()
-        {
-            aParking.IsLicensePlateValid("ABs");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlateWrongLicensePlateXXXContainsLetters()
-        {
-            aParking.IsLicensePlateValid("AB43456");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void ValidateLicensePlateWrongLicensePlateYYYYContainsNumbers()
-        {
-            aParking.IsLicensePlateValid("rBA34u6");
         }
 
         [TestMethod]
@@ -461,18 +355,6 @@ namespace BusinessLogic.Test
             aParking.MakePurchase("098 740 956", mockedPurchase.Object);
 
             Assert.IsTrue(aParking.IsPurchaseActive("SBT 4505", DateTime.Today.AddHours(10)));
-        }
-
-        [TestMethod]
-        public void FormatPhoneNumberTestValidPhoneLength8()
-        {
-            Assert.AreEqual(aParking.FormatPhoneNumber("98123 456"), "098 123 456");
-        }
-
-        [TestMethod]
-        public void FormatPhoneNumberTestValidPhoneLength9()
-        {
-            Assert.AreEqual(aParking.FormatPhoneNumber("098123456"), "098 123 456");
         }
     }
 }
