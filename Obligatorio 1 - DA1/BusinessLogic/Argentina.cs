@@ -6,7 +6,7 @@ using BusinessLogic.Exceptions;
 
 namespace BusinessLogic
 {
-    public class Argentina : Pais
+    public class Argentina : Country
     {
         public Argentina() { }
 

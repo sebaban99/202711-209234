@@ -6,7 +6,7 @@ using BusinessLogic.Exceptions;
 
 namespace BusinessLogic
 {
-    public class Uruguay : Pais
+    public class Uruguay : Country
     {
         private const string MESSAGE_FORMAT_XXX_YYYY_T_HHMM = "tipo 1";
         private const string MESSAGE_FORMAT_XXXYYYY_T_HHMM = "tipo 2";

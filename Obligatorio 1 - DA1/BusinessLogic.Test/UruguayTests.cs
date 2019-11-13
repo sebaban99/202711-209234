@@ -97,7 +97,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageType1AllValidAllSpaces()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(13);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -107,7 +107,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageValidType2AllValidNoSpaceLicensePlate()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(13);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -117,7 +117,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageValidType3AllValidNoStartingTime()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(13);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -127,7 +127,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageType4AllValidNoStartingTimeNoSpaceLicensePlate()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(13);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -137,7 +137,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageType1AllValidInvalidFormatExtraSpace()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -148,7 +148,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageWrongLicensePlateMissingLetters()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -159,7 +159,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1WrongLicensePlateInvalidFormatXXX()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -170,7 +170,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1WrongLicensePlateInvalidFormatYYYY()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -181,7 +181,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageWrongLicensePlateMissingNumbers()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -192,7 +192,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType2WrongLicensePlateXXXContainsLetters()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -203,7 +203,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType2WrongLicensePlateYYYYContainsNumbers()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -214,7 +214,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1MinutesAreNotMultipleOf30()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -225,7 +225,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1InvalidFormatStartingHourHHmmVariant1()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -236,7 +236,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1InvalidFormatStartingHourHHmmVariant2()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -247,7 +247,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1StartingHourHHmmContainsLetters()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -258,7 +258,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1MinutesAreZero()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -269,7 +269,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1InvalidStartingHourBeforeMinimum()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -280,7 +280,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType3CurrentHourBeforeMinimumHour()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(9);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -290,7 +290,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageType1AllValidStartingHourBorderCaseMinBorder()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -301,7 +301,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1StartingHourBorderCaseMaxBorder()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -312,7 +312,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1InvalidStartingHourAfterMaximum()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -323,7 +323,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType3InvalidStartingHourAfterMaximum()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -334,7 +334,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1CurrentHourAfterMaximumHour()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(19);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -344,7 +344,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageType1StartingTimePlusMinutesExceedsMaximumHour()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -355,7 +355,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1InvalidStartingHourFormat()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -366,7 +366,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageType1InvalidStartingHourBeforeActualHour()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(15);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -377,7 +377,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageyInvalidStartingHourFormat12H()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -427,7 +427,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ExtractStartingHourFromValidMessageType3()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(11);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -437,7 +437,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ExtractStartingHourFromValidMessageType4()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(11);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -463,7 +463,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ExtractFinishingHourFromValidMessageType3()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(11);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -475,7 +475,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ExtractFinishingHourFromValidMessageType4()
         {
-            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>();
+            Mock<Uruguay> mockedUruguay = new Mock<Uruguay>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(17);
             mockedUruguay.Setup(m => m.GetDateTimeNow()).Returns(aDate);
