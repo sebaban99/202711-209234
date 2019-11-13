@@ -15,7 +15,10 @@ namespace BusinessLogic
 
         private string actualMessageFormat;
 
-        public Uruguay() { }
+        public Uruguay() {
+
+            countryTag = "UY";
+        }
 
         private string RemoveSpacesString(string text)
         {
@@ -49,7 +52,7 @@ namespace BusinessLogic
             }
         }
 
-        public string FormatPhoneNumber(string aPhone)
+        public override string FormatPhoneNumber(string aPhone)
         {
             aPhone = RemoveSpacesString(aPhone);
             StringBuilder formattedNumber = new StringBuilder(aPhone);
@@ -102,7 +105,7 @@ namespace BusinessLogic
             }
         }
 
-        public override bool AreMinutesValid(string[] actualMessage)
+        protected override bool AreMinutesValid(string[] actualMessage)
         {
             if (actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T_HHMM) ||
                actualMessageFormat.Equals(MESSAGE_FORMAT_XXX_YYYY_T))
@@ -115,7 +118,7 @@ namespace BusinessLogic
             }
         }
 
-        public override bool IsStartingHourValid(string[] actualMessage)
+        protected override bool IsStartingHourValid(string[] actualMessage)
         {
             if (GetDateTimeNow() < MINIMUM_STARTING_HOUR ||
                 GetDateTimeNow() >= MAXIMUM_HOUR)
