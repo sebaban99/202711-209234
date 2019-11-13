@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace BusinessLogic
 {
-    public abstract class Pais
+    public abstract class Country
     {
         protected readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
         protected readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
