@@ -11,12 +11,14 @@ namespace BusinessLogic
         private List<Account> accounts;
         private List<Purchase> purchases;
         public int CostPerMinute { get; set; }
+        public Pais ActiveCountry { get; set; }
 
         public Parking()
         {
             this.accounts = new List<Account>();
             this.purchases = new List<Purchase>();
             this.CostPerMinute = 1;
+            ActiveCountry = new Uruguay();
         }
 
         public List<Account> GetAllAccounts()

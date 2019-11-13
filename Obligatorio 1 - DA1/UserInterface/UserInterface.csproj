@@ -46,6 +46,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CostPerMinute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CostPerMinute.Designer.cs">
+      <DependentUpon>CostPerMinute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateAccount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CreateAccount.Designer.cs">
+      <DependentUpon>CreateAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IncreaseBalance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IncreaseBalance.Designer.cs">
+      <DependentUpon>IncreaseBalance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseActive.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PurchaseActive.Designer.cs">
+      <DependentUpon>PurchaseActive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMSSimulator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SMSSimulator.Designer.cs">
+      <DependentUpon>SMSSimulator.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserInterface.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +84,21 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CostPerMinute.resx">
+      <DependentUpon>CostPerMinute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateAccount.resx">
+      <DependentUpon>CreateAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IncreaseBalance.resx">
+      <DependentUpon>IncreaseBalance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PurchaseActive.resx">
+      <DependentUpon>PurchaseActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMSSimulator.resx">
+      <DependentUpon>SMSSimulator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserInterface.resx">
       <DependentUpon>UserInterface.cs</DependentUpon>
     </EmbeddedResource>
