@@ -10,7 +10,7 @@ namespace BusinessLogic
     {
         public Argentina() {
 
-            countryTag = "ARG";
+            countryTag = "AR";
         }
 
         private bool IsPhoneNumberLengthValid(string phoneNumber)

@@ -85,7 +85,8 @@ namespace BusinessLogic
             }
             else
             {
-                throw new BusinessException("Error, elija una hora para el dia de hoy que este entre las 10:00 y las 18:00");
+                throw new BusinessException("Error, elija una hora para el dia" +
+                    " de hoy que este entre las 10:00 y las 18:00");
             }
         }
 
@@ -97,7 +98,8 @@ namespace BusinessLogic
 
         public bool IsPurchaseActive(string licencePlateToConfirm, DateTime theMoment)
         {
-            licencePlateToConfirm = ActualCountry.FormatLicensePlate(licencePlateToConfirm);
+            licencePlateToConfirm = 
+                ActualCountry.FormatLicensePlate(licencePlateToConfirm);
             if (IsDateChosenInRange(theMoment))
             {
                 foreach (Purchase p in purchases)
