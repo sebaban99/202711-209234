@@ -11,7 +11,11 @@ namespace BusinessLogic
         private List<Account> accounts;
         private List<Purchase> purchases;
         public int CostPerMinute { get; set; }
+<<<<<<< HEAD
         public Pais ActiveCountry { get; set; }
+=======
+        public Country ActualCountry { get; set; }
+>>>>>>> ParkingRefactor
 
         public Parking()
         {
@@ -76,77 +80,6 @@ namespace BusinessLogic
             throw new BusinessException("Saldo insuficiente");
         }
 
-        public bool IsNumberPhoneValid(string aPhone)
-        {
-            string actualPhoneNumber = RemoveSpacesString(aPhone);
-
-            if (ContainsNumbersOnly(actualPhoneNumber) &&
-                (PhoneNumberValidationStartingWithNine(actualPhoneNumber)
-                || PhoneNumberValidationStartingWithZero(actualPhoneNumber)))
-            {
-                return true;
-            }
-            else
-            {
-                throw new BusinessException("Formato de número de telefono incorrecto");
-            }
-        }
-
-        private string RemoveSpacesString(string text)
-        {
-            StringBuilder stringWithoutSpaces = new StringBuilder(text);
-            stringWithoutSpaces.Replace(" ", "");
-            return stringWithoutSpaces.ToString();
-        }
-
-        private bool ContainsNumbersOnly(string message)
-        {
-            return Regex.IsMatch(message, @"^[0-9]+$");
-        }
-
-        private bool ContainsLettersOnly(string message)
-        {
-            return Regex.IsMatch(message, @"^[a-zA-Z]+$");
-        }
-
-        private bool PhoneNumberValidationStartingWithNine(string aPhone)
-        {
-            return aPhone[0] == '9' && aPhone.Length == 8;
-        }
-
-        private bool PhoneNumberValidationStartingWithZero(string aPhone)
-        {
-            return aPhone[0] == '0' && aPhone[1] == '9' && aPhone.Length == 9;
-        }
-
-        public string FormatPhoneNumber(string aPhone)
-        {
-            aPhone = RemoveSpacesString(aPhone);
-            StringBuilder formattedNumber = new StringBuilder(aPhone);
-
-            if (formattedNumber.ToString().Length == 8)
-            {
-                formattedNumber.Insert(0, 0);
-            }
-            formattedNumber.Insert(3, " ");
-            formattedNumber.Insert(7, " ");
-            return formattedNumber.ToString();
-        }
-
-        public bool IsLicensePlateValid(string licensePlate)
-        {
-            licensePlate = RemoveSpacesString(licensePlate);
-            if (licensePlate.Length == 7 && ContainsLettersOnly(licensePlate.Substring(0, 3)) &&
-                    ContainsNumbersOnly(licensePlate.Substring(3)))
-            {
-                return true;
-            }
-            else
-            {
-                throw new BusinessException("Formato de matricula incorrecto");
-            }
-        }
-
         private bool IsDateChosenInRange(DateTime theMoment)
         {
             if (theMoment.Date <= DateTime.Today.Date &&
@@ -168,7 +101,7 @@ namespace BusinessLogic
 
         public bool IsPurchaseActive(string licencePlateToConfirm, DateTime theMoment)
         {
-            licencePlateToConfirm = FormatLicensePlate(licencePlateToConfirm);
+            licencePlateToConfirm = ActualCountry.FormatLicensePlate(licencePlateToConfirm);
             if (IsDateChosenInRange(theMoment))
             {
                 foreach (Purchase p in purchases)
@@ -181,16 +114,6 @@ namespace BusinessLogic
                 }
             }
             return false;
-        }
-
-        public string FormatLicensePlate(string licencePlate)
-        {
-            licencePlate = RemoveSpacesString(licencePlate);
-            StringBuilder formattedLicensePlate = new StringBuilder(licencePlate);
-            formattedLicensePlate.Replace(formattedLicensePlate.ToString().Substring(0, 3),
-                formattedLicensePlate.ToString().Substring(0, 3).ToUpper().Trim());
-            formattedLicensePlate.Insert(3, " ");
-            return formattedLicensePlate.ToString();
         }
 
         public void MakePurchase(String aPhone, Purchase aPurchase)

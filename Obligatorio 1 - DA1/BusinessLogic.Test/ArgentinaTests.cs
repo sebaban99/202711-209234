@@ -98,7 +98,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageValidMessage()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -108,7 +108,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageValidMessageStartingHourAtActualHour()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(11);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -118,7 +118,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageValidMessageContainsExtraSpace()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -128,7 +128,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void ValidateMessageValidMessageLicensePlateWithSpace()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -139,7 +139,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageLicensePlateMissingLetters()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -150,7 +150,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageLicensePlateMissingNumbers()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -161,7 +161,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageLicensePlateXXXContainsNumbersV1()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -172,7 +172,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageLicensePlateXXXContainsNumbersV2()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -183,7 +183,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageLicensePlateYYYYContainsLettersV1()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -194,7 +194,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageLicensePlateYYYYContainsLettersV2()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -206,7 +206,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageMinutesMissing()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -217,7 +217,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageStartingHourMissing()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -228,7 +228,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageAmountOfMinutesIsZero()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -239,7 +239,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageAmountOfMinutesWithLetters()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(10);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -250,7 +250,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageAttemptingToBuyBefore10AM()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(9);
             aDate = aDate.AddMinutes(59);
@@ -262,7 +262,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageAttemptingToBuyBeforeActualHour()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(11);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -273,7 +273,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageAttemptingToBuyAt18()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(11);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -284,7 +284,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageAttemptingToBuyAfter18()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(11);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);
@@ -295,7 +295,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void ValidateMessageInvalidMessageHourIn12HFormat()
         {
-            Mock<Argentina> mockedArg = new Mock<Argentina>();
+            Mock<Argentina> mockedArg = new Mock<Argentina>() { CallBase = true };
             DateTime aDate = DateTime.Today;
             aDate = aDate.AddHours(11);
             mockedArg.Setup(m => m.GetDateTimeNow()).Returns(aDate);

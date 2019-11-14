@@ -6,10 +6,11 @@ using System.Text.RegularExpressions;
 
 namespace BusinessLogic
 {
-    public abstract class Pais
+    public abstract class Country
     {
         protected readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
         protected readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
+        protected string countryTag;
 
 
         public abstract DateTime ExtractStartingHour(string message);
@@ -18,11 +19,41 @@ namespace BusinessLogic
 
         public abstract bool IsMessageValid(string message);
 
-        public abstract bool IsStartingHourValid(string[] actualMessage);
+        protected abstract bool IsStartingHourValid(string[] actualMessage);
 
-        public abstract bool AreMinutesValid(string[] actualMessage);
+        protected abstract bool AreMinutesValid(string[] actualMessage);
 
         public abstract bool IsPhoneNumberValid(string phoneNumber);
+
+        public virtual DateTime ExtractFinishingHour(string message)
+        {
+            DateTime finishingHour = ExtractStartingHour(message);
+            finishingHour = finishingHour.AddMinutes(ExtractMinutes(message));
+            if (finishingHour > MAXIMUM_HOUR)
+            {
+                return MAXIMUM_HOUR;
+            }
+            else return finishingHour;
+        }
+
+        public virtual string ExtractLicensePlate(string message)
+        {
+            string[] messageInArray = MessageToArray(message);
+            if (messageInArray[0].Length == 7)
+            {
+                return FormatLicensePlate(messageInArray[0]);
+            }
+            else
+            {
+                string licensePlateInMessage = messageInArray[0] + messageInArray[1];
+                return FormatLicensePlate(licensePlateInMessage);
+            }
+        }
+
+        public virtual string FormatPhoneNumber(string aPhone)
+        {
+            return aPhone;
+        }
 
 
         protected string[] ObtainActualMessage(string[] messageSplit)
@@ -48,7 +79,7 @@ namespace BusinessLogic
             return actualMessage;
         }
 
-        protected string[] MessageToArray(string message)
+        public string[] MessageToArray(string message)
         {
             string[] messageSplit = message.Split(new Char[] { ' ' });
             return ObtainActualMessage(messageSplit);
@@ -108,7 +139,7 @@ namespace BusinessLogic
             }
         }
 
-        protected virtual bool IsLicensePlateValid(string[] actualMessage)
+        public virtual bool IsLicensePlateValid(string[] actualMessage)
         {
             bool isLicensePlateValid = false;
             if (actualMessage[0].Length == 7)
@@ -129,37 +160,13 @@ namespace BusinessLogic
             else return true;
         }
 
-        public virtual DateTime ExtractFinishingHour(string message)
+        public virtual string FormatLicensePlate(string licensePlate)
         {
-            DateTime finishingHour = ExtractStartingHour(message);
-            finishingHour = finishingHour.AddMinutes(ExtractMinutes(message));
-            if (finishingHour > MAXIMUM_HOUR)
-            {
-                return MAXIMUM_HOUR;
-            }
-            else return finishingHour;
-        }
-
-        protected virtual string FormatLicensePlate(string[] messageSplit)
-        {
-            if (messageSplit[0].Length == 7)
-            {
-                StringBuilder licensePlateToExtract = new StringBuilder(messageSplit[0]);
-                licensePlateToExtract.Replace(licensePlateToExtract.ToString().Substring(0, 3),
-                    licensePlateToExtract.ToString().Substring(0, 3).ToUpper().Trim());
-                licensePlateToExtract.Insert(3, " ");
-                return licensePlateToExtract.ToString();
-            }
-            else
-            {
-                return messageSplit[0].ToUpper().Trim() + " " + messageSplit[1];
-            }
-        }
-
-        public virtual string ExtractLicensePlate(string message)
-        {
-            string[] messageInArray = MessageToArray(message);
-            return FormatLicensePlate(messageInArray);
+            StringBuilder formattedLicensePlate = new StringBuilder(licensePlate);
+            formattedLicensePlate.Replace(formattedLicensePlate.ToString().Substring(0, 3),
+                formattedLicensePlate.ToString().Substring(0, 3).ToUpper().Trim());
+            formattedLicensePlate.Insert(3, " ");
+            return formattedLicensePlate.ToString();
         }
 
         public virtual DateTime GetDateTimeNow()

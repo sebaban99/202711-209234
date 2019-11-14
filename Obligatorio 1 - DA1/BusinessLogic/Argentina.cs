@@ -6,9 +6,12 @@ using BusinessLogic.Exceptions;
 
 namespace BusinessLogic
 {
-    public class Argentina : Pais
+    public class Argentina : Country
     {
-        public Argentina() { }
+        public Argentina() {
+
+            countryTag = "ARG";
+        }
 
         private bool IsPhoneNumberLengthValid(string phoneNumber)
         {
@@ -59,7 +62,7 @@ namespace BusinessLogic
             }
         }
 
-        public override bool AreMinutesValid(string[] actualMessage)
+        protected override bool AreMinutesValid(string[] actualMessage)
         {
             bool areMinutesValid = false;
             if (actualMessage[0].Length == 7)
@@ -80,7 +83,7 @@ namespace BusinessLogic
             else return true;
         }
 
-        public override bool IsStartingHourValid(string[] actualMessage)
+        protected override bool IsStartingHourValid(string[] actualMessage)
         {
             if (GetDateTimeNow() < MINIMUM_STARTING_HOUR)
             {
