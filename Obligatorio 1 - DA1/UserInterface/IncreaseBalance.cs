@@ -16,11 +16,11 @@ namespace UserInterface
     {
         Parking MyParking { get; set; }
 
-        public IncreaseBalance(Parking principalParking)
+        public IncreaseBalance(Parking activeParking)
         {
             InitializeComponent();
             InitializateTabsSecuence();
-            MyParking = principalParking;
+            MyParking = activeParking;
         }
 
         private void CleanFields()
@@ -61,9 +61,9 @@ namespace UserInterface
 
         private void TryToIncreaseBalance(string phoneNumber, string balanceToIncrease)
         {
-            if (MyParking.IsNumberPhoneValid(phoneNumber))
+            if (MyParking.ActualCountry.IsPhoneNumberValid(phoneNumber))
             {
-                phoneNumber = MyParking.FormatPhoneNumber(phoneNumber);
+                phoneNumber = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber);
                 Account newAccount = MyParking.RetrieveAccount(phoneNumber);
                 newAccount.IncreaseBalance(Int32.Parse(balanceToIncrease));
             }

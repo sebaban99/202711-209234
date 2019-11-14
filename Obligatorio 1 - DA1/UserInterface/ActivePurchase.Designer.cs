@@ -1,6 +1,6 @@
 ﻿namespace UserInterface
 {
-    partial class PurchaseActive
+    partial class ActivePurchase
     {
         /// <summary> 
         /// Required designer variable.
@@ -103,7 +103,7 @@
             this.txtLicencePlate.TabIndex = 11;
             this.txtLicencePlate.Tag = "";
             // 
-            // PurchaseActive
+            // ActivePurchase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,7 +113,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnAcceptActivePurchase);
             this.Controls.Add(this.txtLicencePlate);
-            this.Name = "PurchaseActive";
+            this.Name = "ActivePurchase";
             this.Size = new System.Drawing.Size(464, 324);
             this.ResumeLayout(false);
             this.PerformLayout();

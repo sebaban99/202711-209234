@@ -67,21 +67,21 @@ namespace UserInterface
         private void ConsultarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pnlPrincipal.Controls.Clear();
-            UserControl purchaseActive = new PurchaseActive(MyParking);
-            pnlPrincipal.Controls.Add(purchaseActive);
+            UserControl activePurchase = new ActivePurchase(MyParking);
+            pnlPrincipal.Controls.Add(activePurchase);
 
             GoBackToWelcomeWindow();
         }
 
         private void ArgentinaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyParking.ActiveCountry = new Argentina();
+            MyParking.ActualCountry = new Argentina();
             lblActiveCountry.Text = "Argentina";
         }
 
         private void UruguayToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyParking.ActiveCountry = new Uruguay();
+            MyParking.ActualCountry = new Uruguay();
             lblActiveCountry.Text = "Uruguay";
         }
     }

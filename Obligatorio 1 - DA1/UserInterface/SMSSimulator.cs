@@ -16,11 +16,11 @@ namespace UserInterface
     {
         Parking MyParking { get; set; }
 
-        public SMSSimulator(Parking principalParking)
+        public SMSSimulator(Parking activeParking)
         {
             InitializeComponent();
             InitializateTabsSecuence();
-            MyParking = principalParking;
+            MyParking = activeParking;
         }
 
         private void InitializateTabsSecuence()
@@ -61,9 +61,9 @@ namespace UserInterface
 
         private void TryToMakeAPurchase(string phoneNumber, string purchaseMessage)
         {
-            if (MyParking.IsNumberPhoneValid(phoneNumber))
+            if (MyParking.ActualCountry.IsPhoneNumberValid(phoneNumber))
             {
-                phoneNumber = MyParking.FormatPhoneNumber(phoneNumber);
+                phoneNumber = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber);
                 Purchase newPurchase = new Purchase();
                 newPurchase.SetPurchaseProperties(purchaseMessage);
 
