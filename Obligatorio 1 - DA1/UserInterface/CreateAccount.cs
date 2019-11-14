@@ -62,7 +62,9 @@ namespace UserInterface
             {
                 Account newAccount = new Account()
                 {
-                    Phone = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber)
+                    Phone = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber),
+                    CountryTag = MyParking.ActualCountry.GetCountryTag(),
+                    Balance = 0
                 };
 
                 if (!MyParking.IsAccountAlreadyRegistered(newAccount.Phone))

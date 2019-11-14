@@ -74,11 +74,11 @@
     <Compile Include="IncreaseBalance.Designer.cs">
       <DependentUpon>IncreaseBalance.cs</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseActive.cs">
+    <Compile Include="ActivePurchase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PurchaseActive.Designer.cs">
-      <DependentUpon>PurchaseActive.cs</DependentUpon>
+    <Compile Include="ActivePurchase.Designer.cs">
+      <DependentUpon>ActivePurchase.cs</DependentUpon>
     </Compile>
     <Compile Include="SMSSimulator.cs">
       <SubType>UserControl</SubType>
@@ -103,8 +103,8 @@
     <EmbeddedResource Include="IncreaseBalance.resx">
       <DependentUpon>IncreaseBalance.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PurchaseActive.resx">
-      <DependentUpon>PurchaseActive.cs</DependentUpon>
+    <EmbeddedResource Include="ActivePurchase.resx">
+      <DependentUpon>ActivePurchase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SMSSimulator.resx">
       <DependentUpon>SMSSimulator.cs</DependentUpon>
