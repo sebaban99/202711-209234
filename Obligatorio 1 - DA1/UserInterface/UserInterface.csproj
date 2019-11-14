@@ -70,6 +70,18 @@
     <Compile Include="PurchaseActive.Designer.cs">
       <DependentUpon>PurchaseActive.cs</DependentUpon>
     </Compile>
+    <Compile Include="PurchasingReport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PurchasingReport.Designer.cs">
+      <DependentUpon>PurchasingReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SalesReport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SalesReport.Designer.cs">
+      <DependentUpon>SalesReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="SMSSimulator.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -95,6 +107,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PurchaseActive.resx">
       <DependentUpon>PurchaseActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PurchasingReport.resx">
+      <DependentUpon>PurchasingReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SalesReport.resx">
+      <DependentUpon>SalesReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SMSSimulator.resx">
       <DependentUpon>SMSSimulator.cs</DependentUpon>

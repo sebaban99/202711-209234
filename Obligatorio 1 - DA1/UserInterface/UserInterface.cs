@@ -73,6 +73,26 @@ namespace UserInterface
             GoBackToWelcomeWindow();
         }
 
+
+        private void CompraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pnlPrincipal.Controls.Clear();
+            UserControl purchaseReport = new PurchasingReport(MyParking);
+            pnlPrincipal.Controls.Add(purchaseReport);
+
+            GoBackToWelcomeWindow();
+        }
+
+        private void VentaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pnlPrincipal.Controls.Clear();
+            UserControl salesReport = new SalesReport(MyParking);
+            pnlPrincipal.Controls.Add(salesReport);
+
+            GoBackToWelcomeWindow();
+
+        }
+
         private void ArgentinaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyParking.ActiveCountry = new Argentina();
@@ -84,5 +104,5 @@ namespace UserInterface
             MyParking.ActiveCountry = new Uruguay();
             lblActiveCountry.Text = "Uruguay";
         }
-    }
+   }
 }
