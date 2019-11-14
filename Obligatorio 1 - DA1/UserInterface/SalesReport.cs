@@ -33,23 +33,18 @@ namespace UserInterface
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             HideAllComponents();
+            MakeReport();
             pnlReport.Show();
-
-            ShowReports();
-            dgReport.Rows.Add("sbt4505", DateTimePicker.MinimumDateTime.Day +
-                "/" + DateTimePicker.MinimumDateTime.Month + "/" +
-                DateTimePicker.MinimumDateTime.Year, 10, 11, "Uruguay");
-
         }
 
-        private void ShowReports()
+        private void MakeReport()
         {
             var licensePlate = txtLicensePlate.Text;
             if (licensePlate != "")
             {
                 try
                 {
-                    TryToListPurchases(licencePlate);
+                    TryToListPurchases(licensePlate);
                 }
                 catch (BusinessException ex)
                 {
@@ -64,9 +59,23 @@ namespace UserInterface
             }
         }
 
-        private void TryToListPurchases(string licencePlate)
+        private void TryToListPurchases(string licensePlate)
         {
-            throw new NotImplementedException();
+            if (MyParking.IsLicensePlateValid(licensePlate))
+            {
+                licensePlate = MyParking.FormatLicensePlate(licensePlate);
+                foreach (Purchase p in MyParking.GetAllPurchases())
+                {
+                    if (p.LicensePlate == licensePlate)
+                    {
+                        dgReport.Rows.Add(p.LicensePlate, p.StartingHour.Day
+                            + "/" + p.StartingHour.Month + "/" + p.StartingHour.Year,
+                            p.StartingHour.Hour, p.FinishingHour.Hour, "Uruguay");
+                        //TODO: Cambiar Uruguay por el país que corresponda cuando arreglemos
+                        //el conflicto
+                    }
+                }
+            }
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
