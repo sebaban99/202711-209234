@@ -16,11 +16,11 @@ namespace UserInterface
     {
         Parking MyParking { get; set; }
 
-        public CreateAccount(Parking principalParking)
+        public CreateAccount(Parking activeParking)
         {
             InitializeComponent();
             InitializateTabsSecuence();
-            MyParking = principalParking;
+            MyParking = activeParking;
         }
 
         private void CleanFields()
@@ -58,11 +58,11 @@ namespace UserInterface
 
         private void TryToCreateAnAccount(string phoneNumber)
         {
-            if (MyParking.IsNumberPhoneValid(phoneNumber))
+            if (MyParking.ActualCountry.IsPhoneNumberValid(phoneNumber))
             {
                 Account newAccount = new Account()
                 {
-                    Phone = MyParking.FormatPhoneNumber(phoneNumber)
+                    Phone = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber)
                 };
 
                 if (!MyParking.IsAccountAlreadyRegistered(newAccount.Phone))

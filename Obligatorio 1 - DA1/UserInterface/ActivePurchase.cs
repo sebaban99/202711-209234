@@ -12,15 +12,15 @@ using BusinessLogic.Exceptions;
 
 namespace UserInterface
 {
-    public partial class PurchaseActive : UserControl
+    public partial class ActivePurchase : UserControl
     {
         Parking MyParking { get; set; }
 
-        public PurchaseActive(Parking principalParking)
+        public ActivePurchase(Parking activeParking)
         {
             InitializeComponent();
             InitializateTabsSecuence();
-            MyParking = principalParking;
+            MyParking = activeParking;
         }
 
         private void CleanFields()
@@ -60,19 +60,23 @@ namespace UserInterface
 
         private void TryToProveIfAPurchaseIsActive(string licencePlate, DateTime dateTimeChosen)
         {
-            if (MyParking.IsPurchaseActive(licencePlate, dateTimeChosen))
+            if (MyParking.ActualCountry.IsLicensePlateValid(
+                MyParking.ActualCountry.MessageToArray(licencePlate)))
             {
-                MessageBox.Show("Existe compra activa", "Cuenta",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("No existe compra activa", "Cuenta",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                if (MyParking.IsPurchaseActive(licencePlate, dateTimeChosen))
+                {
+                    MessageBox.Show("Existe compra activa", "Cuenta",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No existe compra activa", "Cuenta",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
-            CleanFields();
-            this.Hide();
+                CleanFields();
+                this.Hide();
+            }
         }
     }
 }

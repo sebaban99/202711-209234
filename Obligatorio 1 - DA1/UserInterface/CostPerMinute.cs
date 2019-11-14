@@ -15,10 +15,10 @@ namespace UserInterface
     {
         Parking MyParking { get; set; }
 
-        public CostPerMinute(Parking principalParking)
+        public CostPerMinute(Parking activeParking)
         {
             InitializeComponent();
-            MyParking = principalParking;
+            MyParking = activeParking;
             InitializateTabsSecuence();
         }
 
