@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AccountTests.cs" />
     <Compile Include="ArgentinaTests.cs" />
+    <Compile Include="CostPerMinuteTests.cs" />
     <Compile Include="ParkingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseTests.cs" />
