@@ -29,9 +29,9 @@ namespace BusinessLogic
         {
             try
             {
-                return Context.Purchases.FirstOrDefault(p =>
+                return Context.Purchases.Where(p =>
                 p.LicensePlate.Equals(licensePlate) &&
-                p.CountryTag.Equals(countryTag));
+                p.CountryTag.Equals(countryTag)).FirstOrDefault();
 
             }
             catch (DatabaseException)

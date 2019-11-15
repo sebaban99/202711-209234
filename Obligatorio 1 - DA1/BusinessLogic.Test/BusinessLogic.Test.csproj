@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountRepositoryTest.cs" />
     <Compile Include="AccountTests.cs" />
     <Compile Include="ArgentinaTests.cs" />
     <Compile Include="CostPerMinuteTests.cs" />

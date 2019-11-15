@@ -89,8 +89,8 @@ namespace BusinessLogic.Test
                 Balance = 0
             };
 
-            accountRepository.Add(accountAR);
-            accountRepository.Add(accountUY);
+            accountRepository.Context.Accounts.Add(accountAR);
+            accountRepository.Context.Accounts.Add(accountUY);
 
             Assert.AreEqual(accountRepository.Get("098 204 265", "UY"), accountUY);
         }
@@ -99,6 +99,26 @@ namespace BusinessLogic.Test
         public void GetInexistentAccount()
         {
             Assert.AreEqual(accountRepository.Get("098 204 265", "UY"), null);
+        }
+
+        [TestMethod]
+        public void UpdateBalanceAccount()
+        {
+            Account accountUY = new Account()
+            {
+                Phone = "098 204 265",
+                CountryTag = "UY",
+                Balance = 0
+            };
+
+            accountRepository.Context.Accounts.Add(accountUY);
+
+            accountUY.Balance = 100;
+
+            accountRepository.Update(accountUY);
+
+            Assert.AreEqual(accountRepository.
+                Get(accountUY.Phone, accountUY.CountryTag).Balance, 100);
         }
 
     }

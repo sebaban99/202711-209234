@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Data.Entity;
 using System.Linq;
 
 namespace BusinessLogic
@@ -23,13 +24,28 @@ namespace BusinessLogic
             }
         }
 
+        public void Update(Account modifiedEntity)
+        {
+            Account accountToUpdate = 
+                Context.Accounts.First(a => a.Id == modifiedEntity.Id);
+
+            if (accountToUpdate == null)
+            {
+                throw new DatabaseException("La cuenta que esta intentando " +
+                    "actualizar no se encuentra en la base de datos");
+            }
+            Context.Accounts.Attach(accountToUpdate);
+            accountToUpdate.Balance = modifiedEntity.Balance;
+            Context.SaveChanges();
+        }
+
         public Account Get(string phoneNumber, string countryTag)
         {
             try
             {
-                return Context.Accounts.FirstOrDefault(a =>
-                a.Phone.Equals(phoneNumber) &&
-                a.CountryTag.Equals(countryTag));
+                return Context.Accounts.Where(a =>
+                    a.Phone.Equals(phoneNumber) &&
+                    a.CountryTag.Equals(countryTag)).FirstOrDefault();
             }
             catch (DatabaseException)
             {
