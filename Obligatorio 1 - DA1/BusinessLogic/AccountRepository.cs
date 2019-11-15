@@ -10,7 +10,20 @@ namespace BusinessLogic
     {
         public ParkingContext Context { get; set; }
 
-        public IEnumerable<Purchase> GetAll()
+        public void Add(Account entity)
+        {
+            try
+            {
+                Context.Set<Account>().Add(entity);
+                Context.SaveChanges();
+            }
+            catch (DbException ex)
+            {
+                throw new DatabaseException("Database Error", ex);
+            }
+        }
+
+        public IEnumerable<Account> GetAll()
         {
             return Context.Accounts.ToList();
         }

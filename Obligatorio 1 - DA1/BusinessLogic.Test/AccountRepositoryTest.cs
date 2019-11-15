@@ -11,7 +11,7 @@ namespace BusinessLogic.Test
         private AccountRepository accountRepository;
 
         [TestInitialize]
-        public void SetUpPurchaseRepository()
+        public void SetUpAccountRepository()
         {
             accountRepository = new AccountRepository()
             {
@@ -41,10 +41,36 @@ namespace BusinessLogic.Test
                 Balance = 0
             };
 
-            accountRepository.Context.Purchases.Add(purchase);
+            accountRepository.Context.Accounts.Add(account);
 
             Assert.AreEqual(accountRepository.GetAll().Count(), 1);
-            Assert.IsTrue(accountRepository.GetAll().Contains(purchase));
+            Assert.IsTrue(accountRepository.GetAll().Contains(account));
         }
+
+        [TestMethod]
+        public void AddAccount()
+        {
+            Account account = new Account()
+            {
+                Phone = "098 204 265",
+                CountryTag = "AR",
+                Balance = 0
+            };
+
+            accountRepository.Add(account);
+
+            Assert.AreEqual(accountRepository.GetAll().Count(), 1);
+            Assert.IsTrue(accountRepository.GetAll().Contains(account));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DatabaseException))]
+        public void AddNullAccount()
+        {
+            Account account = null;
+
+            accountRepository.Add(account);
+        }
+
     }
 }
