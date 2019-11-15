@@ -19,9 +19,9 @@ namespace BusinessLogic
                 Context.Set<Purchase>().Add(entity);
                 Context.SaveChanges();
             }
-            catch (DbException ex)
+            catch (DbException)
             {
-                throw new DatabaseException("Database Error", ex);
+                throw new DatabaseException("Database Error");
             }
         }
 
@@ -55,9 +55,9 @@ namespace BusinessLogic
                     Context.SaveChanges();
                 }
             }
-            catch (DbException ex)
+            catch (DbException)
             {
-                throw new DatabaseException("Database Error", ex);
+                throw new DatabaseException("Database Error");
             }
         }
     }

@@ -13,12 +13,23 @@ namespace BusinessLogic
         {
             try
             {
-                Context.Set<CostPerMinute>().Add(entity);
-                Context.SaveChanges();
+                CostPerMinute costToUpdate =
+               Context.Costs.First(c => c.CountryTag == entity.CountryTag);
+
+                if (costToUpdate == null)
+                {
+                    Context.Set<CostPerMinute>().Add(entity);
+                    Context.SaveChanges();
+                }
+                else
+                {
+                    new DatabaseException("Ya existe un costo asociado al pais," +
+                        " si quiere modificarlo actualizelo");
+                }
             }
-            catch (DbException ex)
+            catch (DbException)
             {
-                throw new DatabaseException("Database Error", ex);
+                throw new DatabaseException("Database Error");
             }
         }
 
@@ -45,9 +56,9 @@ namespace BusinessLogic
                     Context.SaveChanges();
                 }
             }
-            catch (DbException ex)
+            catch (DbException)
             {
-                throw new DatabaseException("Database Error", ex);
+                throw new DatabaseException("Database Error");
             }
         }
 
