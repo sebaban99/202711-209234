@@ -24,5 +24,27 @@ namespace BusinessLogic.Test
         {
             accountRepository.Empty();
         }
+
+        [TestMethod]
+        public void GetAllAccountsEmptyDB()
+        {
+            Assert.AreEqual(accountRepository.GetAll().Count(), 0);
+        }
+
+        [TestMethod]
+        public void GetAllAccountsNotEmptyDB()
+        {
+            Account account = new Account()
+            {
+                Phone = "098 204 265",
+                CountryTag = "AR",
+                Balance = 0
+            };
+
+            accountRepository.Context.Purchases.Add(purchase);
+
+            Assert.AreEqual(accountRepository.GetAll().Count(), 1);
+            Assert.IsTrue(accountRepository.GetAll().Contains(purchase));
+        }
     }
 }

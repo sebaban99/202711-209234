@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BusinessLogic.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,6 +33,29 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
+        public void GetAllPurchasesNotEmptyDB()
+        {
+            DateTime startingHour = DateTime.Today;
+            DateTime finishingHour = DateTime.Today;
+            startingHour = startingHour.AddHours(13);
+            finishingHour = finishingHour.AddHours(14);
+
+            Purchase purchase = new Purchase
+            {
+                LicensePlate = "ABA 1234",
+                StartingHour = startingHour,
+                FinishingHour = finishingHour,
+                AmountOfMinutes = 60,
+                CountryTag = "AR"
+            };
+
+            purchaseRepository.Context.Purchases.Add(purchase);
+
+            Assert.AreEqual(purchaseRepository.GetAll().Count(), 1);
+            Assert.IsTrue(purchaseRepository.GetAll().Contains(purchase));
+        }
+
+        [TestMethod]
         public void AddPurchase()
         {
             DateTime startingHour = DateTime.Today;
@@ -50,6 +74,7 @@ namespace BusinessLogic.Test
 
             purchaseRepository.Add(purchase);
 
+            Assert.IsTrue(purchaseRepository.GetAll().Contains(purchase));
             Assert.AreEqual(purchaseRepository.Context.Purchases.Count(), 1);
         }
 
@@ -92,6 +117,28 @@ namespace BusinessLogic.Test
             purchaseRepository.Add(purchaseUY);
 
             Assert.AreEqual(purchaseRepository.Get("ABA 1234", "UY"), purchaseUY);
+        }
+
+        [TestMethod]
+        public void GetInexistentPurchase()
+        {
+            DateTime startingHour = DateTime.Today;
+            DateTime finishingHour = DateTime.Today;
+            startingHour = startingHour.AddHours(13);
+            finishingHour = finishingHour.AddHours(14);
+
+            Purchase purchaseAR = new Purchase
+            {
+                LicensePlate = "ABA 1234",
+                StartingHour = startingHour,
+                FinishingHour = finishingHour,
+                AmountOfMinutes = 60,
+                CountryTag = "AR"
+            };
+
+            purchaseRepository.Add(purchaseAR);
+
+            Assert.AreEqual(purchaseRepository.Get("ABA 1234", "UY"), null);
         }
     }
 }
