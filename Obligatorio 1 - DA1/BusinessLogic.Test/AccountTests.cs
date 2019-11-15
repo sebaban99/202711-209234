@@ -14,8 +14,10 @@ namespace BusinessLogic.Test
         [TestInitialize]
         public void SetUpAccount()
         {
-            ac = new Account();
-            ac.Balance = 0;
+            ac = new Account
+            {
+                Balance = 0
+            };
         }
 
         [TestMethod]

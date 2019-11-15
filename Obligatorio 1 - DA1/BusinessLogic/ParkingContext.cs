@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    class ParkingContext : DbContext
+    public class ParkingContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
@@ -23,7 +23,6 @@ namespace BusinessLogic
             modelBuilder.Entity<CostPerMinute>().ToTable("CostsPerMinute");
             modelBuilder.Entity<Account>().ToTable("Accounts");
             modelBuilder.Entity<Purchase>().ToTable("Purchases");
-
         }
     }
 }
