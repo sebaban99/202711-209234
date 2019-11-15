@@ -36,7 +36,7 @@ namespace BusinessLogic.Test
         {
             Account account = new Account()
             {
-                Phone = "098 204 265",
+                Phone = "1-234567",
                 CountryTag = "AR",
                 Balance = 0
             };
@@ -52,7 +52,7 @@ namespace BusinessLogic.Test
         {
             Account account = new Account()
             {
-                Phone = "098 204 265",
+                Phone = "1-234567",
                 CountryTag = "AR",
                 Balance = 0
             };
@@ -70,6 +70,35 @@ namespace BusinessLogic.Test
             Account account = null;
 
             accountRepository.Add(account);
+        }
+
+        [TestMethod]
+        public void GetAccount()
+        {
+            Account accountAR = new Account()
+            {
+                Phone = "9-8204265",
+                CountryTag = "AR",
+                Balance = 0
+            };
+
+            Account accountUY = new Account()
+            {
+                Phone = "098 204 265",
+                CountryTag = "UY",
+                Balance = 0
+            };
+
+            accountRepository.Add(accountAR);
+            accountRepository.Add(accountUY);
+
+            Assert.AreEqual(accountRepository.Get("098 204 265", "UY"), accountUY);
+        }
+
+        [TestMethod]
+        public void GetInexistentAccount()
+        {
+            Assert.AreEqual(accountRepository.Get("098 204 265", "UY"), null);
         }
 
     }

@@ -23,6 +23,20 @@ namespace BusinessLogic
             }
         }
 
+        public Account Get(string phoneNumber, string countryTag)
+        {
+            try
+            {
+                return Context.Accounts.FirstOrDefault(a =>
+                a.Phone.Equals(phoneNumber) &&
+                a.CountryTag.Equals(countryTag));
+            }
+            catch (DatabaseException)
+            {
+                return null;
+            }
+        }
+
         public IEnumerable<Account> GetAll()
         {
             return Context.Accounts.ToList();
