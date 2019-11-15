@@ -25,6 +25,20 @@ namespace BusinessLogic
             }
         }
 
+        public Purchase Get(string licensePlate, string countryTag)
+        {
+            try
+            {
+                return Context.Purchases.FirstOrDefault(p =>
+                p.LicensePlate.Equals(licensePlate) &&
+                p.CountryTag.Equals(countryTag));
+
+            }
+            catch (DatabaseException)
+            {
+                return null;
+            }
+        }
 
         public IEnumerable<Purchase> GetAll()
         {

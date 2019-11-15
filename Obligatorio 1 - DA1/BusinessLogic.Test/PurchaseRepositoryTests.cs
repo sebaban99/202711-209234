@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using BusinessLogic.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BusinessLogic.Test
@@ -50,6 +51,47 @@ namespace BusinessLogic.Test
             purchaseRepository.Add(purchase);
 
             Assert.AreEqual(purchaseRepository.Context.Purchases.Count(), 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DatabaseException))]
+        public void AddPNullurchase()
+        {
+            Purchase purchase = null;
+
+            purchaseRepository.Add(purchase);
+        }
+
+        [TestMethod]
+        public void GetPurchase()
+        {
+            DateTime startingHour = DateTime.Today;
+            DateTime finishingHour = DateTime.Today;
+            startingHour = startingHour.AddHours(13);
+            finishingHour = finishingHour.AddHours(14);
+
+            Purchase purchaseAR = new Purchase
+            {
+                LicensePlate = "ABA 1234",
+                StartingHour = startingHour,
+                FinishingHour = finishingHour,
+                AmountOfMinutes = 60,
+                CountryTag = "AR"
+            };
+
+            Purchase purchaseUY = new Purchase
+            {
+                LicensePlate = "ABA 1234",
+                StartingHour = startingHour,
+                FinishingHour = finishingHour,
+                AmountOfMinutes = 60,
+                CountryTag = "UY"
+            };
+
+            purchaseRepository.Add(purchaseAR);
+            purchaseRepository.Add(purchaseUY);
+
+            Assert.AreEqual(purchaseRepository.Get("ABA 1234", "UY"), purchaseUY);
         }
     }
 }

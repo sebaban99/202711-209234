@@ -15,7 +15,7 @@ namespace BusinessLogic.Interfaces
 
         IEnumerable<T> GetAll();
 
-        IEnumerable<T> GetByCondition(Expression<Func<T, bool>> expression);
+        //IEnumerable<T> GetByCondition(Expression<Func<T, bool>> expression);
 
         T Get(string key, string countryTag);
     }
