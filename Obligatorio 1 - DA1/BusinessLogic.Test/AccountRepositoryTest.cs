@@ -121,5 +121,21 @@ namespace BusinessLogic.Test
                 Get(accountUY.Phone, accountUY.CountryTag).Balance, 100);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(DatabaseException))]
+        public void UpdateBalanceInexistentAccount()
+        {
+            Account accountUY = new Account()
+            {
+                Phone = "098 204 265",
+                CountryTag = "UY",
+                Balance = 0
+            };
+
+            accountUY.Balance = 100;
+
+            accountRepository.Update(accountUY);
+        }
+
     }
 }
