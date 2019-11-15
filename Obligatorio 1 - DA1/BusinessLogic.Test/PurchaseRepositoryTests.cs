@@ -29,5 +29,27 @@ namespace BusinessLogic.Test
         {
             Assert.AreEqual(purchaseRepository.GetAll().Count(), 0);
         }
+
+        [TestMethod]
+        public void AddPurchase()
+        {
+            DateTime startingHour = DateTime.Today;
+            DateTime finishingHour = DateTime.Today;
+            startingHour = startingHour.AddHours(13);
+            finishingHour = finishingHour.AddHours(14);
+
+            Purchase purchase = new Purchase
+            {
+                LicensePlate = "ABA 1234",
+                StartingHour = startingHour,
+                FinishingHour = finishingHour,
+                AmountOfMinutes = 60,
+                CountryTag = "AR"
+            };
+
+            purchaseRepository.Add(purchase);
+
+            Assert.AreEqual(purchaseRepository.Context.Purchases.Count(), 1);
+        }
     }
 }

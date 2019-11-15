@@ -11,6 +11,21 @@ namespace BusinessLogic
     {
         public ParkingContext Context { get; set; }
 
+
+        public void Add(Purchase entity)
+        {
+            try
+            {
+                Context.Set<Purchase>().Add(entity);
+                Context.SaveChanges();
+            }
+            catch (DbException ex)
+            {
+                throw new DatabaseException("Database Error", ex);
+            }
+        }
+
+
         public IEnumerable<Purchase> GetAll()
         {
             return Context.Purchases.ToList();
@@ -28,7 +43,7 @@ namespace BusinessLogic
             }
             catch (DbException ex)
             {
-                throw new DatabaseException("Error getting teachers", ex);
+                throw new DatabaseException("Database Error", ex);
             }
         }
     }
