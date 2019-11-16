@@ -20,6 +20,7 @@ namespace UserInterface
             InitializeComponent();
             MyParking = activeParking;
             InitializateTabsSecuence();
+            numCostPerMinute.Value = MyParking.GetActualCost();
         }
 
         private void InitializateTabsSecuence()
@@ -33,7 +34,7 @@ namespace UserInterface
             int newCostPerMinute = Convert.ToInt32(
                 Math.Round(numCostPerMinute.Value, 0));
 
-            MyParking.CostPerMinute = newCostPerMinute;
+            MyParking.UpdateCost(newCostPerMinute); 
             MessageBox.Show("Costo seteado con éxito", "Parking",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 

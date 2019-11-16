@@ -19,8 +19,15 @@ namespace UserInterface
         public UserInterface()
         {
             InitializeComponent();
-    
-            MyParking = new Parking();
+            ParkingContext context = new ParkingContext();
+            ParkingRepository<Purchase> purchaseRepository = 
+                new PurchaseRepository(context);
+            ParkingRepository<Account> accountRepository = 
+                new AccountRepository(context);
+            ParkingRepository<BusinessLogic.CostPerMinute> costRepository = 
+                new CostRepository(context);
+            MyParking = new Parking(purchaseRepository,
+                accountRepository, costRepository);
         }
         
         private void GoBackToWelcomeWindow()

@@ -37,14 +37,15 @@
             // numCostPerMinute
             // 
             this.numCostPerMinute.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numCostPerMinute.Location = new System.Drawing.Point(175, 145);
+            this.numCostPerMinute.Location = new System.Drawing.Point(350, 279);
+            this.numCostPerMinute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.numCostPerMinute.Maximum = new decimal(new int[] {
             -1304428545,
             434162106,
             542,
             0});
             this.numCostPerMinute.Name = "numCostPerMinute";
-            this.numCostPerMinute.Size = new System.Drawing.Size(120, 29);
+            this.numCostPerMinute.Size = new System.Drawing.Size(240, 51);
             this.numCostPerMinute.TabIndex = 11;
             // 
             // lblSetCostPerMinute
@@ -52,18 +53,20 @@
             this.lblSetCostPerMinute.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblSetCostPerMinute.AutoSize = true;
             this.lblSetCostPerMinute.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSetCostPerMinute.Location = new System.Drawing.Point(83, 60);
+            this.lblSetCostPerMinute.Location = new System.Drawing.Point(166, 115);
+            this.lblSetCostPerMinute.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblSetCostPerMinute.Name = "lblSetCostPerMinute";
-            this.lblSetCostPerMinute.Size = new System.Drawing.Size(301, 31);
+            this.lblSetCostPerMinute.Size = new System.Drawing.Size(598, 63);
             this.lblSetCostPerMinute.TabIndex = 10;
             this.lblSetCostPerMinute.Text = "Setear costo por minuto";
             // 
             // btnAcceptCostPerMinute
             // 
             this.btnAcceptCostPerMinute.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnAcceptCostPerMinute.Location = new System.Drawing.Point(280, 230);
+            this.btnAcceptCostPerMinute.Location = new System.Drawing.Point(560, 442);
+            this.btnAcceptCostPerMinute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnAcceptCostPerMinute.Name = "btnAcceptCostPerMinute";
-            this.btnAcceptCostPerMinute.Size = new System.Drawing.Size(100, 35);
+            this.btnAcceptCostPerMinute.Size = new System.Drawing.Size(200, 67);
             this.btnAcceptCostPerMinute.TabIndex = 9;
             this.btnAcceptCostPerMinute.Text = "Aceptar";
             this.btnAcceptCostPerMinute.UseVisualStyleBackColor = true;
@@ -71,13 +74,14 @@
             // 
             // CostPerMinute
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.numCostPerMinute);
             this.Controls.Add(this.lblSetCostPerMinute);
             this.Controls.Add(this.btnAcceptCostPerMinute);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "CostPerMinute";
-            this.Size = new System.Drawing.Size(464, 324);
+            this.Size = new System.Drawing.Size(928, 623);
             ((System.ComponentModel.ISupportInitialize)(this.numCostPerMinute)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -38,7 +38,7 @@ namespace BusinessLogic.Test
                 Balance = 0
             };
 
-            accountRepository.Add(account);
+            accountRepository.Context.Accounts.Add(account);
 
             Assert.AreEqual(accountRepository.GetAll().Count(), 1);
             Assert.IsTrue(accountRepository.GetAll().Contains(account));
