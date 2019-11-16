@@ -12,44 +12,44 @@ namespace BusinessLogic.Test
     {
         private Parking aParking;
 
-        [TestInitialize]
-        public void SetUpParking()
-        {
-            aParking = new Parking();
-        }
+        //[TestInitialize]
+        //public void SetUpParking()
+        //{
+        //    aParking = new Parking();
+        //}
 
-        [TestMethod]
-        public void CreateParkingActualCountryArgentina()
-        {
-            Country arg = new Argentina();
-            aParking.ActualCountry = arg;
-            Assert.AreEqual(aParking.GetAllAccounts().Count, 0);
-            Assert.AreEqual(aParking.GetAllPurchases().Count, 0);
-            Assert.AreEqual(aParking.CostPerMinute, 1);
-            Assert.AreEqual(aParking.ActualCountry.GetCountryTag(), "AR");
-        }
+        //[TestMethod]
+        //public void CreateParkingActualCountryArgentina()
+        //{
+        //    Country arg = new Argentina();
+        //    aParking.ActualCountry = arg;
+        //    Assert.AreEqual(aParking.GetAllAccounts().Count, 0);
+        //    Assert.AreEqual(aParking.GetAllPurchases().Count, 0);
+        //    Assert.AreEqual(aParking.CostPerMinute, 1);
+        //    Assert.AreEqual(aParking.ActualCountry.GetCountryTag(), "AR");
+        //}
 
-        [TestMethod]
-        public void CreateParkingActualCountryUruguay()
-        {
-            Country uy = new Uruguay();
-            aParking.ActualCountry = uy;
-            Assert.AreEqual(aParking.GetAllAccounts().Count, 0);
-            Assert.AreEqual(aParking.GetAllPurchases().Count, 0);
-            Assert.AreEqual(aParking.CostPerMinute, 1);
-            Assert.AreEqual(aParking.ActualCountry.GetCountryTag(), "UY");
-        }
+        //[TestMethod]
+        //public void CreateParkingActualCountryUruguay()
+        //{
+        //    Country uy = new Uruguay();
+        //    aParking.ActualCountry = uy;
+        //    Assert.AreEqual(aParking.GetAllAccounts().Count, 0);
+        //    Assert.AreEqual(aParking.GetAllPurchases().Count, 0);
+        //    Assert.AreEqual(aParking.CostPerMinute, 1);
+        //    Assert.AreEqual(aParking.ActualCountry.GetCountryTag(), "UY");
+        //}
 
-        [TestMethod]
-        public void AddAccount()
-        {
-            Account anAccount = new Account() { Phone = "098 204 265" };
+        //[TestMethod]
+        //public void AddAccount()
+        //{
+        //    Account anAccount = new Account() { Phone = "098 204 265" };
 
-            aParking.AddAccount(anAccount);
+        //    aParking.AddAccount(anAccount);
 
-            Assert.AreEqual(aParking.GetAllAccounts().Count, 1);
-            Assert.IsTrue(aParking.GetAllAccounts().Contains(anAccount));
-        }
+        //    Assert.AreEqual(aParking.GetAllAccounts().Count, 1);
+        //    Assert.IsTrue(aParking.GetAllAccounts().Contains(anAccount));
+        //}
 
         [TestMethod]
         [ExpectedException(typeof(BusinessException))]

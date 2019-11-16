@@ -14,10 +14,7 @@ namespace BusinessLogic.Test
         [TestInitialize]
         public void SetUpPurchaseRepository()
         {
-            purchaseRepository = new PurchaseRepository()
-            {
-                Context = new ParkingContext()
-            };
+            purchaseRepository = new PurchaseRepository(new ParkingContext());
         }
 
         [TestCleanup]

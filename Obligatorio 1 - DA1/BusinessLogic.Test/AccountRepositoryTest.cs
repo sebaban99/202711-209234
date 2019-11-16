@@ -13,10 +13,7 @@ namespace BusinessLogic.Test
         [TestInitialize]
         public void SetUpAccountRepository()
         {
-            accountRepository = new AccountRepository()
-            {
-                Context = new ParkingContext()
-            };
+            accountRepository = new AccountRepository(new ParkingContext());
         }
 
         [TestCleanup]
@@ -41,7 +38,7 @@ namespace BusinessLogic.Test
                 Balance = 0
             };
 
-            accountRepository.Context.Accounts.Add(account);
+            accountRepository.Add(account);
 
             Assert.AreEqual(accountRepository.GetAll().Count(), 1);
             Assert.IsTrue(accountRepository.GetAll().Contains(account));

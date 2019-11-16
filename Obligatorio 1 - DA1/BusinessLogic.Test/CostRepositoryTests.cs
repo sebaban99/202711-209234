@@ -13,10 +13,7 @@ namespace BusinessLogic.Test
         [TestInitialize]
         public void SetUpCostRepository()
         {
-            costRepository = new CostRepository()
-            {
-                Context = new ParkingContext()
-            };
+            costRepository = new CostRepository(new ParkingContext());
         }
 
         [TestMethod]
@@ -70,7 +67,7 @@ namespace BusinessLogic.Test
 
             costRepository.Update(aCost);
 
-            Assert.AreEqual(costRepository.Get(aCost.CountryTag).Value, 2);
+            Assert.AreEqual(costRepository.Get("",aCost.CountryTag).Value, 2);
         }
 
         [TestMethod]
