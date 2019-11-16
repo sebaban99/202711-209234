@@ -7,15 +7,27 @@ using System.Linq;
 
 namespace BusinessLogic
 {
-    public class AccountRepository
+    public class AccountRepository : ParkingRepository<Account>
     {
-        public ParkingContext Context { get; set; }
+        public AccountRepository(ParkingContext context)
+        {
+            Context = context;
+        }
 
-        public void Add(Account entity)
+        public override void Update(Account modifiedEntity)
         {
             try
             {
-                Context.Set<Account>().Add(entity);
+                Account accountToUpdate =
+              Context.Accounts.First(a => a.Id == modifiedEntity.Id);
+
+                if (accountToUpdate == null)
+                {
+                    throw new DatabaseException("La cuenta que esta intentando " +
+                        "actualizar no se encuentra en la base de datos");
+                }
+                Context.Accounts.Attach(accountToUpdate);
+                accountToUpdate.Balance = modifiedEntity.Balance;
                 Context.SaveChanges();
             }
             catch (DbException)
@@ -24,22 +36,7 @@ namespace BusinessLogic
             }
         }
 
-        public void Update(Account modifiedEntity)
-        {
-            Account accountToUpdate = 
-                Context.Accounts.First(a => a.Id == modifiedEntity.Id);
-
-            if (accountToUpdate == null)
-            {
-                throw new DatabaseException("La cuenta que esta intentando " +
-                    "actualizar no se encuentra en la base de datos");
-            }
-            Context.Accounts.Attach(accountToUpdate);
-            accountToUpdate.Balance = modifiedEntity.Balance;
-            Context.SaveChanges();
-        }
-
-        public Account Get(string phoneNumber, string countryTag)
+        public override Account Get(string phoneNumber, string countryTag)
         {
             try
             {
@@ -47,31 +44,11 @@ namespace BusinessLogic
                     a.Phone.Equals(phoneNumber) &&
                     a.CountryTag.Equals(countryTag)).FirstOrDefault();
             }
-            catch (DatabaseException)
-            {
-                return null;
-            }
-        }
-
-        public IEnumerable<Account> GetAll()
-        {
-            return Context.Accounts.ToList();
-        }
-
-        public void Empty()
-        {
-            try
-            {
-                foreach (Account a in Context.Accounts.ToList())
-                {
-                    Context.Accounts.Remove(a);
-                    Context.SaveChanges();
-                }
-            }
             catch (DbException)
             {
                 throw new DatabaseException("Database Error");
             }
         }
+
     }
 }

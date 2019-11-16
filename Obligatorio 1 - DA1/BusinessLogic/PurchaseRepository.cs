@@ -7,53 +7,20 @@ using BusinessLogic.Interfaces;
 
 namespace BusinessLogic
 {
-    public class PurchaseRepository
+    public class PurchaseRepository : ParkingRepository<Purchase>
     {
-        public ParkingContext Context { get; set; }
-
-
-        public void Add(Purchase entity)
+        public PurchaseRepository(ParkingContext context)
         {
-            try
-            {
-                Context.Set<Purchase>().Add(entity);
-                Context.SaveChanges();
-            }
-            catch (DbException)
-            {
-                throw new DatabaseException("Database Error");
-            }
+            Context = context;
         }
 
-        public Purchase Get(string licensePlate, string countryTag)
+        public override Purchase Get(string licensePlate, string countryTag)
         {
             try
             {
                 return Context.Purchases.Where(p =>
                 p.LicensePlate.Equals(licensePlate) &&
                 p.CountryTag.Equals(countryTag)).FirstOrDefault();
-
-            }
-            catch (DatabaseException)
-            {
-                return null;
-            }
-        }
-
-        public IEnumerable<Purchase> GetAll()
-        {
-            return Context.Purchases.ToList();
-        }
-
-        public void Empty()
-        {
-            try
-            {
-                foreach (Purchase p in Context.Purchases.ToList())
-                {
-                    Context.Purchases.Remove(p);
-                    Context.SaveChanges();
-                }
             }
             catch (DbException)
             {

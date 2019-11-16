@@ -5,18 +5,21 @@ using System.Linq;
 
 namespace BusinessLogic
 {
-    public class CostRepository
+    public class CostRepository : ParkingRepository<CostPerMinute>
     {
-        public ParkingContext Context { get; set; }
+        public CostRepository(ParkingContext context)
+        {
+            Context = context;
+        }
 
-        public void Add(CostPerMinute entity)
+        public override void Add(CostPerMinute entity)
         {
             try
             {
-                CostPerMinute costToUpdate =
+                CostPerMinute costToAdd =
                Context.Costs.First(c => c.CountryTag == entity.CountryTag);
 
-                if (costToUpdate == null)
+                if (costToAdd == null)
                 {
                     Context.Set<CostPerMinute>().Add(entity);
                     Context.SaveChanges();
@@ -33,48 +36,40 @@ namespace BusinessLogic
             }
         }
 
-        public CostPerMinute Get(string countryTag)
+        public override CostPerMinute Get(string key, string countryTag)
         {
             try
             {
                 return Context.Costs.Where(c =>
                     c.CountryTag.Equals(countryTag)).FirstOrDefault();
             }
-            catch (DatabaseException)
+            catch (DbException)
             {
-                return null;
+                throw new DatabaseException("El costo" +
+                    " no se encuentra en la base de datos");
             }
         }
 
-        public void Empty()
+        public override void Update(CostPerMinute modifiedCost)
         {
             try
             {
-                foreach (CostPerMinute c in Context.Costs.ToList())
+                CostPerMinute costToUpdate =
+                                Context.Costs.First(c => c.Id == modifiedCost.Id);
+
+                if (costToUpdate == null)
                 {
-                    Context.Costs.Remove(c);
-                    Context.SaveChanges();
+                    throw new DatabaseException("El costo que esta intentando " +
+                        "actualizar no se encuentra en la base de datos");
                 }
+                Context.Costs.Attach(costToUpdate);
+                costToUpdate.Value = modifiedCost.Value;
+                Context.SaveChanges();
             }
             catch (DbException)
             {
-                throw new DatabaseException("Database Error");
+                throw new DatabaseException("DatabaseException");
             }
-        }
-
-        public void Update(CostPerMinute modifiedCost)
-        {
-            CostPerMinute costToUpdate =
-                Context.Costs.First(c => c.Id == modifiedCost.Id);
-
-            if (costToUpdate == null)
-            {
-                throw new DatabaseException("El costo que esta intentando " +
-                    "actualizar no se encuentra en la base de datos");
-            }
-            Context.Costs.Attach(costToUpdate);
-            costToUpdate.Value = modifiedCost.Value;
-            Context.SaveChanges();
         }
     }
 }
