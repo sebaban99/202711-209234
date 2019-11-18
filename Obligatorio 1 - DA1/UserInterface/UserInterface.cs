@@ -21,17 +21,27 @@ namespace UserInterface
         public UserInterface()
         {
             InitializeComponent();
-            ParkingContext context = new ParkingContext();
-            ParkingRepository<Purchase> purchaseRepository = 
+            try
+            {
+                ParkingContext context = new ParkingContext();
+            ParkingRepository<Purchase> purchaseRepository =
                 new PurchaseRepository(context);
-            ParkingRepository<Account> accountRepository = 
+            ParkingRepository<Account> accountRepository =
                 new AccountRepository(context);
             ParkingRepository<BusinessLogic.CostPerMinute> costRepository =
                 new CostRepository(context);
-            MyParking = new Parking(purchaseRepository,
-                accountRepository, costRepository);
+            
+                MyParking = new Parking(purchaseRepository,
+                    accountRepository, costRepository);
+                costPerMinute = new CostPerMinute(MyParking);
+            }
+            catch(DatabaseException) {
+                MessageBox.Show("Hola", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
         }
-        
+
         private void GoBackToWelcomeWindow()
         {
             pnlPrincipal.Controls.Add(lblWelcome);
@@ -115,5 +125,5 @@ namespace UserInterface
             lblActiveCountry.Text = "Uruguay";
             costPerMinute.GetNumericUpDown().Value = MyParking.GetActualCost().Value;
         }
-   }
+    }
 }

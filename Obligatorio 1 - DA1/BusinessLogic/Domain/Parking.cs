@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using BusinessLogic.Domain;
 using BusinessLogic.Exceptions;
 
 namespace BusinessLogic
@@ -151,20 +152,72 @@ namespace BusinessLogic
 
         public void MakePurchase(String aPhone, Purchase aPurchase)
         {
-            Account newAccount = RetrieveAccount(aPhone);
+            Account retrievedAccount = RetrieveAccount(aPhone);
 
-            if (HasEnoughBalance(newAccount, aPurchase))
+            if (HasEnoughBalance(retrievedAccount, aPurchase))
             {
+                int balanceToDecrease = aPurchase.AmountOfMinutes *
+                    GetActualCost().Value;
+                DecreaseBalance(retrievedAccount, balanceToDecrease);
                 AddPurchase(aPurchase);
             }
         }
 
-        public string HashIDtoCountry(int countryID)
+        public bool IsChosenSHEarlierThanChosenFH(ReportDate myReportDate)
         {
-            //TODO: segun el ID de la base de datos, devolver el nombre del pais
-            if (countryID == 1) return "Uruguay";
-            else return "Argentina";
+            return myReportDate.StartingHour.TimeOfDay
+                <= myReportDate.FinishingHour.TimeOfDay;
         }
 
+        public bool AreChosenHoursInParkingHourRange(DateTime hour)
+        {
+            return hour.TimeOfDay >= Country.GetMinimumStartingHour().TimeOfDay
+                && hour.TimeOfDay <= Country.GetMaximumHour().TimeOfDay;
+        }
+
+        public bool IsChosenSDateEarlierThanChosenFDate(ReportDate myReportDate)
+        {
+            return myReportDate.StartingDate.Date
+                <= myReportDate.FinishingDate.Date;
+        }
+
+        public bool ArePurchaseHoursInRangeForReport(ReportDate myReportDate,
+            DateTime purchaseStartingHour, DateTime purchaseFinishingHour)
+        {
+            return (purchaseStartingHour.TimeOfDay <= myReportDate.StartingHour.TimeOfDay
+                && purchaseFinishingHour.TimeOfDay >= myReportDate.StartingHour.TimeOfDay)
+
+                || (purchaseStartingHour.TimeOfDay <= myReportDate.FinishingHour.TimeOfDay
+                && purchaseFinishingHour.TimeOfDay >= myReportDate.FinishingHour.TimeOfDay)
+
+                || (purchaseStartingHour.TimeOfDay >= myReportDate.StartingHour.TimeOfDay
+                && purchaseFinishingHour.TimeOfDay <= myReportDate.FinishingHour.TimeOfDay);
+        }
+
+        public bool IsPurchaseDateInRangeForReport(ReportDate myReportDate, DateTime purchaseDate)
+        {
+            return purchaseDate.Date >= myReportDate.StartingDate.Date
+                && purchaseDate.Date <= myReportDate.FinishingDate.Date;
+        }
+
+        public void DecreaseBalance(Account account, int aNumber)
+        {
+            int decreasedBalance = account.Balance - aNumber;
+            account.Balance = decreasedBalance;
+            accountRepository.Update(account);
+        }
+
+        public void IncreaseBalance(Account account, int balanceAddition)
+        {
+            if (balanceAddition <= 0)
+            {
+                throw new BusinessException("Ingresar entero mayor a cero");
+            }
+            else
+            {
+                account.Balance += balanceAddition;
+                accountRepository.Update(account);
+            }
+        }
     }
 }

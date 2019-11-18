@@ -69,8 +69,8 @@ namespace UserInterface
             if (MyParking.ActualCountry.IsPhoneNumberValid(phoneNumber))
             {
                 phoneNumber = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber);
-                Account newAccount = MyParking.RetrieveAccount(phoneNumber);
-                newAccount.IncreaseBalance(Int32.Parse(balanceToIncrease));
+                Account retrievedAccount = MyParking.RetrieveAccount(phoneNumber);
+                MyParking.IncreaseBalance(retrievedAccount, Int32.Parse(balanceToIncrease));
             }
 
             MessageBox.Show("Saldo agregado correctamente", "Saldo agregado",

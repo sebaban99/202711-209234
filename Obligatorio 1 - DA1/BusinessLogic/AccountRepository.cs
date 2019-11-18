@@ -26,7 +26,6 @@ namespace BusinessLogic
                     throw new DatabaseException("La cuenta que esta intentando " +
                         "actualizar no se encuentra en la base de datos");
                 }
-                Context.Accounts.Attach(accountToUpdate);
                 accountToUpdate.Balance = modifiedEntity.Balance;
                 Context.SaveChanges();
             }

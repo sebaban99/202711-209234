@@ -55,6 +55,7 @@
     <Compile Include="Argentina.cs" />
     <Compile Include="CostPerMinute.cs" />
     <Compile Include="CostRepository.cs" />
+    <Compile Include="Domain\ReportDate.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Domain\Account.cs" />
     <Compile Include="Exceptions\BusinessException.cs" />

@@ -14,10 +14,7 @@ namespace BusinessLogic.Test
         [TestInitialize]
         public void SetUpAccount()
         {
-            ac = new Account
-            {
-                Balance = 0
-            };
+            ac = new Account();
         }
 
         [TestMethod]
@@ -31,55 +28,55 @@ namespace BusinessLogic.Test
             Assert.AreEqual(ac.Phone, "098 204 265");
         }
 
-        [TestMethod]
-        public void DecreaseBalance()
-        {
-            ac.Balance = 120;
+        //[TestMethod]
+        //public void DecreaseBalance()
+        //{
+        //    ac.Balance = 120;
 
-            ac.DecreaseBalance(30);
+        //    ac.DecreaseBalance(30);
 
-            Assert.AreEqual(ac.Balance, 90);
-        }
+        //    Assert.AreEqual(ac.Balance, 90);
+        //}
 
-        [TestMethod]
-        public void DecreaseBalanceAndLeaveItOnZero()
-        {
-            ac.Balance = 30;
+        //[TestMethod]
+        //public void DecreaseBalanceAndLeaveItOnZero()
+        //{
+        //    ac.Balance = 30;
 
-            ac.DecreaseBalance(30);
+        //    ac.DecreaseBalance(30);
 
-            Assert.AreEqual(ac.Balance, 0);
-        }
+        //    Assert.AreEqual(ac.Balance, 0);
+        //}
 
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void DecreaseBalanceWithABiggerNumberThanCurrentBalance()
-        {
-            ac.Balance = 30;
+        //[TestMethod]
+        //[ExpectedException(typeof(BusinessException))]
+        //public void DecreaseBalanceWithABiggerNumberThanCurrentBalance()
+        //{
+        //    ac.Balance = 30;
 
-            ac.DecreaseBalance(120);
-        }
+        //    ac.DecreaseBalance(120);
+        //}
 
-        [TestMethod]
-        public void IncreaseBalance()
-        {
-            ac.IncreaseBalance(30);
+        //[TestMethod]
+        //public void IncreaseBalance()
+        //{
+        //    ac.IncreaseBalance(30);
 
-            Assert.AreEqual(ac.Balance, 30);
-        }
+        //    Assert.AreEqual(ac.Balance, 30);
+        //}
 
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void IncreaseBalanceWithNegativeNumber()
-        {
-            ac.IncreaseBalance(-15);
-        }
+        //[TestMethod]
+        //[ExpectedException(typeof(BusinessException))]
+        //public void IncreaseBalanceWithNegativeNumber()
+        //{
+        //    ac.IncreaseBalance(-15);
+        //}
 
-        [TestMethod]
-        [ExpectedException(typeof(BusinessException))]
-        public void IncreaseBalanceWithZero()
-        {
-            ac.IncreaseBalance(0);
-        }
+        //[TestMethod]
+        //[ExpectedException(typeof(BusinessException))]
+        //public void IncreaseBalanceWithZero()
+        //{
+        //    ac.IncreaseBalance(0);
+        //}
     }
 }
