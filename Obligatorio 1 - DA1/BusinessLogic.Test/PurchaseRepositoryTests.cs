@@ -47,6 +47,7 @@ namespace BusinessLogic.Test
             };
 
             purchaseRepository.Context.Purchases.Add(purchase);
+            purchaseRepository.Context.SaveChanges();
 
             Assert.AreEqual(purchaseRepository.GetAll().Count(), 1);
             Assert.IsTrue(purchaseRepository.GetAll().Contains(purchase));
@@ -76,15 +77,6 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(DatabaseException))]
-        public void AddPNullurchase()
-        {
-            Purchase purchase = null;
-
-            purchaseRepository.Add(purchase);
-        }
-
-        [TestMethod]
         public void GetPurchase()
         {
             DateTime startingHour = DateTime.Today;
@@ -110,8 +102,10 @@ namespace BusinessLogic.Test
                 CountryTag = "UY"
             };
 
-            purchaseRepository.Add(purchaseAR);
-            purchaseRepository.Add(purchaseUY);
+            purchaseRepository.Context.Purchases.Add(purchaseAR);
+            purchaseRepository.Context.SaveChanges();
+            purchaseRepository.Context.Purchases.Add(purchaseUY);
+            purchaseRepository.Context.SaveChanges();
 
             Assert.AreEqual(purchaseRepository.Get("ABA 1234", "UY"), purchaseUY);
         }
@@ -133,7 +127,8 @@ namespace BusinessLogic.Test
                 CountryTag = "AR"
             };
 
-            purchaseRepository.Add(purchaseAR);
+            purchaseRepository.Context.Purchases.Add(purchaseAR);
+            purchaseRepository.Context.SaveChanges();
 
             Assert.AreEqual(purchaseRepository.Get("ABA 1234", "UY"), null);
         }

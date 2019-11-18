@@ -46,9 +46,9 @@ namespace BusinessLogic
         {
             try
             {
-                foreach (Account a in Context.Accounts.ToList())
+                foreach (T a in Context.Set<T>().ToList())
                 {
-                    Context.Accounts.Remove(a);
+                    Context.Set<T>().Remove(a);
                     Context.SaveChanges();
                 }
             }

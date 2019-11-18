@@ -26,7 +26,7 @@ namespace BusinessLogic
                 }
                 else
                 {
-                    new DatabaseException("Ya existe un costo asociado al pais," +
+                    throw new DatabaseException("Ya existe un costo asociado al pais," +
                         " si quiere modificarlo actualizelo");
                 }
             }

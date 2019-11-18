@@ -19,7 +19,7 @@ namespace BusinessLogic
             try
             {
                 Account accountToUpdate =
-              Context.Accounts.First(a => a.Id == modifiedEntity.Id);
+              Context.Accounts.FirstOrDefault(a => a.Id == modifiedEntity.Id);
 
                 if (accountToUpdate == null)
                 {

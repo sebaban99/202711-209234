@@ -16,8 +16,13 @@ namespace BusinessLogic.Test
             costRepository = new CostRepository(new ParkingContext());
         }
 
+        [TestCleanup]
+        public void CleanUp()
+        {
+            costRepository.Empty();
+        }
+
         [TestMethod]
-        [ExpectedException(typeof(DatabaseException))]
         public void AddNewCostPerMinute()
         {
             CostPerMinute aCost = new CostPerMinute()
@@ -33,6 +38,7 @@ namespace BusinessLogic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(DatabaseException))]
         public void AddAlreadyExistentCostPerMinute()
         {
             CostPerMinute aCost = new CostPerMinute()
@@ -42,12 +48,13 @@ namespace BusinessLogic.Test
             };
 
             costRepository.Context.Costs.Add(aCost);
+            costRepository.Context.SaveChanges();
 
             CostPerMinute newCost = new CostPerMinute()
-             {
-                 Value = 2,
-                 CountryTag = "UY"
-             };
+            {
+                Value = 2,
+                CountryTag = "UY"
+            };
 
             costRepository.Add(newCost);
         }
@@ -62,12 +69,12 @@ namespace BusinessLogic.Test
             };
 
             costRepository.Context.Costs.Add(aCost);
-
+            costRepository.Context.SaveChanges();
             aCost.Value = 2;
 
             costRepository.Update(aCost);
 
-            Assert.AreEqual(costRepository.Get("",aCost.CountryTag).Value, 2);
+            Assert.AreEqual(costRepository.Get("", aCost.CountryTag).Value, 2);
         }
 
         [TestMethod]

@@ -6,7 +6,8 @@ using System.Linq;
 
 namespace BusinessLogic.Test
 {
-    class AccountRepositoryTest
+    [TestClass]
+    public class AccountRepositoryTest
     {
         private AccountRepository accountRepository;
 
@@ -39,6 +40,7 @@ namespace BusinessLogic.Test
             };
 
             accountRepository.Context.Accounts.Add(account);
+            accountRepository.Context.SaveChanges();
 
             Assert.AreEqual(accountRepository.GetAll().Count(), 1);
             Assert.IsTrue(accountRepository.GetAll().Contains(account));
@@ -60,14 +62,6 @@ namespace BusinessLogic.Test
             Assert.IsTrue(accountRepository.GetAll().Contains(account));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(DatabaseException))]
-        public void AddNullAccount()
-        {
-            Account account = null;
-
-            accountRepository.Add(account);
-        }
 
         [TestMethod]
         public void GetAccount()
@@ -87,7 +81,9 @@ namespace BusinessLogic.Test
             };
 
             accountRepository.Context.Accounts.Add(accountAR);
+            accountRepository.Context.SaveChanges();
             accountRepository.Context.Accounts.Add(accountUY);
+            accountRepository.Context.SaveChanges();
 
             Assert.AreEqual(accountRepository.Get("098 204 265", "UY"), accountUY);
         }
@@ -109,6 +105,7 @@ namespace BusinessLogic.Test
             };
 
             accountRepository.Context.Accounts.Add(accountUY);
+            accountRepository.Context.SaveChanges();
 
             accountUY.Balance = 100;
 
