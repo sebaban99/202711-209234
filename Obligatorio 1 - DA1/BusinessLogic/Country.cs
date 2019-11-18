@@ -8,9 +8,10 @@ namespace BusinessLogic
 {
     public abstract class Country
     {
-        protected readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
-        protected readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
+        protected static readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
+        protected static readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
         protected string countryTag;
+
 
         public abstract DateTime ExtractStartingHour(string message);
 
@@ -94,6 +95,13 @@ namespace BusinessLogic
             return Int32.Parse(number);
         }
 
+        protected string RemoveSpacesString(string text)
+        {
+            StringBuilder stringWithoutSpaces = new StringBuilder(text);
+            stringWithoutSpaces.Replace(" ", "");
+            return stringWithoutSpaces.ToString();
+        }
+
         protected virtual bool IsHourValid(string hours)
         {
             return Int32.Parse(hours) >= 10 && Int32.Parse(hours) < 18;
@@ -166,6 +174,7 @@ namespace BusinessLogic
 
         public virtual string FormatLicensePlate(string licensePlate)
         {
+            RemoveSpacesString(licensePlate);
             StringBuilder formattedLicensePlate = new StringBuilder(licensePlate);
             formattedLicensePlate.Replace(formattedLicensePlate.ToString().Substring(0, 3),
                 formattedLicensePlate.ToString().Substring(0, 3).ToUpper().Trim());
@@ -176,6 +185,16 @@ namespace BusinessLogic
         public virtual DateTime GetDateTimeNow()
         {
             return DateTime.Now;
+        }
+
+        public static DateTime GetMinimumStartingHour()
+        {
+            return MINIMUM_STARTING_HOUR;
+        }
+
+        public static DateTime GetMaximumHour()
+        {
+            return MAXIMUM_HOUR;
         }
     }
 }

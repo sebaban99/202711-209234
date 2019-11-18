@@ -20,13 +20,6 @@ namespace BusinessLogic
             countryTag = "UY";
         }
 
-        private string RemoveSpacesString(string text)
-        {
-            StringBuilder stringWithoutSpaces = new StringBuilder(text);
-            stringWithoutSpaces.Replace(" ", "");
-            return stringWithoutSpaces.ToString();
-        }
-
         private bool PhoneNumberValidationStartingWithNine(string aPhone)
         {
             return aPhone[0] == '9' && aPhone.Length == 8;
