@@ -55,6 +55,11 @@ namespace BusinessLogic
             return aPhone;
         }
 
+        public string GetCountryTag()
+        {
+            return countryTag;
+        }
+
 
         protected string[] ObtainActualMessage(string[] messageSplit)
         {

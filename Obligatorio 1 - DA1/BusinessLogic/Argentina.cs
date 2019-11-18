@@ -10,7 +10,7 @@ namespace BusinessLogic
     {
         public Argentina() {
 
-            countryTag = "ARG";
+            countryTag = "AR";
         }
 
         private bool IsPhoneNumberLengthValid(string phoneNumber)
@@ -57,9 +57,14 @@ namespace BusinessLogic
             else
             {
                 throw new BusinessException("Número de teléfono inválido, " +
-                    "verifique que no contenga giones en primera o última " +
-                    "posición, o seguidos");
+                    "verifique el largo, que no contenga espacios y/o giones en " +
+                    "primera o última posición, o seguidos");
             }
+        }
+
+        public override string FormatPhoneNumber(string aPhone)
+        {
+            return RemoveHyphensFromString(aPhone);
         }
 
         protected override bool AreMinutesValid(string[] actualMessage)

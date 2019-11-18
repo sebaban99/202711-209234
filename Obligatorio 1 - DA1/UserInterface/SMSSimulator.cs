@@ -51,6 +51,11 @@ namespace UserInterface
                     MessageBox.Show(ex.Message, "Error",
                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                catch(DatabaseException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error",
+                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -61,11 +66,24 @@ namespace UserInterface
 
         private void TryToMakeAPurchase(string phoneNumber, string purchaseMessage)
         {
-            if (MyParking.ActualCountry.IsPhoneNumberValid(phoneNumber))
+            if (MyParking.ActualCountry.IsPhoneNumberValid(phoneNumber) &&
+                MyParking.ActualCountry.IsMessageValid(purchaseMessage))
             {
-                phoneNumber = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber);
-                Purchase newPurchase = new Purchase();
-                newPurchase.SetPurchaseProperties(purchaseMessage);
+                phoneNumber =
+                    MyParking.ActualCountry.FormatPhoneNumber(phoneNumber);
+                Purchase newPurchase = new Purchase()
+                {
+                    StartingHour =
+                    MyParking.ActualCountry.ExtractStartingHour(purchaseMessage),
+                    FinishingHour =
+                    MyParking.ActualCountry.ExtractFinishingHour(purchaseMessage),
+                    AmountOfMinutes =
+                    MyParking.ActualCountry.ExtractMinutes(purchaseMessage),
+                    CountryTag =
+                    MyParking.ActualCountry.GetCountryTag(),
+                    LicensePlate =
+                    MyParking.ActualCountry.ExtractLicensePlate(purchaseMessage)
+                };
 
                 MyParking.MakePurchase(phoneNumber, newPurchase);
             }

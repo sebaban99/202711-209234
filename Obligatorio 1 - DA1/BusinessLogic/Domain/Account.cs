@@ -9,15 +9,12 @@ namespace BusinessLogic
 {
     public class Account
     {
+        public int Id { get; set; }
         public string Phone { get; set; }
         public int Balance { get; set; }
+        public string CountryTag { get; set; }
 
-        private const int DEFAULT_BALANCE = 0;
-
-        public Account()
-        {
-            this.Balance = DEFAULT_BALANCE;
-        }
+        public Account() { }
 
         public void DecreaseBalance(int aNumber)
         {

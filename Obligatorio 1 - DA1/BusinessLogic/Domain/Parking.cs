@@ -8,68 +8,103 @@ namespace BusinessLogic
 {
     public class Parking
     {
-        private List<Account> accounts;
-        private List<Purchase> purchases;
-        public int CostPerMinute { get; set; }
         public Country ActualCountry { get; set; }
+        private ParkingRepository<Purchase> purchaseRepository;
+        private ParkingRepository<Account> accountRepository;
+        private ParkingRepository<CostPerMinute> costRepository;
+        private const int INICIAL_DEFAULT_COSTPERMINUTE = 1;
 
-        public Parking()
+        public Parking(ParkingRepository<Purchase> purchaseRepository,
+            ParkingRepository<Account> accountRepository,
+            ParkingRepository<CostPerMinute> costRepository)
         {
-            this.accounts = new List<Account>();
-            this.purchases = new List<Purchase>();
-            this.CostPerMinute = 1;
+            this.purchaseRepository = purchaseRepository;
+            this.accountRepository = accountRepository;
+            this.costRepository = costRepository;
             ActualCountry = new Uruguay();
+            LoadInicialCost();
         }
 
-        public List<Account> GetAllAccounts()
+        public void UpdateCost(int newValue)
         {
-            return accounts;
+            CostPerMinute newCost = GetActualCost();
+            newCost.Value = newValue;
+            costRepository.Update(newCost);
         }
 
-        public List<Purchase> GetAllPurchases()
+        private void LoadInicialCost()
         {
-            return purchases;
+            CostPerMinute inicialCostUy = new CostPerMinute()
+            {
+                Value = INICIAL_DEFAULT_COSTPERMINUTE,
+                CountryTag = "UY"
+            };
+
+            CostPerMinute inicialCostAr = new CostPerMinute()
+            {
+                Value = INICIAL_DEFAULT_COSTPERMINUTE,
+                CountryTag = "AR"
+            };
+            CostPerMinute a = GetActualCost();
+            if (a == null)
+            {
+                costRepository.Add(inicialCostUy);
+                costRepository.Add(inicialCostAr);
+            }
+        }
+
+        public IEnumerable<Account> GetAllAccounts()
+        {
+            return accountRepository.GetAll();
+        }
+
+        public IEnumerable<Purchase> GetAllPurchases()
+        {
+            return purchaseRepository.GetAll();
         }
 
         public void AddAccount(Account anAccount)
         {
-            accounts.Add(anAccount);
+            accountRepository.Add(anAccount);
         }
 
         private void AddPurchase(Purchase aPurchase)
         {
-            purchases.Add(aPurchase);
+            purchaseRepository.Add(aPurchase);
         }
 
         public Account RetrieveAccount(string aPhone)
         {
-
-            foreach (Account ac in accounts)
+            Account retrievedAccount =
+                accountRepository.Get(aPhone, ActualCountry.GetCountryTag());
+            if (retrievedAccount == null)
             {
-                if (ac.Phone == aPhone)
-                {
-                    return ac;
-                }
+                throw new BusinessException("Móvil no registrado");
             }
-            throw new BusinessException("Móvil no registrado");
+            return retrievedAccount;
         }
 
         public bool IsAccountAlreadyRegistered(string aPhone)
         {
-            foreach (Account ac in accounts)
+            Account retrievedAccount =
+               accountRepository.Get(aPhone, ActualCountry.GetCountryTag());
+            if (retrievedAccount == null)
             {
-                if (ac.Phone == aPhone)
-                {
-                    throw new BusinessException("Móvil: " + aPhone + " ya registrado");
-                }
+                return false;
             }
-            return false;
+            throw new BusinessException("Móvil: " + aPhone + " ya registrado");
+        }
 
+        public CostPerMinute GetActualCost()
+        {
+            CostPerMinute a = costRepository.Get
+                     ("", ActualCountry.GetCountryTag());
+            return a;
         }
 
         private bool HasEnoughBalance(Account anAccount, Purchase aPurchase)
         {
-            if (anAccount.Balance >= aPurchase.AmountOfMinutes * CostPerMinute)
+            if (anAccount.Balance >= aPurchase.AmountOfMinutes * GetActualCost().Value)
             {
                 return true;
             }
@@ -85,7 +120,8 @@ namespace BusinessLogic
             }
             else
             {
-                throw new BusinessException("Error, elija una hora para el dia de hoy que este entre las 10:00 y las 18:00");
+                throw new BusinessException("Error, elija una hora para el dia" +
+                    " de hoy que este entre las 10:00 y las 18:00");
             }
         }
 
@@ -97,10 +133,11 @@ namespace BusinessLogic
 
         public bool IsPurchaseActive(string licencePlateToConfirm, DateTime theMoment)
         {
-            licencePlateToConfirm = ActualCountry.FormatLicensePlate(licencePlateToConfirm);
+            licencePlateToConfirm =
+                ActualCountry.FormatLicensePlate(licencePlateToConfirm);
             if (IsDateChosenInRange(theMoment))
             {
-                foreach (Purchase p in purchases)
+                foreach (Purchase p in purchaseRepository.GetAll())
                 {
                     if (p.LicensePlate.Equals(licencePlateToConfirm) &&
                         IsPurchaseInRange(p, theMoment))
@@ -118,7 +155,7 @@ namespace BusinessLogic
 
             if (HasEnoughBalance(newAccount, aPurchase))
             {
-                this.AddPurchase(aPurchase);
+                AddPurchase(aPurchase);
             }
         }
     }

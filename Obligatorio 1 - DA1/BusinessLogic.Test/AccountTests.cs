@@ -9,19 +9,32 @@ namespace BusinessLogic.Test
     [TestClass]
     public class AccountTests
     {
-        [TestMethod]
-        public void CreateAccount()
-        {
-            Account ac = new Account() { Phone = "098 204 265" };
+        private Account ac;
 
+        [TestInitialize]
+        public void SetUpAccount()
+        {
+            ac = new Account
+            {
+                Balance = 0
+            };
+        }
+
+        [TestMethod]
+        public void SetAccountProperties()
+        {
+            ac.Phone = "098 204 265";
+            ac.CountryTag = "AR";
+            ac.Balance = 0;
             Assert.AreEqual(ac.Balance, 0);
+            Assert.AreEqual(ac.CountryTag, "AR");
             Assert.AreEqual(ac.Phone, "098 204 265");
         }
 
         [TestMethod]
         public void DecreaseBalance()
         {
-            Account ac = new Account() { Phone = "098 204 265", Balance = 120 };
+            ac.Balance = 120;
 
             ac.DecreaseBalance(30);
 
@@ -31,7 +44,7 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void DecreaseBalanceAndLeaveItOnZero()
         {
-            Account ac = new Account() { Phone = "098 204 265", Balance = 30 };
+            ac.Balance = 30;
 
             ac.DecreaseBalance(30);
 
@@ -42,7 +55,7 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void DecreaseBalanceWithABiggerNumberThanCurrentBalance()
         {
-            Account ac = new Account() { Phone = "098 204 265", Balance = 30 };
+            ac.Balance = 30;
 
             ac.DecreaseBalance(120);
         }
@@ -50,7 +63,6 @@ namespace BusinessLogic.Test
         [TestMethod]
         public void IncreaseBalance()
         {
-            Account ac = new Account() { Phone = "098 204 265" };
             ac.IncreaseBalance(30);
 
             Assert.AreEqual(ac.Balance, 30);
@@ -60,8 +72,6 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void IncreaseBalanceWithNegativeNumber()
         {
-            Account ac = new Account() { Phone = "098 204 265" };
-
             ac.IncreaseBalance(-15);
         }
 
@@ -69,8 +79,6 @@ namespace BusinessLogic.Test
         [ExpectedException(typeof(BusinessException))]
         public void IncreaseBalanceWithZero()
         {
-            Account ac = new Account() { Phone = "098 204 265" };
-
             ac.IncreaseBalance(0);
         }
     }

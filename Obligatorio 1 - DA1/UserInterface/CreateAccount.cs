@@ -48,6 +48,11 @@ namespace UserInterface
                     MessageBox.Show(ex.Message, "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                catch (DatabaseException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error",
+                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -62,7 +67,9 @@ namespace UserInterface
             {
                 Account newAccount = new Account()
                 {
-                    Phone = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber)
+                    Phone = MyParking.ActualCountry.FormatPhoneNumber(phoneNumber),
+                    CountryTag = MyParking.ActualCountry.GetCountryTag(),
+                    Balance = 0
                 };
 
                 if (!MyParking.IsAccountAlreadyRegistered(newAccount.Phone))
