@@ -16,29 +16,5 @@ namespace BusinessLogic
 
         public Account() { }
 
-        public void DecreaseBalance(int aNumber)
-        {
-            int decreasedBalance = this.Balance - aNumber;
-            if (decreasedBalance < 0)
-            {
-                throw new BusinessException("Saldo insuficiente");
-            }
-            else
-            {
-                this.Balance = decreasedBalance;
-            }
-        }
-
-        public void IncreaseBalance(int balanceAddition)
-        {
-            if (balanceAddition <= 0)
-            {
-                throw new BusinessException("Ingresar entero mayor a cero");
-            }
-            else
-            {
-                this.Balance += balanceAddition;
-            }
-        }
-    }
+    }   
 }

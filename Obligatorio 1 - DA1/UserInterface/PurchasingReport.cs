@@ -9,15 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BusinessLogic;
 using BusinessLogic.Exceptions;
+using BusinessLogic.Domain;
 
 namespace UserInterface
 {
     public partial class PurchasingReport : UserControl
     {
         Parking MyParking { get; set; }
-        private readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
-        private readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
-
+        ReportDate myReportDate;
 
         public PurchasingReport(Parking principalParking)
         {
@@ -26,6 +25,7 @@ namespace UserInterface
             dtpStartingHour.ResetText();
             pnlReport.Hide();
             MyParking = principalParking;
+            myReportDate = new ReportDate();
         }
 
         private void HideAllComponents()
@@ -52,126 +52,73 @@ namespace UserInterface
 
         private void MakeReport()
         {
-            var startingDate = dtpStartingDate.Value;
-            var finishingDate = dtpFinishingDate.Value;
-            var startingHour = dtpStartingHour.Value;
-            var finishingHour = dtpFinishingHour.Value;
+            myReportDate.StartingDate = dtpStartingDate.Value;
+            myReportDate.FinishingDate = dtpFinishingDate.Value;
+            myReportDate.StartingHour = dtpStartingHour.Value;
+            myReportDate.FinishingHour = dtpFinishingHour.Value;
 
-            if (ValidateRangeOfDays(startingDate, finishingDate)
-                && ValidateHourInRange(startingHour)
-                && ValidateHourInRange(finishingHour)
-                && ValidateRangeOfHours(startingHour, finishingHour))
+            if (MyParking.IsChosenSDateEarlierThanChosenFDate(myReportDate)
+                && MyParking.AreChosenHoursInParkingHourRange(myReportDate.StartingHour)
+                && MyParking.AreChosenHoursInParkingHourRange(myReportDate.FinishingHour)
+                && MyParking.IsChosenSHEarlierThanChosenFH(myReportDate))
             {
-                try
+                var countryText = cbCountry.Text;
+
+                if (countryText == "")
                 {
-                    var countryText = cbCountry.Text;
-
-                    if (countryText == "")
-                    {
-                        MakeReportWithAllCountries();
-                    }
-                    else
-                    {
-                        //var country = GetCountryByCode(cbCountry.Text); 
-                        //TODO: database
-                        int countryID = 0;
-                        if (countryText == "Argentina")
-                        {
-                            countryID = 2;
-                        }
-                        else
-                        {
-                            countryID = 1;
-                        }
-
-
-                        MakeReportWithACountry(countryID);
-                    }
+                    GenerateTable("");
                 }
-                catch (BusinessException ex)
+                else
                 {
-                    MessageBox.Show(ex.Message, "Error",
-                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    string country = MapCountryFromOptions(countryText);
+                    GenerateTable(country);
                 }
             }
             else
             {
-                MessageBox.Show("Error en las casillas, verifique información", "Error",
-                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error en las casillas, verifique información",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Dispose();
             }
 
         }
 
-        private bool ValidateRangeOfHours(DateTime startingHour, DateTime finishingHour)
+        private string MapCountryFromOptions(string countryText)
         {
-            return startingHour.TimeOfDay <= finishingHour.TimeOfDay;
+            string countryTag = "";
+
+            if (countryText.Equals("Argentina"))
+            {
+                countryTag = "AR";
+            }
+            else if (countryText.Equals("Uruguay"))
+            {
+                countryTag = "UY";
+            }
+
+            return countryTag;
         }
 
-        private bool ValidateHourInRange(DateTime hour)
+        private void GenerateTable(string countryID)
         {
-            return hour.TimeOfDay >= MINIMUM_STARTING_HOUR.TimeOfDay
-                && hour.TimeOfDay <= MAXIMUM_HOUR.TimeOfDay;
-        }
-
-        private bool ValidateRangeOfDays(DateTime startingDate, DateTime finishingDate)
-        {
-            return startingDate.Date <= finishingDate.Date;
-        }
-
-        private void MakeReportWithACountry(int countryID)
-        {
-            var startingDate = dtpStartingDate.Value;
-            var finishingDate = dtpFinishingDate.Value;
-            var startingHour = dtpStartingHour.Value;
-            var finishingHour = dtpFinishingHour.Value;
-
             foreach (Purchase p in MyParking.GetAllPurchases())
             {
-                if (p.CountryID == countryID)
+                if (countryID.Equals("") || p.CountryTag.Equals(countryID))
                 {
-                    if (IsInRangeOfDays(startingDate, finishingDate, p.StartingHour)
-                        && IsInRangeOfHours(startingHour, finishingHour, p.StartingHour))
+                    if (MyParking.IsPurchaseDateInRangeForReport(myReportDate, p.StartingHour)
+                        && MyParking.ArePurchaseHoursInRangeForReport(myReportDate, p.StartingHour, p.FinishingHour))
                     {
-                        dgReport.Rows.Add(p.LicensePlate, p.StartingHour.Day
-                            + "/" + p.StartingHour.Month + "/" + p.StartingHour.Year,
-                            p.StartingHour.Hour, p.FinishingHour.Hour,
-                            MyParking.HashIDtoCountry(p.CountryID));
+                        AddRowOnReportTable(p);
                     }
                 }
             }
         }
 
-        private void MakeReportWithAllCountries()
+        private void AddRowOnReportTable(Purchase p)
         {
-            var startingDate = dtpStartingDate.Value;
-            var finishingDate = dtpFinishingDate.Value;
-            var startingHour = dtpStartingHour.Value;
-            var finishingHour = dtpFinishingHour.Value;
-
-            foreach (Purchase p in MyParking.GetAllPurchases())
-            {
-                if (IsInRangeOfDays(startingDate, finishingDate, p.StartingHour)
-                    && IsInRangeOfHours(startingHour, finishingHour, p.StartingHour))
-                {
-                    dgReport.Rows.Add(p.LicensePlate, p.StartingHour.Day
-                        + "/" + p.StartingHour.Month + "/" + p.StartingHour.Year,
-                        p.StartingHour.Hour, p.FinishingHour.Hour,
-                        MyParking.HashIDtoCountry(p.CountryID));
-                }
-            }
-        }
-
-        private bool IsInRangeOfHours(DateTime startingHour, DateTime finishingHour, DateTime theHour)
-        {
-            return theHour.TimeOfDay >= startingHour.TimeOfDay
-                && theHour.TimeOfDay <= finishingHour.TimeOfDay;
-        }
-
-        private bool IsInRangeOfDays(DateTime startingDate, DateTime finishingDate, DateTime theDay)
-        {
-            return theDay.Date >= startingDate.Date
-                && theDay.Date <= finishingDate.Date;
+            dgReport.Rows.Add(p.LicensePlate, p.StartingHour.Day
+                            + "/" + p.StartingHour.Month + "/" + p.StartingHour.Year,
+                            p.StartingHour.ToString("HH:mm"), p.FinishingHour.ToString("HH:mm"), p.CountryTag);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)

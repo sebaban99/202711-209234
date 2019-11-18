@@ -62,17 +62,17 @@ namespace UserInterface
 
         private void TryToListPurchases(string licensePlate)
         {
-            if (MyParking.IsLicensePlateValid(licensePlate))
+            if (MyParking.ActualCountry.IsLicensePlateValid(
+                MyParking.ActualCountry.MessageToArray(licensePlate)))
             {
-                licensePlate = MyParking.FormatLicensePlate(licensePlate);
+                licensePlate = MyParking.ActualCountry.FormatLicensePlate(licensePlate);
                 foreach (Purchase p in MyParking.GetAllPurchases())
                 {
-                    if (p.LicensePlate == licensePlate)
+                    if (p.LicensePlate.Equals(licensePlate))
                     {
                         dgReport.Rows.Add(p.LicensePlate, p.StartingHour.Day
                             + "/" + p.StartingHour.Month + "/" + p.StartingHour.Year,
-                            p.StartingHour.Hour, p.FinishingHour.Hour,
-                            MyParking.HashIDtoCountry(p.CountryID));
+                            p.StartingHour.ToString("HH:mm"), p.FinishingHour.ToString("HH:mm"), p.CountryTag);
                     }
                 }
             }
