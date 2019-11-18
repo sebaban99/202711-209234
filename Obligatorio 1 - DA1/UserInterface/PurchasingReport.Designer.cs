@@ -36,7 +36,6 @@
             this.dtpStartingDate = new System.Windows.Forms.DateTimePicker();
             this.dtpStartingHour = new System.Windows.Forms.DateTimePicker();
             this.lblStartingHour = new System.Windows.Forms.Label();
-            this.dtpFinishingHour = new System.Windows.Forms.DateTimePicker();
             this.lblFinishingHour = new System.Windows.Forms.Label();
             this.lblCountry = new System.Windows.Forms.Label();
             this.cbCountry = new System.Windows.Forms.ComboBox();
@@ -48,6 +47,7 @@
             this.columnFinishingHour = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnCountry = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnExit = new System.Windows.Forms.Button();
+            this.dtpFinishingHour = new System.Windows.Forms.DateTimePicker();
             this.pnlReport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgReport)).BeginInit();
             this.SuspendLayout();
@@ -135,7 +135,7 @@
             this.dtpStartingHour.ShowUpDown = true;
             this.dtpStartingHour.Size = new System.Drawing.Size(111, 26);
             this.dtpStartingHour.TabIndex = 26;
-            this.dtpStartingHour.Value = new System.DateTime(2019, 11, 13, 10, 0, 0, 0);
+            this.dtpStartingHour.Value = new System.DateTime(2019, 11, 17, 15, 18, 42, 0);
             // 
             // lblStartingHour
             // 
@@ -147,21 +147,6 @@
             this.lblStartingHour.Size = new System.Drawing.Size(87, 20);
             this.lblStartingHour.TabIndex = 25;
             this.lblStartingHour.Text = "Hora inicio:";
-            // 
-            // dtpFinishingHour
-            // 
-            this.dtpFinishingHour.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dtpFinishingHour.Checked = false;
-            this.dtpFinishingHour.CustomFormat = "HH:mm";
-            this.dtpFinishingHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpFinishingHour.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpFinishingHour.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpFinishingHour.Location = new System.Drawing.Point(322, 87);
-            this.dtpFinishingHour.Name = "dtpFinishingHour";
-            this.dtpFinishingHour.ShowUpDown = true;
-            this.dtpFinishingHour.Size = new System.Drawing.Size(111, 26);
-            this.dtpFinishingHour.TabIndex = 28;
-            this.dtpFinishingHour.Value = new System.DateTime(2019, 11, 13, 18, 0, 0, 0);
             // 
             // lblFinishingHour
             // 
@@ -265,6 +250,21 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
+            // dtpFinishingHour
+            // 
+            this.dtpFinishingHour.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.dtpFinishingHour.Checked = false;
+            this.dtpFinishingHour.CustomFormat = "HH:mm";
+            this.dtpFinishingHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpFinishingHour.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpFinishingHour.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.dtpFinishingHour.Location = new System.Drawing.Point(322, 87);
+            this.dtpFinishingHour.Name = "dtpFinishingHour";
+            this.dtpFinishingHour.ShowUpDown = true;
+            this.dtpFinishingHour.Size = new System.Drawing.Size(111, 26);
+            this.dtpFinishingHour.TabIndex = 28;
+            this.dtpFinishingHour.Value = new System.DateTime(2019, 11, 17, 18, 0, 0, 0);
+            // 
             // PurchasingReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -304,7 +304,6 @@
         private System.Windows.Forms.Label lblFinishingHour;
         private System.Windows.Forms.Label lblCountry;
         private System.Windows.Forms.ComboBox cbCountry;
-        private System.Windows.Forms.DateTimePicker dtpFinishingHour;
         private System.Windows.Forms.FlowLayoutPanel pnlReport;
         private System.Windows.Forms.DataGridView dgReport;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnLicensePlate;
@@ -313,5 +312,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnFinishingHour;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnCountry;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.DateTimePicker dtpFinishingHour;
     }
 }

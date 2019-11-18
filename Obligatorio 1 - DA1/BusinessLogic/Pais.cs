@@ -11,7 +11,6 @@ namespace BusinessLogic
         protected readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
         protected readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
 
-
         public abstract DateTime ExtractStartingHour(string message);
 
         public abstract int ExtractMinutes(string message);

@@ -56,6 +56,7 @@ namespace UserInterface
             {
                 MessageBox.Show("Campo vacío, verifique información", "Error",
                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Dispose();
             }
         }
 
@@ -70,9 +71,8 @@ namespace UserInterface
                     {
                         dgReport.Rows.Add(p.LicensePlate, p.StartingHour.Day
                             + "/" + p.StartingHour.Month + "/" + p.StartingHour.Year,
-                            p.StartingHour.Hour, p.FinishingHour.Hour, "Uruguay");
-                        //TODO: Cambiar Uruguay por el país que corresponda cuando arreglemos
-                        //el conflicto
+                            p.StartingHour.Hour, p.FinishingHour.Hour,
+                            MyParking.HashIDtoCountry(p.CountryID));
                     }
                 }
             }

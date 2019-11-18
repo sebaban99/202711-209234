@@ -12,7 +12,7 @@ namespace BusinessLogic
         public DateTime StartingHour { get; set; }
         public DateTime FinishingHour { get; set; }
         public int AmountOfMinutes { get; set; }
-
+        public int CountryID { get; set; }
 
         private readonly DateTime MINIMUM_STARTING_HOUR = DateTime.Today.AddHours(10);
         private readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
@@ -24,7 +24,10 @@ namespace BusinessLogic
 
         private string actualMessageFormat;
 
-        public Purchase() { }
+        public Purchase()
+        {
+            CountryID = 1;
+        }
 
         public void SetPurchaseProperties(string message)
         {

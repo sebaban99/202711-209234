@@ -202,5 +202,13 @@ namespace BusinessLogic
                 this.AddPurchase(aPurchase);
             }
         }
+
+        public string HashIDtoCountry(int countryID)
+        {
+            //TODO: segun el ID de la base de datos, devolver el nombre del pais
+            if (countryID == 1) return "Uruguay";
+            else return "Argentina";
+        }
+
     }
 }
