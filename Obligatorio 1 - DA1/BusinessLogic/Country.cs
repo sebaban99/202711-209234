@@ -12,7 +12,6 @@ namespace BusinessLogic
         protected readonly DateTime MAXIMUM_HOUR = DateTime.Today.AddHours(18);
         protected string countryTag;
 
-
         public abstract DateTime ExtractStartingHour(string message);
 
         public abstract int ExtractMinutes(string message);
