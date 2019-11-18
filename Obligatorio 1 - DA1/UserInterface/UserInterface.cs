@@ -16,6 +16,8 @@ namespace UserInterface
     {
         Parking MyParking { get; set; }
 
+        private CostPerMinute costPerMinute;
+
         public UserInterface()
         {
             InitializeComponent();
@@ -24,7 +26,7 @@ namespace UserInterface
                 new PurchaseRepository(context);
             ParkingRepository<Account> accountRepository = 
                 new AccountRepository(context);
-            ParkingRepository<BusinessLogic.CostPerMinute> costRepository = 
+            ParkingRepository<BusinessLogic.CostPerMinute> costRepository =
                 new CostRepository(context);
             MyParking = new Parking(purchaseRepository,
                 accountRepository, costRepository);
@@ -65,7 +67,7 @@ namespace UserInterface
         private void SetearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pnlPrincipal.Controls.Clear();
-            UserControl costPerMinute = new CostPerMinute(MyParking);
+            costPerMinute = new CostPerMinute(MyParking);
             pnlPrincipal.Controls.Add(costPerMinute);
 
             GoBackToWelcomeWindow();
@@ -84,12 +86,14 @@ namespace UserInterface
         {
             MyParking.ActualCountry = new Argentina();
             lblActiveCountry.Text = "Argentina";
+            costPerMinute.GetNumericUpDown().Value = MyParking.GetActualCost().Value;
         }
 
         private void UruguayToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyParking.ActualCountry = new Uruguay();
             lblActiveCountry.Text = "Uruguay";
+            costPerMinute.GetNumericUpDown().Value = MyParking.GetActualCost().Value;
         }
     }
 }

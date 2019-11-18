@@ -17,7 +17,7 @@ namespace BusinessLogic
             try
             {
                 CostPerMinute costToAdd =
-               Context.Costs.First(c => c.CountryTag == entity.CountryTag);
+               Context.Costs.FirstOrDefault(c => c.CountryTag == entity.CountryTag);
 
                 if (costToAdd == null)
                 {
@@ -54,15 +54,14 @@ namespace BusinessLogic
         {
             try
             {
-                CostPerMinute costToUpdate =
-                                Context.Costs.First(c => c.Id == modifiedCost.Id);
+                CostPerMinute costToUpdate = Context.Costs.FirstOrDefault(
+                    c => c.CountryTag == modifiedCost.CountryTag);
 
                 if (costToUpdate == null)
                 {
                     throw new DatabaseException("El costo que esta intentando " +
                         "actualizar no se encuentra en la base de datos");
                 }
-                Context.Costs.Attach(costToUpdate);
                 costToUpdate.Value = modifiedCost.Value;
                 Context.SaveChanges();
             }

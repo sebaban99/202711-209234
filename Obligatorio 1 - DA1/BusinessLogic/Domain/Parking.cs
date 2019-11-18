@@ -8,9 +8,6 @@ namespace BusinessLogic
 {
     public class Parking
     {
-        //private List<Account> accounts;
-        //private List<Purchase> purchases;
-        //public int CostPerMinute { get; set; }
         public Country ActualCountry { get; set; }
         private ParkingRepository<Purchase> purchaseRepository;
         private ParkingRepository<Account> accountRepository;
@@ -25,17 +22,17 @@ namespace BusinessLogic
             this.accountRepository = accountRepository;
             this.costRepository = costRepository;
             ActualCountry = new Uruguay();
-            SetDefaultCost();
+            LoadInicialCost();
         }
 
         public void UpdateCost(int newValue)
         {
-            CostPerMinute newCost = costRepository.Get("", ActualCountry.GetCountryTag());
+            CostPerMinute newCost = GetActualCost();
             newCost.Value = newValue;
             costRepository.Update(newCost);
         }
 
-        private void SetDefaultCost()
+        private void LoadInicialCost()
         {
             CostPerMinute inicialCostUy = new CostPerMinute()
             {
@@ -48,9 +45,12 @@ namespace BusinessLogic
                 Value = INICIAL_DEFAULT_COSTPERMINUTE,
                 CountryTag = "AR"
             };
-
-            costRepository.Add(inicialCostUy);
-            costRepository.Add(inicialCostAr);
+            CostPerMinute a = GetActualCost();
+            if (a == null)
+            {
+                costRepository.Add(inicialCostUy);
+                costRepository.Add(inicialCostAr);
+            }
         }
 
         public IEnumerable<Account> GetAllAccounts()
@@ -95,15 +95,16 @@ namespace BusinessLogic
             throw new BusinessException("Móvil: " + aPhone + " ya registrado");
         }
 
-        public int GetActualCost()
+        public CostPerMinute GetActualCost()
         {
-            return costRepository.Get
-                ("", ActualCountry.GetCountryTag()).Value;
+            CostPerMinute a = costRepository.Get
+                     ("", ActualCountry.GetCountryTag());
+            return a;
         }
 
         private bool HasEnoughBalance(Account anAccount, Purchase aPurchase)
         {
-            if (anAccount.Balance >= aPurchase.AmountOfMinutes * GetActualCost())
+            if (anAccount.Balance >= aPurchase.AmountOfMinutes * GetActualCost().Value)
             {
                 return true;
             }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BusinessLogic;
+using BusinessLogic.Exceptions;
 
 namespace UserInterface
 {
@@ -20,7 +21,20 @@ namespace UserInterface
             InitializeComponent();
             MyParking = activeParking;
             InitializateTabsSecuence();
-            numCostPerMinute.Value = MyParking.GetActualCost();
+            try
+            {
+                numCostPerMinute.Value = MyParking.GetActualCost().Value;
+            }
+            catch (DatabaseException ex)
+            {
+                MessageBox.Show(ex.Message, "Error",
+                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public NumericUpDown GetNumericUpDown()
+        {
+            return this.numCostPerMinute;
         }
 
         private void InitializateTabsSecuence()
@@ -34,10 +48,18 @@ namespace UserInterface
             int newCostPerMinute = Convert.ToInt32(
                 Math.Round(numCostPerMinute.Value, 0));
 
-            MyParking.UpdateCost(newCostPerMinute); 
-            MessageBox.Show("Costo seteado con éxito", "Parking",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                MyParking.UpdateCost(newCostPerMinute);
+                MessageBox.Show("Costo seteado con éxito", "Parking",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            }
+            catch (DatabaseException ex)
+            {
+                MessageBox.Show(ex.Message, "Error",
+                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             this.Hide();
         }
     }

@@ -17,9 +17,6 @@ namespace BusinessLogic
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CostPerMinute>()
-                .HasIndex(c => c.CountryTag).IsUnique();
-
             modelBuilder.Entity<CostPerMinute>().ToTable("CostsPerMinute");
             modelBuilder.Entity<Account>().ToTable("Accounts");
             modelBuilder.Entity<Purchase>().ToTable("Purchases");

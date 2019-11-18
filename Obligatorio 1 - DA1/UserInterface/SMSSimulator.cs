@@ -51,6 +51,11 @@ namespace UserInterface
                     MessageBox.Show(ex.Message, "Error",
                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                catch(DatabaseException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error",
+                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
