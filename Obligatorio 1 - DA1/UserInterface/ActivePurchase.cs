@@ -38,7 +38,15 @@ namespace UserInterface
         private void BtnAcceptActivePurchase_Click(object sender, EventArgs e)
         {
             var licencePlate = txtLicencePlate.Text;
-            DateTime dateTimeChosen = dtpActivePurchase.Value;
+            DateTime dateTimeChosen;
+            if (!dtpActivePurchase.Checked)
+            {
+                dateTimeChosen = DateTime.Now;
+            }
+            else
+            {
+                dateTimeChosen = dtpActivePurchase.Value;
+            }
             if (licencePlate != "")
             {
                 try
