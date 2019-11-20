@@ -163,14 +163,14 @@
             // CompraToolStripMenuItem
             // 
             this.CompraToolStripMenuItem.Name = "CompraToolStripMenuItem";
-            this.CompraToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.CompraToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.CompraToolStripMenuItem.Text = "Compra";
             this.CompraToolStripMenuItem.Click += new System.EventHandler(this.CompraToolStripMenuItem_Click);
             // 
             // ventaToolStripMenuItem
             // 
             this.ventaToolStripMenuItem.Name = "ventaToolStripMenuItem";
-            this.ventaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ventaToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.ventaToolStripMenuItem.Text = "Venta";
             this.ventaToolStripMenuItem.Click += new System.EventHandler(this.VentaToolStripMenuItem_Click);
             // 
@@ -181,6 +181,7 @@
             // 
             // lblWelcome
             // 
+            this.lblWelcome.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblWelcome.AutoSize = true;
             this.lblWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWelcome.Location = new System.Drawing.Point(-5, 121);
@@ -191,6 +192,7 @@
             // 
             // pnlPrincipal
             // 
+            this.pnlPrincipal.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pnlPrincipal.Controls.Add(this.lblWelcome);
             this.pnlPrincipal.Location = new System.Drawing.Point(174, 97);
             this.pnlPrincipal.Name = "pnlPrincipal";
@@ -199,6 +201,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(548, 50);
@@ -209,6 +212,7 @@
             // 
             // lblActiveCountry
             // 
+            this.lblActiveCountry.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblActiveCountry.AutoSize = true;
             this.lblActiveCountry.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblActiveCountry.Location = new System.Drawing.Point(644, 50);

@@ -40,6 +40,7 @@
             this.lblLicensePlate = new System.Windows.Forms.Label();
             this.txtLicensePlate = new System.Windows.Forms.TextBox();
             this.btnAccept = new System.Windows.Forms.Button();
+            this.lblTitleTable = new System.Windows.Forms.Label();
             this.pnlReport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgReport)).BeginInit();
             this.SuspendLayout();
@@ -49,7 +50,7 @@
             this.lblTitle.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(112, 2);
+            this.lblTitle.Location = new System.Drawing.Point(113, 60);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(236, 31);
             this.lblTitle.TabIndex = 32;
@@ -127,7 +128,7 @@
             // 
             this.lblLicensePlate.AutoSize = true;
             this.lblLicensePlate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLicensePlate.Location = new System.Drawing.Point(100, 98);
+            this.lblLicensePlate.Location = new System.Drawing.Point(111, 150);
             this.lblLicensePlate.Name = "lblLicensePlate";
             this.lblLicensePlate.Size = new System.Drawing.Size(77, 20);
             this.lblLicensePlate.TabIndex = 34;
@@ -136,7 +137,7 @@
             // txtLicensePlate
             // 
             this.txtLicensePlate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLicensePlate.Location = new System.Drawing.Point(200, 96);
+            this.txtLicensePlate.Location = new System.Drawing.Point(203, 148);
             this.txtLicensePlate.Name = "txtLicensePlate";
             this.txtLicensePlate.Size = new System.Drawing.Size(148, 26);
             this.txtLicensePlate.TabIndex = 35;
@@ -144,7 +145,7 @@
             // btnAccept
             // 
             this.btnAccept.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnAccept.Location = new System.Drawing.Point(275, 190);
+            this.btnAccept.Location = new System.Drawing.Point(280, 230);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(100, 35);
             this.btnAccept.TabIndex = 36;
@@ -152,10 +153,22 @@
             this.btnAccept.UseVisualStyleBackColor = true;
             this.btnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
+            // lblTitleTable
+            // 
+            this.lblTitleTable.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblTitleTable.AutoSize = true;
+            this.lblTitleTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitleTable.Location = new System.Drawing.Point(113, 0);
+            this.lblTitleTable.Name = "lblTitleTable";
+            this.lblTitleTable.Size = new System.Drawing.Size(236, 31);
+            this.lblTitleTable.TabIndex = 37;
+            this.lblTitleTable.Text = "Reporte de ventas";
+            // 
             // SalesReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblTitleTable);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.txtLicensePlate);
             this.Controls.Add(this.lblLicensePlate);
@@ -184,5 +197,6 @@
         private System.Windows.Forms.Label lblLicensePlate;
         private System.Windows.Forms.TextBox txtLicensePlate;
         private System.Windows.Forms.Button btnAccept;
+        private System.Windows.Forms.Label lblTitleTable;
     }
 }

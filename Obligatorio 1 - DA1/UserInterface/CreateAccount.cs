@@ -84,5 +84,10 @@ namespace UserInterface
                 this.Hide();
             }
         }
+
+        private void CreateAccount_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
