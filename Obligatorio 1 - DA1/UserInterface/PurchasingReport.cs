@@ -23,6 +23,7 @@ namespace UserInterface
             InitializeComponent();
             dtpFinishingHour.ResetText();
             dtpStartingHour.ResetText();
+            lblTitleTable.Hide();
             pnlReport.Hide();
             MyParking = principalParking;
             myReportDate = new ReportDate();
@@ -35,6 +36,7 @@ namespace UserInterface
             lblFinishingHour.Hide();
             lblStartingDay.Hide();
             lblStartingHour.Hide();
+            lblTitle.Hide();
             dtpFinishingDate.Hide();
             dtpFinishingHour.Hide();
             dtpStartingDate.Hide();
@@ -47,6 +49,7 @@ namespace UserInterface
         {
             HideAllComponents();
             MakeReport();
+            lblTitleTable.Show();
             pnlReport.Show();
         }
 

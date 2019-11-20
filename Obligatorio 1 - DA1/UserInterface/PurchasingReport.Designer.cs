@@ -48,6 +48,7 @@
             this.columnCountry = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnExit = new System.Windows.Forms.Button();
             this.dtpFinishingHour = new System.Windows.Forms.DateTimePicker();
+            this.lblTitleTable = new System.Windows.Forms.Label();
             this.pnlReport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgReport)).BeginInit();
             this.SuspendLayout();
@@ -60,7 +61,7 @@
             this.dtpFinishingDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFinishingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpFinishingDate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpFinishingDate.Location = new System.Drawing.Point(322, 42);
+            this.dtpFinishingDate.Location = new System.Drawing.Point(330, 114);
             this.dtpFinishingDate.Name = "dtpFinishingDate";
             this.dtpFinishingDate.Size = new System.Drawing.Size(111, 26);
             this.dtpFinishingDate.TabIndex = 22;
@@ -70,7 +71,7 @@
             this.lblStartingDay.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblStartingDay.AutoSize = true;
             this.lblStartingDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStartingDay.Location = new System.Drawing.Point(22, 45);
+            this.lblStartingDay.Location = new System.Drawing.Point(28, 117);
             this.lblStartingDay.Name = "lblStartingDay";
             this.lblStartingDay.Size = new System.Drawing.Size(97, 20);
             this.lblStartingDay.TabIndex = 21;
@@ -81,7 +82,7 @@
             this.lblTitle.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(103, 0);
+            this.lblTitle.Location = new System.Drawing.Point(103, 60);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(259, 31);
             this.lblTitle.TabIndex = 19;
@@ -90,7 +91,7 @@
             // btnAccept
             // 
             this.btnAccept.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnAccept.Location = new System.Drawing.Point(346, 176);
+            this.btnAccept.Location = new System.Drawing.Point(280, 230);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(100, 35);
             this.btnAccept.TabIndex = 18;
@@ -103,7 +104,7 @@
             this.lblFinishingDate.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblFinishingDate.AutoSize = true;
             this.lblFinishingDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFinishingDate.Location = new System.Drawing.Point(242, 45);
+            this.lblFinishingDate.Location = new System.Drawing.Point(248, 117);
             this.lblFinishingDate.Name = "lblFinishingDate";
             this.lblFinishingDate.Size = new System.Drawing.Size(79, 20);
             this.lblFinishingDate.TabIndex = 23;
@@ -117,7 +118,7 @@
             this.dtpStartingDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpStartingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpStartingDate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpStartingDate.Location = new System.Drawing.Point(122, 42);
+            this.dtpStartingDate.Location = new System.Drawing.Point(128, 114);
             this.dtpStartingDate.Name = "dtpStartingDate";
             this.dtpStartingDate.Size = new System.Drawing.Size(111, 26);
             this.dtpStartingDate.TabIndex = 24;
@@ -130,7 +131,7 @@
             this.dtpStartingHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpStartingHour.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpStartingHour.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpStartingHour.Location = new System.Drawing.Point(122, 87);
+            this.dtpStartingHour.Location = new System.Drawing.Point(128, 158);
             this.dtpStartingHour.Name = "dtpStartingHour";
             this.dtpStartingHour.ShowUpDown = true;
             this.dtpStartingHour.Size = new System.Drawing.Size(111, 26);
@@ -142,7 +143,7 @@
             this.lblStartingHour.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblStartingHour.AutoSize = true;
             this.lblStartingHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStartingHour.Location = new System.Drawing.Point(22, 89);
+            this.lblStartingHour.Location = new System.Drawing.Point(28, 161);
             this.lblStartingHour.Name = "lblStartingHour";
             this.lblStartingHour.Size = new System.Drawing.Size(87, 20);
             this.lblStartingHour.TabIndex = 25;
@@ -153,7 +154,7 @@
             this.lblFinishingHour.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblFinishingHour.AutoSize = true;
             this.lblFinishingHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFinishingHour.Location = new System.Drawing.Point(242, 89);
+            this.lblFinishingHour.Location = new System.Drawing.Point(248, 161);
             this.lblFinishingHour.Name = "lblFinishingHour";
             this.lblFinishingHour.Size = new System.Drawing.Size(69, 20);
             this.lblFinishingHour.TabIndex = 27;
@@ -164,7 +165,7 @@
             this.lblCountry.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblCountry.AutoSize = true;
             this.lblCountry.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCountry.Location = new System.Drawing.Point(22, 133);
+            this.lblCountry.Location = new System.Drawing.Point(28, 205);
             this.lblCountry.Name = "lblCountry";
             this.lblCountry.Size = new System.Drawing.Size(43, 20);
             this.lblCountry.TabIndex = 29;
@@ -177,7 +178,7 @@
             this.cbCountry.Items.AddRange(new object[] {
             "Argentina",
             "Uruguay"});
-            this.cbCountry.Location = new System.Drawing.Point(122, 132);
+            this.cbCountry.Location = new System.Drawing.Point(128, 202);
             this.cbCountry.Name = "cbCountry";
             this.cbCountry.Size = new System.Drawing.Size(111, 28);
             this.cbCountry.TabIndex = 30;
@@ -258,17 +259,29 @@
             this.dtpFinishingHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFinishingHour.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpFinishingHour.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpFinishingHour.Location = new System.Drawing.Point(322, 87);
+            this.dtpFinishingHour.Location = new System.Drawing.Point(330, 158);
             this.dtpFinishingHour.Name = "dtpFinishingHour";
             this.dtpFinishingHour.ShowUpDown = true;
             this.dtpFinishingHour.Size = new System.Drawing.Size(111, 26);
             this.dtpFinishingHour.TabIndex = 28;
             this.dtpFinishingHour.Value = new System.DateTime(2019, 11, 17, 18, 0, 0, 0);
             // 
+            // lblTitleTable
+            // 
+            this.lblTitleTable.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblTitleTable.AutoSize = true;
+            this.lblTitleTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitleTable.Location = new System.Drawing.Point(103, 0);
+            this.lblTitleTable.Name = "lblTitleTable";
+            this.lblTitleTable.Size = new System.Drawing.Size(259, 31);
+            this.lblTitleTable.TabIndex = 32;
+            this.lblTitleTable.Text = "Reporte de compras";
+            // 
             // PurchasingReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblTitleTable);
             this.Controls.Add(this.cbCountry);
             this.Controls.Add(this.lblCountry);
             this.Controls.Add(this.dtpFinishingHour);
@@ -313,5 +326,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnCountry;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.DateTimePicker dtpFinishingHour;
+        private System.Windows.Forms.Label lblTitleTable;
     }
 }

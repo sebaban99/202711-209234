@@ -87,6 +87,7 @@
             this.Controls.Add(this.txtPhoneNumberCreateAccount);
             this.Name = "CreateAccount";
             this.Size = new System.Drawing.Size(464, 324);
+            this.Load += new System.EventHandler(this.CreateAccount_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

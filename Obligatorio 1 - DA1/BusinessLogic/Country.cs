@@ -174,7 +174,7 @@ namespace BusinessLogic
 
         public virtual string FormatLicensePlate(string licensePlate)
         {
-            RemoveSpacesString(licensePlate);
+            licensePlate = RemoveSpacesString(licensePlate);
             StringBuilder formattedLicensePlate = new StringBuilder(licensePlate);
             formattedLicensePlate.Replace(formattedLicensePlate.ToString().Substring(0, 3),
                 formattedLicensePlate.ToString().Substring(0, 3).ToUpper().Trim());
