@@ -19,6 +19,7 @@ namespace UserInterface
         public SalesReport(Parking principalParking)
         {
             InitializeComponent();
+            lblTitleTable.Hide();
             pnlReport.Hide();
             MyParking = principalParking;
         }
@@ -27,6 +28,7 @@ namespace UserInterface
         {
             lblLicensePlate.Hide();
             txtLicensePlate.Hide();
+            lblTitle.Hide();
             btnAccept.Hide();
         }
 
@@ -34,6 +36,7 @@ namespace UserInterface
         {
             HideAllComponents();
             MakeReport();
+            lblTitleTable.Show();
             pnlReport.Show();
         }
 
