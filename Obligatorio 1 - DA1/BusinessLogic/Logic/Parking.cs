@@ -3,6 +3,7 @@ using BusinessLogic.Domain;
 using System.Collections.Generic;
 using BusinessLogic.Exceptions;
 using BusinessLogic.Persistance;
+using BusinessLogic.Interfaces;
 
 namespace BusinessLogic.Logic
 {
