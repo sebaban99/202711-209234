@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BusinessLogic.Domain;
 using BusinessLogic.Persistance;
+using BusinessLogic.Interfaces;
 using BusinessLogic.Logic;
 
 namespace UserInterface

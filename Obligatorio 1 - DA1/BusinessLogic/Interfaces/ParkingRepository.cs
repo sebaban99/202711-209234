@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Exceptions;
 using BusinessLogic.Interfaces;
+using BusinessLogic.Persistance;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.Persistance
+namespace BusinessLogic.Interfaces
 {
     public abstract class ParkingRepository<T> : IRepository<T> where T : class
     {

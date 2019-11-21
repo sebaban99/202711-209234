@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Exceptions;
 using BusinessLogic.Domain;
+using BusinessLogic.Interfaces;
 using System;
 using System.Data.Common;
 using System.Linq;
