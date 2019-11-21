@@ -1,6 +1,0 @@
-\\Mac\Home\Desktop\repo\Obligatorio 1 - DA1\BusinessLogic\bin\Release\BusinessLogic.dll
-\\Mac\Home\Desktop\repo\Obligatorio 1 - DA1\BusinessLogic\bin\Release\BusinessLogic.pdb
-\\Mac\Home\Desktop\repo\Obligatorio 1 - DA1\BusinessLogic\obj\Release\BusinessLogic.csprojAssemblyReference.cache
-\\Mac\Home\Desktop\repo\Obligatorio 1 - DA1\BusinessLogic\obj\Release\BusinessLogic.csproj.CoreCompileInputs.cache
-\\Mac\Home\Desktop\repo\Obligatorio 1 - DA1\BusinessLogic\obj\Release\BusinessLogic.dll
-\\Mac\Home\Desktop\repo\Obligatorio 1 - DA1\BusinessLogic\obj\Release\BusinessLogic.pdb
