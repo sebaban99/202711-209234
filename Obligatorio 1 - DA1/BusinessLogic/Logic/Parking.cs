@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using BusinessLogic.Domain;
+using System.Collections.Generic;
 using BusinessLogic.Exceptions;
+using BusinessLogic.Persistance;
+using BusinessLogic.Interfaces;
 
-namespace BusinessLogic
+namespace BusinessLogic.Logic
 {
     public class Parking
     {
@@ -141,7 +141,8 @@ namespace BusinessLogic
                 foreach (Purchase p in purchaseRepository.GetAll())
                 {
                     if (p.LicensePlate.Equals(licencePlateToConfirm) &&
-                        IsPurchaseInRange(p, theMoment))
+                        IsPurchaseInRange(p, theMoment) && 
+                        p.CountryTag.Equals(ActualCountry.GetCountryTag()))
                     {
                         return true;
                     }
