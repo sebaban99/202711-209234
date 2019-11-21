@@ -10,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BusinessLogic.Domain;
+using BusinessLogic.Persistance;
+using BusinessLogic.Logic;
 
 namespace UserInterface
 {
@@ -22,25 +25,18 @@ namespace UserInterface
         public UserInterface()
         {
             InitializeComponent();
-            try
-            {
-                ParkingContext context = new ParkingContext();
+            ParkingContext context = new ParkingContext();
             ParkingRepository<Purchase> purchaseRepository =
                 new PurchaseRepository(context);
             ParkingRepository<Account> accountRepository =
                 new AccountRepository(context);
-            ParkingRepository<BusinessLogic.CostPerMinute> costRepository =
+            ParkingRepository<BusinessLogic.Domain.CostPerMinute> costRepository =
                 new CostRepository(context);
-            
-                MyParking = new Parking(purchaseRepository,
-                    accountRepository, costRepository);
-                costPerMinute = new CostPerMinute(MyParking);
-            }
-            catch(DatabaseException) {
-                MessageBox.Show("Hola", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            }
+            MyParking = new Parking(purchaseRepository,
+                accountRepository, costRepository);
+
+            costPerMinute = new CostPerMinute(MyParking);
         }
 
         private void GoBackToWelcomeWindow()

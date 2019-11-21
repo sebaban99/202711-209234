@@ -7,9 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BusinessLogic.Domain;
+using BusinessLogic.Logic;
 using BusinessLogic;
 using BusinessLogic.Exceptions;
-using BusinessLogic.Domain;
+
 
 namespace UserInterface
 {

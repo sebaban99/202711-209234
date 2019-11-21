@@ -154,10 +154,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic.Test\BusinessLogic.Test.csproj">
-      <Project>{6d65d162-33b8-4e6d-a764-edc13f6062f1}</Project>
-      <Name>BusinessLogic.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
       <Project>{d99f8982-090e-48ea-828d-cfe936b8edad}</Project>
       <Name>BusinessLogic</Name>
