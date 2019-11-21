@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
-using BusinessLogic.Exceptions;
 
-namespace BusinessLogic
+namespace BusinessLogic.Domain
 {
     public class Purchase
     {
