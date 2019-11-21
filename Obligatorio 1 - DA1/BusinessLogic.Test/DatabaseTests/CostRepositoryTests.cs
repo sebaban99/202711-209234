@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using BusinessLogic.Exceptions;
+using BusinessLogic.Domain;
+using BusinessLogic.Persistance;
+using BusinessLogic.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BusinessLogic.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class CostRepositoryTests
     {

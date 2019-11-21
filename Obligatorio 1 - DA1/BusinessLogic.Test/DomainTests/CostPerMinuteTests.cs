@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using BusinessLogic.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BusinessLogic.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class CostPerMinuteTests
     {

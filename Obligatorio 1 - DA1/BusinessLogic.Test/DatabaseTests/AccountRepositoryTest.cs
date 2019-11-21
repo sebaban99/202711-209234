@@ -1,11 +1,14 @@
 ﻿using System;
-using BusinessLogic.Exceptions;
+using BusinessLogic.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Diagnostics.CodeAnalysis;
+using BusinessLogic.Persistance;
+using BusinessLogic.Exceptions;
 namespace BusinessLogic.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class AccountRepositoryTest
     {

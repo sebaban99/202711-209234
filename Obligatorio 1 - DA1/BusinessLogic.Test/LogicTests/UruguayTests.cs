@@ -1,10 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BusinessLogic.Exceptions;
+using BusinessLogic.Logic;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BusinessLogic.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class UruguayTests
     {
